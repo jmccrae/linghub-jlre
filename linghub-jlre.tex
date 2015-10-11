@@ -4,6 +4,8 @@
 \smartqed  % flush right qed marks, e.g. at end of proof
 %
 \usepackage{graphicx}
+\usepackage{makecell}
+\usepackage{hyperref}
 %
 % \usepackage{mathptmx}      % use Times fonts if available on your TeX system
 %
@@ -40,26 +42,24 @@
 \institute{John P. McCrae, Gabriela Vulcu, Andrejs Abele \at
               Insight Centre for Data Analytics \\
               National University of Ireland Galway \\
-              Tel.: +123-45-678910\\
-              Fax: +123-45-678910\\
               \email{john@mccr.ae, \{gabriela.vulcu,
-              andrejs.abele\}insight-center.org}
+              andrejs.abele\}@insight-center.org}
            \and
            Markus Ackermann \at
               Institute for Applied Informatics \\
               Leipzig University \\
               \email{ackermann@informatik.uni-leipzig.de}
             \and
-            V\'ictor Rodr\'iguez Doncel, Jorge Gracia \\
+            V\'ictor Rodr\'iguez Doncel, Jorge Gracia \at 
                 Ontology Engineering Group \\
                 Polytechnic University of Madrid \\
                 \email{\{vrodriguez, jgracia\}@fi.upm.es}
             \and
-            Luca Matteis \\
+            Luca Matteis \at
                 University of Rome ``La Sapienza'' \\
-                \email{\{matteis@di.uniroma1.it}
-            \and
-            John P. McCrae, Philipp Cimiano \\
+                \email{matteis@di.uniroma1.it}
+            \and\\
+            John P. McCrae, Philipp Cimiano \at
                 Cognitive Interaction Technology, Excellence Cluster \\
                 Bielefeld University \\
                 \email{cimiano@cit-ec.uni-bielefeld.de}
@@ -83,24 +83,554 @@ Why Linked Data
 
 \section{Related Work [JPM]}
 
+\cite{nilsson2010interoperability,khoo2010merging,nogueras2004metadata}. 
+
+Monolithic vs. linked
+
+In this line, some experts have recommended \cite{brooks2006towards}:
+
+\begin{quote}
+``A larger set of ontologies sufficient for particular purposes should
+be used instead of a single highly constrained taxonomy of values.''
+\end{quote}
+
+META-SHARE~\cite{gavrilidou2012meta},\cite{piperidis2012meta}.
+
+CLARIN, the \emph{CMDI Component
+Specification Language}~\cite{broeder2012cmdi}, \cite{van2012semantic}
+
+LRE-Map~\cite{calzolari2012lre} 
+
+OLAC \cite{piperidis2012meta}
+
+SHACHI \cite{tohyama2008shachi}
+
+ISLRN \cite{choukri2012using}
+
+
+
+\emph{Open Linguistics Working Group}~\cite{chiarcos2012open} 
+
 \section{Data Collection [JPM, AA]}
 
-CLARIN, META-SHARE, Datahub, LRE-Map (other sources)
+\begin{table}
+\resizebox{0.94\textwidth}{!}{\begin{minipage}{\textwidth}
+    \begin{tabular}{l|r|r|r}
+        \thead{Source} & \thead{Records} & \thead{Triples} & \thead{Triples per \\ Record} \\
+        \hline                                              
+        META-SHARE &   2,442 &   464,572 & 190.2 \\
+        CLARIN     & 144,570 & 3,381,736 &  23.4 \\
+        Datahub.io &     218 &    10,739 &  49.3 \\
+        LRE-Map    &   5,712 &    79,576 &  13.9 \\
+    \end{tabular}
+\end{minipage}}
+    \caption{\label{tab:resource-sizes}The sizes of the resources in terms of
+    number of metadata records and total data size}
+\end{table}
+
+\subsection{META-SHARE}
+
+\subsection{CLARIN}
+
+\subsection{LRE-Map}
+
+\subsection{Datahub.io}
+
+\subsection{Others}
 
 \section{Modelling [JG, VRD]}
 
 DCAT
 
+META-SHARE
+
 \section{Harmonization [JPM, GV, LM]}
+
+\subsection{Availability}
+
+\begin{table}
+    \begin{center}
+	\begin{tabular}{l|cc}
+            Format   & Resources  & Percentage\\
+		
+		\hline                                              
+                HTML                &	67,419 & 66.2\%\\
+                RDF/XML             &	9,940  & 9.8\% \\
+                JPEG Image          &   6,599  & 6.5\% \\
+                XML (application)   &	5,626  & 5.6\% \\
+                Plain Text          & 4,251    & 4.2\% \\
+                PDF                 &	3,641  & 3.6\% \\
+                XML (text)          & 3,212    & 3.2\% \\
+                Zip Archive         &	801    & 0.8\% \\
+                PNG Image           & 207      & 0.2\% \\
+                gzip Archive        & 181      & 0.2\% \\
+	\end{tabular}
+    \end{center}
+	\caption{\label{tab:formats}The distribution of the 10 most used formats within the
+        analyzed sample of URLs. Note XML is associated with two MIME types.}
+\end{table}
+
+\subsection{Rights}
+
+\subsection{Usage}
+
+\subsection{Language}
+
+\begin{table}
+\resizebox{1.1\textwidth}{!}{\begin{minipage}{\textwidth}
+    \begin{tabular}{l|c|c}
+        Resource   & \thead{Label\\Accuracy}  & \thead{Instance\\Accuracy} \\
+%    \renewcommand{\arraystretch}{0.5}\begin{tabular}[x]{@{}c@{}}\tiny
+%    Instance\\Accuracy\end{tabular} \\%& Average\\
+        \hline                                              
+        SIL \small\textit{dice coefficient}  & 81\% & 99.50\% \\%& 0.93 \small\textit{rank}  \\
+        SIL \small\textit{levenshtein}  & 72\% & 99.42\% \\%& 0.80 \small\textit{distance} \\
+        BabelNet \small\textit{dice coefficient} & \textbf{91\%} & 99.87\% \\%& 0.97 \small\textit{rank} \\
+        BabelNet \small\textit{levenshtein} & \textbf{89\%} & 99.85\% \\%& 1.20 \small\textit{distance} \\
+        \hline
+        SIL + BabelNet & & \\
+        \small\textit{dice coefficient} & \textbf{91\%} & 99.87\% \\%& 0.97 \small\textit{rank} \\
+        \small\textit{levenshtein} & \textbf{89\%} & 99.85\% \\%& 1.01 \small\textit{distance} \\
+    \end{tabular}
+    \end{minipage} }
+    \caption{\label{tab:language-comparison}Accuracy of language mappings}
+\end{table}
+
+
+
+\subsection{Type}
+
+\subsection{Duplicate detection}
+
+\begin{table}
+    \begin{center}
+    \begin{tabular}{l|cc}
+        Resource   & \thead{Duplicate \\ Titles} & \thead{Duplicate \\ URLs} \\
+        \hline                                                            
+        CLARIN{\tiny~(same contributing institute)}     & 50,589           & 20          \\   
+        Datahub.io & 0                & 55             \\
+        META-SHARE & 63               & 967            \\
+    \end{tabular}
+    \end{center}
+    \caption{\label{tab:self-dupes}The number of intra-repository duplicate labels and URLs for
+    resources}
+\end{table}
+
+
+
+\begin{table*}
+    \begin{center}
+        \begin{tabular}{ll|ccc}
+        Resource    & Resource    & Duplicate Titles & Duplicate URLs & Both \\
+        \hline                                                                  
+        CLARIN      & CLARIN{\tiny~(other contributing institute)}      & 1,202            & 2,884          & 0    \\
+        CLARIN      & Datahub.io  & 1                & 0              & 0    \\
+        CLARIN      & LRE-Map     & 72               & 64             & 0    \\
+        CLARIN      & META-SHARE  & 1,204            & 1,228          & 28    \\
+        Datahub.io  & LRE-Map     & 59               & 5              & 0    \\
+        Datahub.io  & META-SHARE  & 3                & 0              & 0    \\
+        LRE-Map     & LRE-Map     & 763              & 454            & 359  \\
+        LRE-Map     & META-SHARE  & 91               & 51             & 0    \\
+        \hline
+        All         & All         & 3,395            & 4,686          & 387  \\
+        \end{tabular}
+    \end{center}
+    \caption{\label{tab:dupes}Number of duplicate inter-repository records by type}
+\end{table*}
+
+\begin{table}
+    \begin{tabular}{l|ccc}
+        Duplication & Correct & Unclear & Incorrect \\
+        \hline                    
+        Titles      &    86   &   6     &    8      \\ 
+        URLs        &    95   &   2     &    3      \\
+        Both        &    99   &   1     &    0      \\
+    \end{tabular}
+    \caption{\label{tab:dupe-precision}Precision of matching strategies from a
+    sample of 100}
+\end{table}
+
+\begin{table}
+    \begin{tabular}{l|cc}
+        Property   &  \thead{Record Count\\(As percentage of all records)} & Triples \\
+        \hline
+        Access URL &  91,615 (91.6\%) & 191,006  \\
+        Language   &  50,781 (50.7\%) & 98,267   \\
+        Type       &  15,241 (15.2\%) & 17,894   \\
+        Rights     &   3,080 (3.0\%)  & 8915     \\
+        Usage      &   3,397 (3.4\%)  & 4,530    \\ 
+    \end{tabular}
+    \caption{\label{tab:total}Number of records and facts harmonized by our
+    methods}
+\end{table}
+        
+
+
 
 \section{Linked Data Interface [JPM]}
 
+\begin{figure*}
+\includegraphics[width=\textwidth]{linghub-screenshot.png}
+\caption{A screenshot of the Linghub interface\label{fig:screenshot}}
+\end{figure*}
+
+TO REWRITE (published in Semantics)
+
+In order to enable users to quickly and easily discover datasets, we set up a 
+portal for browsing the dataset. Naturally we set this up as a site that publishes
+the individual records as either RDF or HTML, with the actual content delivered
+to the client decided by means of content negotiation. We developed 
+templates that render the RDF in a readable manner, while still appearing close
+to the data in such a way that users would get a consistent view of a dataset record even
+if it came from a different original source and hence had very different
+properties.
+In addition, we provide a 
+number of mechanisms by which users and automated agents can discover a dataset.
+For users, we allowed resources to be discovered by means of faceted browsing by
+enabling users to select properties and their values. We fixed the list of
+properties in advance to those that have been harmonized so as to not overload
+the user with choices for properties that only occur for a few datasets and also
+to enable the compilation of indexes to speed up page load times. In addition the
+front page of Linghub contains a free-text search engine allowing the users to
+query fields by a property. This free-text search engine is powered by a
+separate index which includes not only the text of data properties but also the
+labels of URIs which appear as the value of object properties. 
+Machine-based agents may access
+the endpoint by means of SPARQL querying, although the endpoint limits the agents
+to a subset of the SPARQL query language. The goal of this is to enable constant
+query-time without overloading our server. The nature of SPARQL makes it very
+easy for users to write queries that are of a complexity that would not be easy
+to answer and other sites have attempted to handle this by enforcing timeouts on
+SPARQL queries. In general we find this solution to be sub-optimal as it
+means that queries may fail unpredictably if the server has many concurrent
+connections. Instead, we limit the complexity of the queries themselves by
+requiring that the triples have certain properties that can be easily answered.
+These include:
+
+\begin{enumerate}
+    \item A required limit on the number of results;
+    \item The property may not be a variable, thus limiting the number of
+        results;
+    \item The query must be a `tree' in that every triples should be connected
+        from a single root node.
+\end{enumerate}
+
+Furthermore, the SPARQL endpoint also by default returns SPARQL-JSON
+results\cite{seaborne2013sparql}, so that the results may be easily applied. This is based on the
+fact that many clients, notably client-side Javascript in browsers, will not
+accept XML due to security concerns. Other clients may still obtain SPARQL-XML
+by supplying the appropriate header or parameter in the query.
+
 \section{Evaluation [MA]}
+
+\subsection{Evaluation Methodology}
+
+To evaluate the usefulness of Linghub based on actual needs for linguistic 
+resources, all questions for language resources posed on the Corpora Mailing 
+List (CML)~\footnote{\url{http://mailman.uib.no/public/corpora/}} since January
+1st 2015 have been examined. After ruling out a small subset of questions on the
+mailing list that were too underspecified and unclear to be operationalised even
+for a completely manual search, a catalogue of 23 request was assembled. Each
+request poses a number of constraints on the data being searched. Constraints
+typically contain the \emph{type} of the resource like corpus, lexicon, tool or
+service; the language the resource is applicable for; the relative size of the
+resource measured in various metrics like word count and additional qualities,
+like intended use.  
+
+Each request was then searched for in LingHub using both, the standard search
+\footnote{To make the search for suitable interface queries more time-efficient,
+    a prototype for the query was first developed testing equivalent SQL queries
+    against the SQLite database schema backing the YuZu TripleBackend, since for
+    example the user interface itself offers no straightforward way to find out
+    about the total number of matches for a query without traversing the
+pagination}
+interface as well as SPARQL queries. This covers both relevant audiences:
+Standard users like most linguists and developers looking for data without being
+familiar with SPARQL, and Semantic Web experts fluent in SPARQL. Results of the
+queries were counted and each was evaluated as relevant, irrelevant or related
+\footnote{``related'' meaning that some constraints were not or not fully met.}
+to the query. The original request \#6 was skipped, because the evaluators could
+not agree what exactly constitutes a ``corpus suitable for training hierarchical
+classification models''. 
+
+\subsubsection{Limitations}
+
+The methodology chosen can only evaluate LingHub in a limited way. The first and
+most important limitation is the biased sample of queries. People asking for
+help on the Corpora Mailing List will most probably already have searched using
+standard means, such as Google or repositories known to them. This can limit the
+queries to very specific requests, that are complicated to find answers for. The
+technical expertise of the users and, consequently, their more specific
+requirements also contribute to the requests being more complicated. Thus, all
+but a few queries examined are expert level queries, limiting the general
+applicability of this evaluation. 
+Although the timespan examined constitutes a reasonable sample with six months
+of mailing list requests analysed, the number of queries is quite low. However,
+as section 2 will detail, their overall type and language profile matches
+available LingHub data.
+Due to the complicated nature of the requests, translating them from natural
+language to concise and reasonably narrow queries to the search interface
+respectively SPARQL constitutes another hurdle, that is hard to control for. 
+Search was furthermore conducted by two persons, whose interpretation of the
+meaning of the query and thus the relevance of the resources found may vary. 
+
+\subsection{Resource request analysis}
+
+The requests were analysed in regard to the constraints they express. All
+queries expressed at least 2 constraints, usually regarding the resource type
+and the preferred language of the resource. Requested resource types were
+limited to corpora, tools, lexical and spoken resources. Corpora were requested
+in nearly 70\% of the cases, followed by tools (17.4\%) and lexical resources
+(13.0\%). As seen in Figure 1, this resembles the resource distribution in
+LingHub, where 71.5\% are corpora as well. 
+Most language restrictions asked for one language or made no specification at
+all. The falling number of requests for higher language restriction count with a
+small rise above 20 languages again resembles the resource distribution in
+LingHub, that also shows a power law distribution of resource language count.
+The rise above 20 languages can be explained by the use of European corpora that
+contain all European languages.  
+
+
+\begin{figure}
+    markus to upload
+    \caption{\label{fig:req-by-type}LingHub resources and resource requests by
+type}
+\end{figure}
+
+\begin{table}
+    \begin{tabular}{c|c}
+    Language count constraint & Number of requests \\
+    \hline
+    1                         & 8                  \\
+    2                         & 1                  \\
+    3                         & 2                  \\
+    4                         & 1                  \\
+    > 20                      & 2                  \\
+    unspecified               & 7                  \\
+\end{tabular}
+    \caption{\label{tab:language-constraints}  Language constraints in requests
+        and resources available in LingHub covering specific numbers of
+    languages}
+\end{table}
+
+\begin{figure}
+    markus to upload
+    \caption{\label{fig:language-constraints} Language constraints in requests
+        and resources available in LingHub covering specific numbers of
+    languages}
+\end{figure}
+
+Besides these common constraints, most requests also define at least one further
+restriction. For corpus requests, a common restriction is having a large size in
+number of words. Specifically, “gigaword” corpora or corpora with “billions of
+words” are highly searched for. Surprisingly, only one request explicitly
+limited the license to free and open resources. Further restrictions mention the
+type of annotation (for example manually checked or annotating specific
+features), the feature set of a tool or service or the semantic content of the
+resource. These restrictions can only be judged by first doing a full-text
+search in the description of the resources, then reading these descriptions and
+judging their appropriateness. Thus, the assessment of relevance or relatedness
+of resources found during search is subjective and may not always be comparable.
+
+
+\subsection{Standard search interface}
+
+While trying to express the facets of the questions from the CML in Linghub,
+several shortcomings both of the browsing functionality and the `simple' search
+became apparent. 
+The inability to declare combined restrictions for several facets (description,
+language, rights, $\cdots$) simultaneously is presumably the most crucial limitation
+for both the browsing interface and the search form. Online catalogues usually
+either offer alternative search form for `advanced' users where a flexible
+number of pairs of field specifiers and a corresponding search patterns can be
+defined, whose constraints will be combined by boolean operators or complex
+search patterns can be defined, allowing for sub-patterns that are matched
+against solely against specified record fields, e.g.:
+
+\begin{verbatim}
+(title:corpus OR description:corpus) AND (description:(“part of speech” OR pos)) AND (language:(deu* OR german))
+\end{verbatim}
+
+Since the overwhelming majority resource requests from the CML involved ‘soft’
+constraints that can only be expressed with full-text patterns against resource
+descriptions, additional structured information about language or rights could
+not be harnessed during the query (as the sole facet choice already had to be
+used for the description). Especially for formulating multiple ‘soft’
+constraints against the resource descriptions the full text search capabilities
+from SQLite exposed in the search interface proved very useful. These
+possibilities should be advertised more prominently to users\footnote{
+    During the evaluation process one of the evaluators only became aware of the
+    availability of full-text query operators when examining YuZu source code to
+    obtain a better understanding of other aspects of the behaviour of the
+Linghub platform.}.  
+
+Some of the facets offered by Linghub are naturally textual (e.g., title,
+description, creator), but others are rather categorial with a limited set of
+options (e.g., resource type, language). The usability of the search interface
+could benefit if constraint formulation for the categorial facets would be
+designed in a different manner as a simple full-text search field, presenting
+the set of options and allowing selection of the desired subset of suitable
+values for the resource request to be formulated. Such facilities are already
+implemented in the browsing interface, but only a sole option can be selected
+there at the moment.  
+
+Currently also categorial facets are to be queried with the full-text
+facilities, which on the one hand allows for selecting combination of allowed
+categorial values, but requires knowledge of appropriate matching string values.
+One extreme example of this limitation is the usage of the language facet for
+the current implementation: the full-text pattern is matched against the
+lexvo-URI representations of the ISO 639-3 language codes. So the search
+``language=german'' will yield (perhaps surprisingly) no results. The desired
+restriction has to be framed as language=deu, which might be perceived as
+unintuitive for uninformed first-time users. 
+
+Currently the search form does not ensure that text pattern are matched
+exclusively against title and description values for resources with matching
+languages this can be problematic due to homographs and cognates shared by
+English, Spanish, French etc.  
+
+Excluding the queries that did not yield results, on average 10.8\% of the
+results were relevant, 11.9\% were related and 77.3\% were irrelevant. The high
+share of irrelevant search results does not come surprising, as the queries
+formulated for evaluation generally were rather open than restrictive in many
+cases to favour recall over precision, as one can assume that potential users of
+language resources will be willing to invest a bit more time to manually sift
+through an acceptable amount of additional false positives rather than risk
+missing information of an additional potentially useful resource. 
+
+\begin{figure}
+    markus to upload
+    \caption{\label{fig:freetext}Percentages of relevant standard interface
+    search results}
+\end{figure}
+
+\subsection{SPARQL search}
+
+While the standard search interface presents the default access point to the
+LingHub knowledge base, SPARQL search is regarded as ``advanced search''. Using
+SPARQL naturally solves most issues of the standard search interface, as it can
+be used for granular search in arbitrary literal fields and natively provides
+logical operators for filters to combine them. If values are modelled as
+classes, the user does not have to use string matching but can use object
+relations, working on a well-defined, semantic level. The only disadvantage of
+SPARQL is its inaccessibility to most linguists that don’t have firm knowledge
+in database query languages.  
+
+SPARQL queries were written and executed using the downloaded LingHub dump for
+convenience. The queries and detailed results can be found in the appendix.
+
+Figure 4 shows the results for each of the queries. Excluding queries 6 and 18
+that yielded no results, on average 21.5\% of the results were relevant, 10.7\%
+were related and 67.8\% were irrelevant. Roughly a quarter of the queries
+failed, yielding no relevant results or no results at all. In general, this can
+be considered as a good result, taking into account the complicated nature of
+the queries. Specifically, it indicates that the more granulated means SPARQL
+provides to the user lead to more accurate results. 
+
+\begin{figure}
+    markus to upload
+    \caption{\label{fig:sparql}Percentages of relevant SPARQL search results}
+\end{figure}
+
+Language proved to be the most restricting constraint, leading to most irrelvant
+results, even if other constraints are met. Although SPARQL was used to
+granularly restrict the 
+languages by leveraging the \texttt{dc:language}, queries were not limited to
+this relation but also incorporated searching for the language name in the
+\texttt{dcterms:description} to increase recall. 
+Size was another important constraint that was never fully met. If size was a
+restriction, it always was in the range of billions of words, excluding all
+relevant corpora as too small. Corpora with millions of words were counted as
+related. It would be helpful to express this measure as an own datum in LingHub
+to help future searchers. However, it could only be automatically acquired by
+retrieving and parsing the resources, taking into account their format. This
+approach would thus be limited to open resources with detailed metadata. Again,
+description texts were used to retrieve hints on corpus size.
+One large advantage of SPARQL was being able to explicitly address fields such
+as distribution and license information, allowing to filter for free and open
+resources, as well as links to the data itself. The selection of the queries in
+CML reduced this use-case to one case, but it seems to be an important and often
+overlooked facet of data acquisition. 
+
+\subsection{Data Completeness and Quality}
+
+To obtain statistics on data completeness, relative frequencies of Linghub
+resources carrying at least on property-value pair for the various facets
+offered by the search frontend were determined. The basic quantity of Linghub
+resources was defined as all URIs in the Linghub dataset with the
+linghub.lider-project.eu hostname appearing in subject position of at least one
+triple. Table \ref{tab:reqinfo} and Figure
+\ref{fig:reqinfo} present the aforementioned relative frequencies:
+
+
+\begin{table}
+    \begin{tabular}{ll|cc}
+    \multicolumn{2}{c|}{required information} & \multicolumn{2}{c}{fulfilling resources} \\
+    UI facet name & property          & abs. freq & rel. freq. \\
+    \hline
+    (none)        & (none)            & 444606    & 1          \\
+    Title         & dc:title          & 191355    & 43.04\%    \\
+    Description   & dc:description    & 55697     & 12.53\%    \\
+    Language      & dct:language      & 47357     & 10.65\%    \\
+    Type          & dct:type          & 12780     &  2.87\%    \\
+    Rights        & dc:rights         & 30165     &  6.78\%    \\
+    Creator       & dc:creator        & 137675    & 30.97\%    \\
+    Subject       & dc:subject        & 44725     & 10.06\%    \\
+    Contact Point & dcat:contactPoint & 2436      &  0.55\%    \\
+    Access URL    & dcat:accessURL    & 184452    & 41.49\%    \\
+    \end{tabular}
+    \caption{\label{tab:reqinfo} Portions of Linghub resource instances with at
+least one statement for the respective facet/property}
+\end{table}
+
+\begin{figure}
+        markus to upload
+    \caption{\label{fig:reqinfo} Portions of Linghub resource instances with at
+least one statement for the respective facet/property}
+\end{figure}
+ 
+These statistics reveal significant variation in coverage over the various
+facets, that can result in unexpected recall when relying on facets with low
+coverage. To illustrate this with an example: 444 Linghub resources containing
+keywords `spanish' or `spain' in their description also carry a corresponding
+dc:language property. On the other hand 493 resources with aforementioned
+keywords in the description do not carry a dc:language attribute. Although the
+mere appearance of the keywords are not conclusively indicative that the
+resource should be counted to the corresponding language, the majority of the
+latter resources appeared to be Spanisch or relevant for Spanish when examining
+a 10\% sample. Albeit these resources are currently ruled out implicitly when a
+user uses the filter option for language. Combined usage of the language
+property values when present and fall-back to text-matching on title and
+description, as used in the SPARQL queries, can mitigate this problem. Using the
+free text pattern syntax with field specifiers, this procedure can be sketched
+as: 
+
+\begin{verbatim}
+language:spa OR title:(spanish OR spain*) OR description:(spanish OR spain*)
+\end{verbatim}
+
+Analogous text-pattern fallback strategies might be employed for other
+properties with low-coverage (e.g. type) and could be offered as on-demand
+option in the search interfaces. 
+
+Several of the examined resource requests from the CML asking for corpora also
+formulated minimal requirements for their size. About 4000 resources listed in
+LingHub carry property-value pairs for numeric values quantifying their size
+according to a specified unit. Excluding also cases where the unit is not
+clearly specified or where the size value is just a sentinel value for ‘no
+available’, about 2490 resources with well defined, structured size information
+remain (all of these originate from META-SHARE).  Increasing this coverage
+towards a substantial portion of corpus resources indexed in LingHub would be
+quite beneficial. However, although missing size information could probably be
+extracted from description texts for many resources, achieving a satisfactory
+level of correctness of such a process would presumably require a prohibitively
+great extend of manual annotation and curation
+
 
 \section{Conclusion [JPM, PC]}
 
-\bibliographystyle{spbasic}      % basic style, author-year citations
-%\bibliographystyle{spmpsci}      % mathematics and physical sciences
+%\bibliographystyle{spbasic}      % basic style, author-year citations
+\bibliographystyle{spmpsci}      % mathematics and physical sciences
 %\bibliographystyle{spphys}       % APS-like style for physics
 \bibliography{linghub-jlre}   % name your BibTeX data base
 

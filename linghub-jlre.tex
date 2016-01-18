@@ -77,11 +77,91 @@
 
 \section{Introduction [JPM, PC]}
 
-Why Linghub?
+Most natural language processing systems rely to some extent on the use of
+datasets in the form of language resources to train themselves for a specific
+language or domain and as such the challenge of adapting a tool requires the
+discovery of suitable langauge resources. Unfortunately, language resources are
+often published independently by researchers and are thus difficult to discover
+with standard information retrieval mechansims (e.g., search engines) and can
+quickly become unavailable after use. There have been a couple of approaches to
+solve this issue and they can be broadly divided into two approaches, which we
+term the \emph{curatorial} approach and the \emph{crowd-sourcing} approach. The
+curatorial approach relies on the use of expert ``curators'' to document the
+existing resources and create high quality \emph{metadata} about the resources
+that are available. This approach has the advantage that it produces
+comprehensive descriptions of the resources but has a crucial drawback that it
+is difficult for curators to describe, or even know about, all resources that
+are available. In contrast, the crowd-sourcing approaches relies on users to
+document resources in central catalogues ensuring that there are indexes where
+users can easily access these resources. This can provide significantly more
+coverage of the language resources that are available but has an issue with
+quality of the documentation of the resources is often weak, as the metadata
+descriptions are not created by experts but by users in an `ad-hoc' manner.
 
-Why Linked Data
+As both approaches have some clear and significant disadvantages it seems
+natural to ask if we can combine the advantages of these without making any
+sacrifices. Thus, we propose an \emph{integral} approach that relies on
+collecting metadata about language resources from multiple sources and
+integrating them into single records. This relies on the use of state-of-the-art
+techniques including word sense disambiguation in order to link the resources
+and ensure that they refer to values in the same way. For example, a resource
+may have a property called `language' but its value may be a language name in
+English or another language or an identifier such as an ISO 639
+code~\cite{iso639} of which there are 3 variants. 
+
+One of the crucial technologies that enables this integration is that of
+RDF~\cite{rdf} and linked data. Linked data is based on four fundamental
+principals~\cite{}.
+
+\begin{enumerate}
+    \item Use Uniform Resource Identifiers to identify everything in a resource,
+        thus ensuring that every element of the resource can be identified in a
+        standard manner.
+    \item Furthermore, use HTTP URLs as they require the association with domain
+        names and standard identification practices, ensuring that the data can
+        be clearly traced to its host and thus someone responsible for that
+        dataset.
+    \item Ensure that URLs resolve, in the sense that when typed in to a web
+        browser an appropriate description of the resource is obtained. Ideally
+        the server should detect (using content negotiation) the type of the
+        user and provide HTML results for humans and XML or JSON for software
+        agents.
+    \item Provide links to other resources so that it is possible to identify
+        commonalities between resources and to handle issues of semantic
+        interoperability and provenance.
+\end{enumerate}
+
+Linked data makes a very good fit for the task of integrating information about
+language resources as it is natural that this would be handled by means of a web
+portal and thus stable URLs for resources are easily decided. It is obvious that
+HTML descriptions should be provided and in order to meet use cases for
+automatic training of NLP systems, we find the provision of a machine-ready API
+also of vital importance. Finally, links to other resources are vital to not
+only provide links back to the source records, but also to ensure that users can
+find out more information about the descriptors of the language resources.
+
+In this paper, we present the Linghub system, which aims to integrate language
+resources by means of linked data and thus provide a single accessible portal
+for both humans and machines to find suitable language resources or their needs.
+This paper is structured as follows: Firstly, in Section~\ref{related-work} we
+will discuss some of the existing related work in particular focussing on the
+metadata repositories that we will integrate and in
+Section~\ref{data-collection} we will describe how we collected the data. In
+Section~\ref{modelling} we derive a single data model based on existing
+standards that will allow us to combine all the resources and then in
+Section~\ref{harmonization} we will show our procedure for harmonizing these
+resources. We will describe the web portal in
+Section~\ref{linked-data-interface}. In Section~\ref{evaluation}, we provide a
+thorough evaluation of the system based on real-world queries and thus show the
+effectiveness of our approach, and finally we conclude in
+Section~\ref{conclusions}.\footnote{Some results in this paper have been
+    previously published in the following workshop papers \cite{}. The results
+    and methods are expanded and combined in this paper in line with the journal
+    guidelines. In addition, Section~\ref{evaluation} provides a novel
+evaluation of the system.}
 
 \section{Related Work [JPM]}
+\label{related-work}
 
 \cite{nilsson2010interoperability,khoo2010merging,nogueras2004metadata}. 
 
@@ -112,6 +192,48 @@ ISLRN \cite{choukri2012using}
 \emph{Open Linguistics Working Group}~\cite{chiarcos2012open} 
 
 \section{Data Collection [JPM, AA]}
+\label{data-collection}
+
+In order to realize the goal of providing comprehensive metadata about language
+resources, it is necessary to collect metadata from a wide range of sources. In
+parrticular, we chose four main sources, primarily because these resources have
+been released under an open license. These resources are:
+
+\begin{description}
+    \item[META-SHARE] A resource created by the META-NET project,  the resource
+        provides deep and detailed descriptions of language resources that have
+        primarily been constructed by hand.
+    \item[CLARIN VLO] The Virtual Language Observatory by the CLARIN project is
+        a collection of resources drawn from a wide variety of insitutes
+        participating in the CLARIN project. In general, the data has been
+        manually curated by the individual contributors and only limited
+        integration has been made between the resources. As such the records are
+        very different in detail and size.
+    \item[Datahub.io] This site is an instance of CKAN used primarily to track
+        open and linked data. Most of the data is not of relevance to language
+        resources and as such we apply filters to extact the relevant datasets.
+    \item[LRE-Map] The LRE-Map was collected by participants at several NLP
+        conferences in the last few years. Unfortunately, only the data from
+        LREC-2014 is available under a license and the method of collection has
+        lead to significant issues with data quality.
+\end{description}
+
+In addition, we have a number of other sources that we investigated for the
+experiments described in this paper but unfortunately cannot release through the
+Linghub portal due to licensing.
+
+\begin{description}
+    \item[LRE-Map] Several other conferences of data are accessible on the Web
+        and we have scraped the relevant data.
+    \item[OLAC] The Open Language Archives Community collects a large amount of
+        data, but clearly states that its own data is not ``open''. Fortunately
+        most of the data is also available from CLARIN and other sources.
+    \item[ELRA/LDA] We also experimented partially with the catalogue of
+        resources provided by theses commercial data providers.
+\end{description}
+
+In the following section we describe the format of the resources and the
+difficulty in consolidating them with our model.
 
 \begin{table}
 \resizebox{0.94\textwidth}{!}{\begin{minipage}{\textwidth}
@@ -130,6 +252,8 @@ ISLRN \cite{choukri2012using}
 
 \subsection{META-SHARE}
 
+META-SHARE is provided primarily in a format described in 
+
 \subsection{CLARIN}
 
 \subsection{LRE-Map}
@@ -139,12 +263,15 @@ ISLRN \cite{choukri2012using}
 \subsection{Others}
 
 \section{Modelling [JG, VRD]}
+\label{modelling}
 
 DCAT
 
 META-SHARE
 
 \section{Harmonization [JPM, GV, LM]}
+
+\label{harmonization}
 
 \subsection{Availability}
 
@@ -268,6 +395,8 @@ META-SHARE
 
 
 \section{Linked Data Interface [JPM]}
+\label{linked-data-interface}
+
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{linghub-screenshot.png}
@@ -322,6 +451,7 @@ accept XML due to security concerns. Other clients may still obtain SPARQL-XML
 by supplying the appropriate header or parameter in the query.
 
 \section{Evaluation [MA]}
+\label{evaluation}
 
 \subsection{Evaluation Methodology}
 
@@ -628,6 +758,7 @@ great extend of manual annotation and curation
 
 
 \section{Conclusion [JPM, PC]}
+\label{conclusion}
 
 %\bibliographystyle{spbasic}      % basic style, author-year citations
 \bibliographystyle{spmpsci}      % mathematics and physical sciences

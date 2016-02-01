@@ -252,18 +252,74 @@ difficulty in consolidating them with our model.
 
 \subsection{META-SHARE}
 
-META-SHARE is provided primarily in a format described in 
+META-SHARE is provided primarily in a format described in \cite{todo}, which is
+and XML format and contains XXX elements and as such is a highly complex XML
+format. We developed a custom invertible framework called LIXR (pronounced
+`elixir')~\footnote{http://github.com/???/lixr}, which allows us to easily and
+quickly define the conversion between META-SHARE and RDF. As a great many of the
+elements defined in the META-SHARE schema are very unique many of the elements
+have to be created in a new ontology, which we developed as the META-SHARE
+ontology, which is described in \cite{todo}. 
 
 \subsection{CLARIN}
 
+\begin{table}
+    CLARIN types
+    \caption{\label{tab:clarin-resources}The relative number of resources in
+    each of the schemas used by CLARIN}
+\end{table}
+
+CLARIN is also an XML format and is based on the XXX metadata initiative as
+defined by \cite{xxx}. This consists of a small shared amount of information and
+a specific schema, which is normally unique to the data provider, with the
+exception of Dublin Core metadata which is in two common schemas. The total size
+and applicability of each of the schemas is given in Table
+\ref{tab:clarin-resources} and we have developed export scripts for all of the
+top 10 formats.
+
 \subsection{LRE-Map}
+
+The LRE-Map is described in \cite{todo} and is available partly as RDF, in
+particular the data from LREC-2014 is available. Unfortunately, the integration
+was not trivial as there were errors in the RDF, in particular the use of
+non-resolving URI schemes that had to be corrected. The older data is also
+available on the web site and we obtained it by scraping the web site but were
+advised that this data is not available under any open license.
 
 \subsection{Datahub.io}
 
+Datahub.io is an instantiation of the CKAN software\cite{...} and as such can
+easily be accessed through the API and the RDF version of each metadata using
+the DCAT vocabulary can be accessed. As such the import of this data is quick
+and can be done at regular intervals.
+
 \subsection{Others}
+
+In addition, we looked at three other sources that cannot be included in the
+public release of Linghub due to the licensing issues. These are OLAC, which
+uses an XML format and much like CLARIN this format uses different schemas for
+different data producers. Secondly, there are the catalogues of ELRA and LDC
+both of which are .... I can't remember.
 
 \section{Modelling [JG, VRD]}
 \label{modelling}
+
+As the basis of the modelling for Linghub we took the DCAT
+vocabulary~\cite{dcat}, which we is based around the concept of a \emph{dataset}
+which has obvious equivalence to many of the elements in the resources we
+studied. In addition, DCAT models distributions, i.e., downloads, and catalogues
+and we imported each of these elements. We found that some distinctions made in
+DCAT, most notably the distinction between access URLs and download URLs, that
+give the link to the dataset's home page and the direct link to the data was not
+clear in any of our sources and this will continue to be a major stumbling block
+to providing fully automatic access to datasets. 
+
+The DCAT model, however, only provides for generic descriptions of datasets and
+we wished to capture specific elements that would be of interest to linguists.
+As such we worked on developing an extension of DCAT based on the META-SHARE
+model, which we call the META-SHARE ontology. This resource is described in
+\cite{mccrae2015ontology}, and for the benefit of readers we briefly recap the
+model here.
 
 DCAT
 

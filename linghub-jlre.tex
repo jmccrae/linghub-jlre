@@ -321,13 +321,57 @@ model, which we call the META-SHARE ontology. This resource is described in
 \cite{mccrae2015ontology}, and for the benefit of readers we briefly recap the
 model here.
 
-DCAT
+DCAT consists of a catalog composed of datasets, with a catalog record, which
+corresponds to the META-SHARE metadata info element. META-SHARE contains a much
+richer description of many aspects than DCAT including contact details, version
+information, validation and proposed and actual usage of the dataset. These
+elements, when available were directly added to the model. In many cases, basic
+properties in the META-SHARE ontology, such as the language of a resource, were
+to be found nested under several layers of tags and in such cases we added
+property chain links so that they would be more compatible with other resources.
+In addition, META-SHARE contains significant resource type specific information
+that is defined by the type of the language resource: one of \emph{corpus},
+\emph{tool/service}, \emph{language description} or \emph{lexical conceptual
+resource}. These extra elements include media type (text, audio, video or image)
+and the encoding of information, formats, classifications, and so forth.
 
-META-SHARE
+In addition to aligning the META-SHARE model to DCAT and Dublin Core, the
+META-SHARE ontology improved on the original model in the following ways:
+
+\begin{itemize}
+    \item Removal of the {\tt Info} suffix from the names of  wrapping elements of
+        components.
+    \item Improvement of names that created confusion, as already noted by the
+        META-SHARE group and/or the LD4LT group; thus, {\tt resourceInfo} was renamed
+        {\tt LanguageResource}, {\tt restrictionsOfUse} became {\tt
+        conditionsOfUse}.
+    \item Generalization of concepts, e.g. {\tt
+        not\-Available\-Through\-Metashare} with {\tt
+        avai\-lable\-Through\-Other\-Distributor};
+\item Development of novel classes based on existing values, for example:
+    \\$\mathtt{Corpus} \equiv \exists \mathtt{resourceType}.\mathtt{corpus}$
+\item Grouping similar elements under novel superclasses, e.g. {\tt
+    annotationType} and {\tt genre} values are structured in classes and
+    subclasses better reflecting the relation between them. Indicatively, the superclass
+    {\tt SemanticAnnotation} can be used to bring together semantic annotation types,
+    such as semantic roles, named entities, polarity, and semantic relations.
+\item Extension of existing classes with new values and new properties
+    (e.g. {\tt licenseCategory} for licences).
+\end{itemize}
 
 \section{Harmonization [JPM, GV, LM]}
 
 \label{harmonization}
+
+Due to the variety of source from which we are obtaining metadata it is
+inevitable that there are differences between them. Moreover, the quality of the
+resources varies greatly, for example in the case of language META-SHARE uses
+ISO 639-3\footnote{\url{http://www-01.sil.org/iso639-3/}}, but a crowd-sourced
+resource such as LRE-Map has a wide variety of representations in free text. Our
+approach focuses on the properties that are most important for using a resource
+including whether the resource resolves, what license it is available under, the
+type of the resource (e.g., corpus) and the language or languages covered by the
+resources (properties may of course have multiple values).
 
 \subsection{Availability}
 
@@ -353,9 +397,59 @@ META-SHARE
         analyzed sample of URLs. Note XML is associated with two MIME types.}
 \end{table}
 
+Certainly the biggest barrier to re-using a resource is obtaining it and it is
+unfortunately the case that many resources become unavailable due to server
+failure or similar reasons. We also note that there is an important distinction
+that must be made between `access URLs', which is generally a page containing
+information and documentation about the resource and generally a download link,
+and the `download URL', where the resource can be directly accessed. If we wish
+to enable use cases where software agents can autonomously access resources we
+would need the latter type of URL, however sadly at the moment nearly all links
+given in our sources are `access URLs' and thus we only analyze these links at
+the moment.
+
+In our study, we then accessed 119,920 URLs given among our sources of metadata
+and we found that 95\% of these resolved successfully (i.e., HTTP Response was
+200 OK). We then also analyzed the reported content type of the response, the
+results of which are in Table \ref{tab:formats}. We found that text formats, in
+particular HTML tended to be the predominate format and we would assume that
+these correspond to human-readable pages and not the actual resource in the most
+case. A little of 14\% of resources are in a format that seem like data sources
+although we observed that many of the RDF/XML results were from source providing
+Semantic Web compatible descriptions of resources. In addition, some number of
+images were found, which were generally scans of historical documents.
+
 \subsection{Rights}
 
+While accessing a resource is one of the important goals of any research, any
+responsible researcher must take into account the license that a resource is
+released under. 
+
+VRD to expand
+
 \subsection{Usage}
+
+The usage of a language resource is an indication of for what purpose it was
+created. Following the example of META-SHARE we distinguish between intended use
+and actual use, where intended use is the use by the creator of the resource and
+the actual use is another application that has used this resource. As the data
+has very little information on the latter case, we focussed primarily on the
+intended use, which is recorded clearly in two resources: META-SHARE and
+LRE-Map. The taxonomies used in each scheme is different with META-SHARE
+defining 83 possible values and LRE-Map suggesting 28 values, while actually
+3,985 values have been used. This is due to the collection method of LRE-Map,
+which has a dropdown of options or the user can select `other' and enter their
+own value. 
+
+For the 28 suggested LRE-Map values we added a manual mapping to the META-SHARE
+values and for the rest of the values we developed a mapping algorithm based on
+using the Snowball stemmer~\cite{} and string inclusion match to detect
+variants. From a random sample of 100 of such terms we found that 66\% were
+correct matches, 16\% were empty fields or non-specific terms (e.g., `various
+uses') and 16\% were overly general (e.g., `acquisition'). In addition, we had
+one false negative (due to a typo `taggin pos' [sic]) and one novel usage that
+was not in META-SHARE (`semantic system evaluation'). As such, we conclude that
+the system has 98-99\% accuracy.
 
 \subsection{Language}
 
@@ -379,9 +473,43 @@ META-SHARE
     \caption{\label{tab:language-comparison}Accuracy of language mappings}
 \end{table}
 
+We decided to normalize the language identifiers around the ISO 639-3 standard
+due to its wide adoption and coverage of nearly all human languages. Many
+resources used either this standard already or the shorter two-letter codes from
+ISO 639-1 and as such the primary challenge is in fact mapping the names given
+in English text. To achieve this we collected lists of language names from the
+official SIL
+database\footnote{\url{http://www-01.sil.org/iso639-3/download.asp}} and from
+BabelNet~\cite{}, a large multi-lingual lexicon.
 
+We compared the results using two string similarity metrics, namely the Dice
+co-efficient and the Levenshtein distance, the results of which are reported in
+Table~\ref{tab:language-comparison}. We measured the accuracy by constructing a
+sample of 100 labels and manually mapping them to language codes and we present
+the results both as total number of labels matched and weighted by the usage of
+those labels by resources. For both resources, we see very high accuracy and the
+unmapped labels were mostly for those labels that were very rarely used. 
+
+When deploying this system in the Linghub, however, we did notice that the
+system made one very noticable error, namely mapping the label `Greek' to the
+language (Muscogee) `Creek' as we only had labels for the language `Modern
+Greek'. We thus applied a second scan adding this and a few other common
+language name variations.
 
 \subsection{Type}
+
+By the type of resource we mean the form of the resource, such as the basic
+categorization of META-SHARE into `Corpus', `Lexical Conceptual Resource', 
+`Lexical Description' and `Tool/Service'. For this, we used the properties from
+existing resources and applied the Babelfy linking algorithm~\cite{}. Once, we
+had this result, we manually selected those senses, which corresponded to
+language resources, giving us in total 143 categories of which the top 10 were:
+Sound', `Corpus',
+`Lexicon', `Tool' (software), `Instrumental Music'\footnote{These
+resources are in fact recordings of singing in under-resourced languages},
+`Service', `Ontology', `Evaluation',
+`Terminology' and `Translation software'.
+
 
 \subsection{Duplicate detection}
 
@@ -393,6 +521,7 @@ META-SHARE
         CLARIN{\tiny~(same contributing institute)}     & 50,589           & 20          \\   
         Datahub.io & 0                & 55             \\
         META-SHARE & 63               & 967            \\
+        LRE-Map    & 763              & 454            \\
     \end{tabular}
     \end{center}
     \caption{\label{tab:self-dupes}The number of intra-repository duplicate labels and URLs for
@@ -412,10 +541,9 @@ META-SHARE
         CLARIN      & META-SHARE  & 1,204            & 1,228          & 28    \\
         Datahub.io  & LRE-Map     & 59               & 5              & 0    \\
         Datahub.io  & META-SHARE  & 3                & 0              & 0    \\
-        LRE-Map     & LRE-Map     & 763              & 454            & 359  \\
         LRE-Map     & META-SHARE  & 91               & 51             & 0    \\
         \hline
-        All         & All         & 3,395            & 4,686          & 387  \\
+        All         & All         & 2,632            & 4,232          & 28   \\
         \end{tabular}
     \end{center}
     \caption{\label{tab:dupes}Number of duplicate inter-repository records by type}
@@ -447,7 +575,48 @@ META-SHARE
     methods}
 \end{table}
         
+It is a natural effect of collecting records about resources that we will have
+multiple records that in fact describe the same resource. In order to provide a
+single view of the description of a dataset for a user, it is important that all
+the information can be consolidated so that we can for example, indicate all
+uses of a particular dataset. This is particularly the case with LRE-Map were
+resources are frequently reported multiple times in different uses. As such, we 
+make a fundamental distinction between \emph{inter-repository duplication},
+where we have two records from different sources describing the same entity, and
+\emph{intra-repository duplication}, where resource are described multiple times
+by the same source. Note in the case of CLARIN it is quite common to see
+duplication between different contributing instances and these are normally
+descriptions of the same resource in different formats, so we treat them as
+inter-repository duplicates. In both cases, we based our detection on looking
+for duplicate title and URLs for resources.
 
+We will first look at the case of intra-repository duplication, where the causes
+seem to be quite different in each of the sources:
+
+\begin{description}
+    \item[META-SHARE] The duplicates here were due to errors in the export and
+        were easy to correct.
+    \item[CLARIN] In many cases sequences of resources had multiple records. For
+        example the `Universal Declaration of Human Rights' had an individual
+        page for each language and thus we merged resources with the same title,
+        as we believe this is of more use to our users.
+    \item[Datahub.io] This resource does not allow for duplicate titles, but
+        duplicate URLs are quite common, however these are more likely due to
+        shared resources (e.g., several resources use the same SPARQL endpoint).
+    \item[LRE-Map] Duplicates in LRE-Map are caused by multiple submissions
+        using the same resource, and as such we wish to aggregate all these
+        citations in order to make it clear how frequently a resource is used
+        and thus show the resources' quality
+\end{description}
+
+The total number of intra-repository duplicates detected is presented in Table~\ref{tab:self-dupes}.
+
+For the case of inter-repository duplication, we assume that in all cases this
+is due to multiple descriptions of the same resource. In order to evaluate the
+effectiveness of our method of matching by title and URL we took a sample of 100
+resources and examined whether they actually referred to the same resources. The
+results of this analysis are given in~\ref{tab:dupe-precision} and the number of
+duplicates detected in total is given in~\ref{tab:dupes}.
 
 
 \section{Linked Data Interface [JPM]}

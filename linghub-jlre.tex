@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{makecell}
 \usepackage{hyperref}
+\usepackage{todonotes}
 %
 % \usepackage{mathptmx}      % use Times fonts if available on your TeX system
 %
@@ -26,6 +27,7 @@
 
 \author{John P. McCrae       \and
     Markus Ackermann         \and
+    Philipp Cimiano          \and
     Martin Br\"ummer         \and
     Victor Rodr\'iguez Doncel\and
     Daniel Vila              \and
@@ -33,8 +35,7 @@
     Andrejs Abele            \and
     Luca Matteis             \and
     Tiziano Flati            \and
-    Jorge Gracia             \and
-    Philipp Cimiano}
+    Jorge Gracia}
 
 
     \authorrunning{McCrae et al.}
@@ -55,9 +56,9 @@
                 Polytechnic University of Madrid \\
                 \email{\{vrodriguez, jgracia\}@fi.upm.es}
             \and
-            Luca Matteis \at
+            Luca Matteis, Tiziano Flati \at
                 University of Rome ``La Sapienza'' \\
-                \email{matteis@di.uniroma1.it}
+                \email{\{matteis, flati\}@di.uniroma1.it}
             \and\\
             John P. McCrae, Philipp Cimiano \at
                 Cognitive Interaction Technology, Excellence Cluster \\
@@ -75,7 +76,7 @@
 \keywords{First keyword \and Second keyword \and More}
 \end{abstract}
 
-\section{Introduction [JPM, PC]}
+\section{Introduction}
 
 Most natural language processing systems rely to some extent on the use of
 datasets in the form of language resources to train themselves for a specific
@@ -83,12 +84,12 @@ language or domain and as such the challenge of adapting a tool requires the
 discovery of suitable langauge resources. Unfortunately, language resources are
 often published independently by researchers and are thus difficult to discover
 with standard information retrieval mechansims (e.g., search engines) and can
-quickly become unavailable after use. There have been a couple of approaches to
-solve this issue and they can be broadly divided into two approaches, which we
+quickly become unavailable after a short period of time. There have been a couple of approaches to
+record information about language resources and they can be broadly divided into two approaches, which we
 term the \emph{curatorial} approach and the \emph{crowd-sourcing} approach. The
 curatorial approach relies on the use of expert ``curators'' to document the
 existing resources and create high quality \emph{metadata} about the resources
-that are available. This approach has the advantage that it produces
+that are available given time and funding for these efforts. This approach has the advantage that it produces
 comprehensive descriptions of the resources but has a crucial drawback that it
 is difficult for curators to describe, or even know about, all resources that
 are available. In contrast, the crowd-sourcing approaches relies on users to
@@ -99,26 +100,26 @@ quality of the documentation of the resources is often weak, as the metadata
 descriptions are not created by experts but by users in an `ad-hoc' manner.
 
 As both approaches have some clear and significant disadvantages it seems
-natural to ask if we can combine the advantages of these without making any
-sacrifices. Thus, we propose an \emph{integral} approach that relies on
+natural to ask if we can combine the advantages of these approaches.
+Thus, we propose an \emph{integral} approach that relies on
 collecting metadata about language resources from multiple sources and
 integrating them into single records. This relies on the use of state-of-the-art
 techniques including word sense disambiguation in order to link the resources
 and ensure that they refer to values in the same way. For example, a resource
 may have a property called `language' but its value may be a language name in
 English or another language or an identifier such as an ISO 639
-code~\cite{iso639} of which there are 3 variants. 
+code~\cite{gordon2005ethnologue} of which there are 3 variants. 
 
 One of the crucial technologies that enables this integration is that of
-RDF~\cite{rdf} and linked data. Linked data is based on four fundamental
-principals~\cite{}.
+RDF~\cite{klyne2006resource} and linked data. Linked data is based on four fundamental
+principals~\cite{bizer2009linked}.
 
 \begin{enumerate}
     \item Use Uniform Resource Identifiers to identify everything in a resource,
         thus ensuring that every element of the resource can be identified in a
         standard manner.
     \item Furthermore, use HTTP URLs as they require the association with domain
-        names and standard identification practices, ensuring that the data can
+        names, ensuring that the data can
         be clearly traced to its host and thus someone responsible for that
         dataset.
     \item Ensure that URLs resolve, in the sense that when typed in to a web
@@ -138,7 +139,7 @@ HTML descriptions should be provided and in order to meet use cases for
 automatic training of NLP systems, we find the provision of a machine-ready API
 also of vital importance. Finally, links to other resources are vital to not
 only provide links back to the source records, but also to ensure that users can
-find out more information about the descriptors of the language resources.
+find out more information about the properties used to describe language resources.
 
 In this paper, we present the Linghub system, which aims to integrate language
 resources by means of linked data and thus provide a single accessible portal
@@ -154,14 +155,16 @@ resources. We will describe the web portal in
 Section~\ref{linked-data-interface}. In Section~\ref{evaluation}, we provide a
 thorough evaluation of the system based on real-world queries and thus show the
 effectiveness of our approach, and finally we conclude in
-Section~\ref{conclusions}.\footnote{Some results in this paper have been
+Section~\ref{conclusion}.\footnote{Some results in this paper have been
     previously published in the following workshop papers \cite{}. The results
     and methods are expanded and combined in this paper in line with the journal
     guidelines. In addition, Section~\ref{evaluation} provides a novel
 evaluation of the system.}
 
-\section{Related Work [JPM]}
+\section{Related Work}
 \label{related-work}
+
+\todo{JPM to finish (please help)}
 
 \cite{nilsson2010interoperability,khoo2010merging,nogueras2004metadata}. 
 
@@ -191,7 +194,7 @@ ISLRN \cite{choukri2012using}
 
 \emph{Open Linguistics Working Group}~\cite{chiarcos2012open} 
 
-\section{Data Collection [JPM, AA]}
+\section{Data Collection}
 \label{data-collection}
 
 In order to realize the goal of providing comprehensive metadata about language
@@ -214,7 +217,7 @@ been released under an open license. These resources are:
         resources and as such we apply filters to extact the relevant datasets.
     \item[LRE-Map] The LRE-Map was collected by participants at several NLP
         conferences in the last few years. Unfortunately, only the data from
-        LREC-2014 is available under a license and the method of collection has
+        LREC-2014 is available under an open license and the method of collection has
         lead to significant issues with data quality.
 \end{description}
 
@@ -252,10 +255,11 @@ difficulty in consolidating them with our model.
 
 \subsection{META-SHARE}
 
-META-SHARE is provided primarily in a format described in \cite{todo}, which is
-and XML format and contains XXX elements and as such is a highly complex XML
+META-SHARE is provided primarily in a format described in
+\cite{gavrilidou2012meta}, which is
+and XML format and contains \textbf{XXX}\todo{Fix} elements and as such is a highly complex XML
 format. We developed a custom invertible framework called LIXR (pronounced
-`elixir')~\footnote{http://github.com/???/lixr}, which allows us to easily and
+`elixir')~\footnote{http://github.com/liderproject/lixr}, which allows us to easily and
 quickly define the conversion between META-SHARE and RDF. As a great many of the
 elements defined in the META-SHARE schema are very unique many of the elements
 have to be created in a new ontology, which we developed as the META-SHARE
@@ -264,13 +268,28 @@ ontology, which is described in \cite{todo}.
 \subsection{CLARIN}
 
 \begin{table}
-    CLARIN types
+\begin{tabular}{l|lc}
+Component Root Tag & Institutes & Frequency \\
+\hline
+Song & 1 (MI) & 155,403 \\
+Session & 1 (MPI) & 128,673 \\
+OLAC-DcmiTerms & 39 & 95,370 \\
+MODS & 1 (Utrecht)& 64,632 \\
+DcmiTerms & 2 (BeG,HI) & 46,160 \\
+SongScan & 1 (MI) & 28,448 \\
+media-session-profile & 1 (Munich) & 22,405 \\
+SourceScan & 1 (MI) & 21,256 \\
+Source & 1 (MI) & 16,519 \\
+teiHeader & 2 (BBAW, Copenhagen) & 15,998 \\
+\end{tabular}
+\
+
     \caption{\label{tab:clarin-resources}The relative number of resources in
     each of the schemas used by CLARIN}
 \end{table}
 
-CLARIN is also an XML format and is based on the XXX metadata initiative as
-defined by \cite{xxx}. This consists of a small shared amount of information and
+CLARIN is also an XML format and is based on the CMDI metadata infrastructure as
+defined by \cite{broeder2012cmdi}. This consists of a small shared amount of information and
 a specific schema, which is normally unique to the data provider, with the
 exception of Dublin Core metadata which is in two common schemas. The total size
 and applicability of each of the schemas is given in Table
@@ -279,16 +298,17 @@ top 10 formats.
 
 \subsection{LRE-Map}
 
-The LRE-Map is described in \cite{todo} and is available partly as RDF, in
+The LRE-Map is described in \cite{calzolari2012lre} and is available partly as RDF, in
 particular the data from LREC-2014 is available. Unfortunately, the integration
-was not trivial as there were errors in the RDF, in particular the use of
+was not trivial as there were errors in the RDF~\cite{del2014lre}, in particular the use of
 non-resolving URI schemes that had to be corrected. The older data is also
 available on the web site and we obtained it by scraping the web site but were
 advised that this data is not available under any open license.
 
 \subsection{Datahub.io}
 
-Datahub.io is an instantiation of the CKAN software\cite{...} and as such can
+Datahub.io is an instantiation of the CKAN
+software\footnote{\url{http://ckan.org}} and as such can
 easily be accessed through the API and the RDF version of each metadata using
 the DCAT vocabulary can be accessed. As such the import of this data is quick
 and can be done at regular intervals.
@@ -299,13 +319,13 @@ In addition, we looked at three other sources that cannot be included in the
 public release of Linghub due to the licensing issues. These are OLAC, which
 uses an XML format and much like CLARIN this format uses different schemas for
 different data producers. Secondly, there are the catalogues of ELRA and LDC
-both of which are .... I can't remember.
+both of which are... \todo{.... I can't remember.}
 
-\section{Modelling [JG, VRD]}
+\section{Modelling}
 \label{modelling}
 
 As the basis of the modelling for Linghub we took the DCAT
-vocabulary~\cite{dcat}, which we is based around the concept of a \emph{dataset}
+vocabulary~\cite{maali2014data}, which we is based around the concept of a \emph{dataset}
 which has obvious equivalence to many of the elements in the resources we
 studied. In addition, DCAT models distributions, i.e., downloads, and catalogues
 and we imported each of these elements. We found that some distinctions made in
@@ -321,7 +341,8 @@ model, which we call the META-SHARE ontology. This resource is described in
 \cite{mccrae2015ontology}, and for the benefit of readers we briefly recap the
 model here.
 
-DCAT consists of a catalog composed of datasets, with a catalog record, which
+DCAT consists of a \emph{catalog} composed of \emph{datasets}, with a
+\emph{catalog record}, which
 corresponds to the META-SHARE metadata info element. META-SHARE contains a much
 richer description of many aspects than DCAT including contact details, version
 information, validation and proposed and actual usage of the dataset. These
@@ -329,6 +350,7 @@ elements, when available were directly added to the model. In many cases, basic
 properties in the META-SHARE ontology, such as the language of a resource, were
 to be found nested under several layers of tags and in such cases we added
 property chain links so that they would be more compatible with other resources.
+\todo{Give an example}
 In addition, META-SHARE contains significant resource type specific information
 that is defined by the type of the language resource: one of \emph{corpus},
 \emph{tool/service}, \emph{language description} or \emph{lexical conceptual
@@ -359,7 +381,7 @@ META-SHARE ontology improved on the original model in the following ways:
     (e.g. {\tt licenseCategory} for licences).
 \end{itemize}
 
-\section{Harmonization [JPM, GV, LM]}
+\section{Harmonization}
 
 \label{harmonization}
 
@@ -425,12 +447,12 @@ While accessing a resource is one of the important goals of any research, any
 responsible researcher must take into account the license that a resource is
 released under. 
 
-VRD to expand
+\todo{VRD to expand}
 
 \subsection{Usage}
 
-The usage of a language resource is an indication of for what purpose it was
-created. Following the example of META-SHARE we distinguish between intended use
+The usage of a language resource is an indication of what purpose it was
+created for. Following the example of META-SHARE we distinguish between intended use
 and actual use, where intended use is the use by the creator of the resource and
 the actual use is another application that has used this resource. As the data
 has very little information on the latter case, we focussed primarily on the
@@ -443,7 +465,7 @@ own value.
 
 For the 28 suggested LRE-Map values we added a manual mapping to the META-SHARE
 values and for the rest of the values we developed a mapping algorithm based on
-using the Snowball stemmer~\cite{} and string inclusion match to detect
+using the Snowball stemmer~\cite{porter2001snowball} and string inclusion match to detect
 variants. From a random sample of 100 of such terms we found that 66\% were
 correct matches, 16\% were empty fields or non-specific terms (e.g., `various
 uses') and 16\% were overly general (e.g., `acquisition'). In addition, we had
@@ -480,10 +502,10 @@ ISO 639-1 and as such the primary challenge is in fact mapping the names given
 in English text. To achieve this we collected lists of language names from the
 official SIL
 database\footnote{\url{http://www-01.sil.org/iso639-3/download.asp}} and from
-BabelNet~\cite{}, a large multi-lingual lexicon.
+BabelNet~\cite{navigli2010babelnet}, a large multi-lingual lexicon.
 
 We compared the results using two string similarity metrics, namely the Dice
-co-efficient and the Levenshtein distance, the results of which are reported in
+Co-efficient and the Levenshtein Distance, the results of which are reported in
 Table~\ref{tab:language-comparison}. We measured the accuracy by constructing a
 sample of 100 labels and manually mapping them to language codes and we present
 the results both as total number of labels matched and weighted by the usage of
@@ -501,7 +523,8 @@ language name variations.
 By the type of resource we mean the form of the resource, such as the basic
 categorization of META-SHARE into `Corpus', `Lexical Conceptual Resource', 
 `Lexical Description' and `Tool/Service'. For this, we used the properties from
-existing resources and applied the Babelfy linking algorithm~\cite{}. Once, we
+existing resources and applied the Babelfy linking
+algorithm~\cite{Moroetal:14tacl}. Once, we
 had this result, we manually selected those senses, which corresponded to
 language resources, giving us in total 143 categories of which the top 10 were:
 Sound', `Corpus',
@@ -619,7 +642,7 @@ results of this analysis are given in~\ref{tab:dupe-precision} and the number of
 duplicates detected in total is given in~\ref{tab:dupes}.
 
 
-\section{Linked Data Interface [JPM]}
+\section{Linked Data Interface}
 \label{linked-data-interface}
 
 
@@ -628,7 +651,7 @@ duplicates detected in total is given in~\ref{tab:dupes}.
 \caption{A screenshot of the Linghub interface\label{fig:screenshot}}
 \end{figure*}
 
-TO REWRITE (published in Semantics)
+\todo{TO REWRITE (published in Semantics)}
 
 In order to enable users to quickly and easily discover datasets, we set up a 
 portal for browsing the dataset. Naturally we set this up as a site that publishes
@@ -675,7 +698,7 @@ fact that many clients, notably client-side Javascript in browsers, will not
 accept XML due to security concerns. Other clients may still obtain SPARQL-XML
 by supplying the appropriate header or parameter in the query.
 
-\section{Evaluation [MA]}
+\section{Evaluation}
 \label{evaluation}
 
 \subsection{Evaluation Methodology}
@@ -745,6 +768,7 @@ LingHub, that also shows a power law distribution of resource language count.
 The rise above 20 languages can be explained by the use of European corpora that
 contain all European languages.  
 
+\todo{Markus: Can you provide original images for this paper?}
 
 \begin{figure}
     markus to upload
@@ -760,7 +784,7 @@ type}
     2                         & 1                  \\
     3                         & 2                  \\
     4                         & 1                  \\
-    > 20                      & 2                  \\
+    \textgreater 20                      & 2                  \\
     unspecified               & 7                  \\
 \end{tabular}
     \caption{\label{tab:language-constraints}  Language constraints in requests
@@ -803,7 +827,9 @@ search patterns can be defined, allowing for sub-patterns that are matched
 against solely against specified record fields, e.g.:
 
 \begin{verbatim}
-(title:corpus OR description:corpus) AND (description:(“part of speech” OR pos)) AND (language:(deu* OR german))
+(title:corpus OR description:corpus) AND 
+  (description:(“part of speech” OR pos)) AND 
+  (language:(deu* OR german))
 \end{verbatim}
 
 Since the overwhelming majority resource requests from the CML involved ‘soft’
@@ -812,12 +838,13 @@ descriptions, additional structured information about language or rights could
 not be harnessed during the query (as the sole facet choice already had to be
 used for the description). Especially for formulating multiple ‘soft’
 constraints against the resource descriptions the full text search capabilities
-from SQLite exposed in the search interface proved very useful. These
-possibilities should be advertised more prominently to users\footnote{
-    During the evaluation process one of the evaluators only became aware of the
-    availability of full-text query operators when examining YuZu source code to
-    obtain a better understanding of other aspects of the behaviour of the
-Linghub platform.}.  
+from SQLite exposed in the search interface proved very useful. 
+%These
+%possibilities should be advertised more prominently to users\footnote{
+%    During the evaluation process one of the evaluators only became aware of the
+%    availability of full-text query operators when examining YuZu source code to
+%    obtain a better understanding of other aspects of the behaviour of the
+%Linghub platform.}.  
 
 Some of the facets offered by Linghub are naturally textual (e.g., title,
 description, creator), but others are rather categorial with a limited set of
@@ -896,7 +923,8 @@ this relation but also incorporated searching for the language name in the
 Size was another important constraint that was never fully met. If size was a
 restriction, it always was in the range of billions of words, excluding all
 relevant corpora as too small. Corpora with millions of words were counted as
-related. It would be helpful to express this measure as an own datum in LingHub
+related. It would be helpful to express this measure as an own datum\todo{I
+don't understand this - JPM} in LingHub
 to help future searchers. However, it could only be automatically acquired by
 retrieving and parsing the resources, taking into account their format. This
 approach would thus be limited to open resources with detailed metadata. Again,
@@ -961,7 +989,8 @@ free text pattern syntax with field specifiers, this procedure can be sketched
 as: 
 
 \begin{verbatim}
-language:spa OR title:(spanish OR spain*) OR description:(spanish OR spain*)
+language:spa OR title:(spanish OR spain*) OR 
+  description:(spanish OR spain*)
 \end{verbatim}
 
 Analogous text-pattern fallback strategies might be employed for other
@@ -982,8 +1011,10 @@ level of correctness of such a process would presumably require a prohibitively
 great extend of manual annotation and curation
 
 
-\section{Conclusion [JPM, PC]}
+\section{Conclusion}
 \label{conclusion}
+
+\todo{JPM to finish}
 
 %\bibliographystyle{spbasic}      % basic style, author-year citations
 \bibliographystyle{spmpsci}      % mathematics and physical sciences

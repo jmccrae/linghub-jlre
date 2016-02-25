@@ -22,7 +22,7 @@
 %
 \begin{document}
 
-\title{Linghub: Harmonizing language resource metadata with linked data}
+\title{Discovering language resources using Linghub}
 \titlerunning{Linghub}
 
 \author{John P. McCrae       \and
@@ -78,72 +78,165 @@
 
 \section{Introduction}
 
-Most natural language processing systems rely to some extent on the use of
-datasets in the form of language resources to train themselves for a specific
-language or domain and as such the challenge of adapting a tool requires the
-discovery of suitable langauge resources. Unfortunately, language resources are
-often published independently by researchers and are thus difficult to discover
-with standard information retrieval mechansims (e.g., search engines) and can
-quickly become unavailable after a short period of time. There have been a couple of approaches to
-record information about language resources and they can be broadly divided into two approaches, which we
-term the \emph{curatorial} approach and the \emph{crowd-sourcing} approach. The
-curatorial approach relies on the use of expert ``curators'' to document the
-existing resources and create high quality \emph{metadata} about the resources
-that are available given time and funding for these efforts. This approach has the advantage that it produces
-comprehensive descriptions of the resources but has a crucial drawback that it
-is difficult for curators to describe, or even know about, all resources that
-are available. In contrast, the crowd-sourcing approaches relies on users to
-document resources in central catalogues ensuring that there are indexes where
-users can easily access these resources. This can provide significantly more
-coverage of the language resources that are available but has an issue with
-quality of the documentation of the resources is often weak, as the metadata
-descriptions are not created by experts but by users in an `ad-hoc' manner.
+The study of language and the development of natural language processing (NLP)
+applications requires access to language resources (LRs). Recently, several
+digital repositories that index metadata for LRs have emerged, supporting the
+discovery and reuse of LRs. One of the most notable of such initiatives is
+META-SHARE~\cite{federmann2012meta}, an open, integrated, secure and interoperable exchange
+infrastructure where LRs are documented, uploaded, stored, catalogued,
+announced, downloaded, exchanged and discussed, aiming to support reuse of
+LRs\footnote{\url{http://www.meta-share.eu}}. Towards this end, META-SHARE has developed a rich
+metadata schema that allows aspects of LRs accounting for their whole lifecycle
+from their production to their usage to be described. The schema has been
+implemented as an XML Schema Definition (XSD) 6 and descriptions of specific LRs
+are available as XML documents. Yet, META-SHARE is not the only source for
+discovering LRs and their descriptions; other sources include the catalogs of
+agencies dedicated to LRs promotion and distribution, such as
+ELRA\footnote{\url{http://www.elra.info}} and
+LDC\footnote{\url{https://www.ldc.upenn.edu/}}
+other infrastructures such as the CLARIN Virtual Language Observatory
+(VLO)~\cite{van2012semantic}, the Language Grid~\cite{ishida2006language} and
+Alveo\footnote{\url{http://alveo.edu.au/}}, the Open Language Archives
+Community~\cite[OLAC]{simons2003open}, catalogs with crowd-sourced metadata,
+such as the LRE-Map~\cite{calzolari2012lre}, and,
+more recently, repositories coming from various communities (e.g.
+OpenAire~\cite{manghi2010infrastructure},
+EUDAT\footnote{\url{http://www.eudat.eu}} etc.). The metadata schemes of all these sources vary with respect to
+their coverage and the set of specific metadata captured. Currently, it is not
+possible to query all these sources in an integrated and uniform fashion. The
+Web of Data is a natural scenario for exposing LRs metadata in order to allow
+their automated discovery, share and reuse by humans or software agents and the
+benefits of this model including interoperability.
 
-As both approaches have some clear and significant disadvantages it seems
-natural to ask if we can combine the advantages of these approaches.
-Thus, we propose an \emph{integral} approach that relies on
-collecting metadata about language resources from multiple sources and
-integrating them into single records. This relies on the use of state-of-the-art
-techniques including word sense disambiguation in order to link the resources
-and ensure that they refer to values in the same way. For example, a resource
-may have a property called `language' but its value may be a language name in
-English or another language or an identifier such as an ISO 639
-code~\cite{gordon2005ethnologue} of which there are 3 variants. 
+In this paper, we are concerned with how to facilitate the discovery of language
+resources for a particular task. Given the fact that metadata records for
+resources are distributed among different catalogs and repositories makes the
+task of finding a particular resource meeting certain requirements very
+challenging. This is shown by the fact that many emails to dedicated
+mailing lists such as the copora mailingi list contain requests for resources
+meeting certain desiderate with respect to type of resource (corpus, dictionary,
+parallel text, etc.), language, size (in tokens or sentences), etc.
+So far, no repository that allows to discover resources across repositories has
+been available. We have closed this gap by developing Linghub, a linked data
+based portal that indexes and aggregates metadata entries from different
+repositories including \todo{...}
+
+Parts of the Linghub as a technical system has been described
+before~\cite{mccrae2015reconciling,mccrae2015linghub}. Linghub not
+only indexes the metadata entries, but also harmonizes the information by
+mapping it to standard semantic web vocabularies as well as to an ontology to
+describe language resources that has been developed on the basis of the existing
+Metashare schema~\cite{mccrae2015ontology}.
+For this, it relies on state-of-the-art word sense disambiguation methods to
+support the normalization of data. 
 
 One of the crucial technologies that enables this integration is that of
-RDF~\cite{klyne2006resource} and linked data. Linked data is based on four fundamental
-principals~\cite{bizer2009linked}.
+RDF~\cite{klyne2006resource} and linked data. Linked data is based on four fundamental princi-
+pals~\cite{bizer2009linked}.
 
 \begin{enumerate}
-    \item Use Uniform Resource Identifiers to identify everything in a resource,
-        thus ensuring that every element of the resource can be identified in a
-        standard manner.
-    \item Furthermore, use HTTP URLs as they require the association with domain
-        names, ensuring that the data can
-        be clearly traced to its host and thus someone responsible for that
-        dataset.
-    \item Ensure that URLs resolve, in the sense that when typed in to a web
-        browser an appropriate description of the resource is obtained. Ideally
-        the server should detect (using content negotiation) the type of the
-        user and provide HTML results for humans and XML or JSON for software
-        agents.
+    \item Use Uniform Resource Identifiers  to identify everything in a resource, thus
+        ensuring that every element of the resource can be identified in a standard
+        manner.
+    \item Furthermore, use HTTP URLs as they require the association with domain names,
+        ensuring that the data can be clearly traced to its host and thus someone
+        responsible for that dataset.
+    \item Ensure that URLs resolve, in the sense that when typed in to a web browser an
+        appropriate description of the resource is obtained. Ideally the server should
+        detect (using content negotiation) the type of the user and provide HTML
+        results for humans and XML or JSON for software agents.
     \item Provide links to other resources so that it is possible to identify
         commonalities between resources and to handle issues of semantic
         interoperability and provenance.
 \end{enumerate}
 
-Linked data makes a very good fit for the task of integrating information about
-language resources as it is natural that this would be handled by means of a web
-portal and thus stable URLs for resources are easily decided. It is obvious that
-HTML descriptions should be provided and in order to meet use cases for
-automatic training of NLP systems, we find the provision of a machine-ready API
-also of vital importance. Finally, links to other resources are vital to not
-only provide links back to the source records, but also to ensure that users can
-find out more information about the properties used to describe language resources.
+Linked data makes a very good model for the task of integrating information
+about language resources as it is natural that this would be handled by means
+of a web portal and thus stable URLs for resources are easily decided. It is
+obvious that HTML descriptions should be provided and in order to meet
+use cases for automatic training of NLP systems, we find the provision of a
+machine-ready API also of vital importance. Finally, links to other resources
+are vital to not only provide links back to the source records, but also to ensure
+that users can find resourcs for their needs.
 
-In this paper, we present the Linghub system, which aims to integrate language
-resources by means of linked data and thus provide a single accessible portal
-for both humans and machines to find suitable language resources or their needs.
+In this paper, besides describing Linghub and the semantic normalization
+methods used for the sake of completeness, we focus on an evaluation of the
+ability of Linghub to answer actually users needs seeking for language
+resources meeting certain criteria. For this, we have analyzed user requests
+for resources issued on Corpora List and analyzed in how far Linghub is
+able to answer them. This evaluation is the main contribution of the current
+paper. We are not aware of any similar evaluation conducted in the context of
+repositories of language resources, so that to our knowledge this is the first
+attempt to evaluate the ability of a repository to answer requests for language
+resources.
+
+%Most natural language processing systems rely to some extent on the use of
+%datasets in the form of language resources to train themselves for a specific
+%language or domain and as such the challenge of adapting a tool requires the
+%discovery of suitable langauge resources. Unfortunately, language resources are
+%often published independently by researchers and are thus difficult to discover
+%with standard information retrieval mechansims (e.g., search engines) and can
+%quickly become unavailable after a short period of time. There have been a couple of approaches to
+%record information about language resources and they can be broadly divided into two approaches, which we
+%term the \emph{curatorial} approach and the \emph{crowd-sourcing} approach. The
+%curatorial approach relies on the use of expert ``curators'' to document the
+%existing resources and create high quality \emph{metadata} about the resources
+%that are available given time and funding for these efforts. This approach has the advantage that it produces
+%comprehensive descriptions of the resources but has a crucial drawback that it
+%is difficult for curators to describe, or even know about, all resources that
+%are available. In contrast, the crowd-sourcing approaches relies on users to
+%document resources in central catalogues ensuring that there are indexes where
+%users can easily access these resources. This can provide significantly more
+%coverage of the language resources that are available but has an issue with
+%quality of the documentation of the resources is often weak, as the metadata
+%descriptions are not created by experts but by users in an `ad-hoc' manner.
+%
+%As both approaches have some clear and significant disadvantages it seems
+%natural to ask if we can combine the advantages of these approaches.
+%Thus, we propose an \emph{integral} approach that relies on
+%collecting metadata about language resources from multiple sources and
+%integrating them into single records. This relies on the use of state-of-the-art
+%techniques including word sense disambiguation in order to link the resources
+%and ensure that they refer to values in the same way. For example, a resource
+%may have a property called `language' but its value may be a language name in
+%English or another language or an identifier such as an ISO 639
+%code~\cite{gordon2005ethnologue} of which there are 3 variants. 
+%
+%One of the crucial technologies that enables this integration is that of
+%RDF~\cite{klyne2006resource} and linked data. Linked data is based on four fundamental
+%principals~\cite{bizer2009linked}.
+%
+%\begin{enumerate}
+%    \item Use Uniform Resource Identifiers to identify everything in a resource,
+%        thus ensuring that every element of the resource can be identified in a
+%        standard manner.
+%    \item Furthermore, use HTTP URLs as they require the association with domain
+%        names, ensuring that the data can
+%        be clearly traced to its host and thus someone responsible for that
+%        dataset.
+%    \item Ensure that URLs resolve, in the sense that when typed in to a web
+%        browser an appropriate description of the resource is obtained. Ideally
+%        the server should detect (using content negotiation) the type of the
+%        user and provide HTML results for humans and XML or JSON for software
+%        agents.
+%    \item Provide links to other resources so that it is possible to identify
+%        commonalities between resources and to handle issues of semantic
+%        interoperability and provenance.
+%\end{enumerate}
+%
+%Linked data makes a very good fit for the task of integrating information about
+%language resources as it is natural that this would be handled by means of a web
+%portal and thus stable URLs for resources are easily decided. It is obvious that
+%HTML descriptions should be provided and in order to meet use cases for
+%automatic training of NLP systems, we find the provision of a machine-ready API
+%also of vital importance. Finally, links to other resources are vital to not
+%only provide links back to the source records, but also to ensure that users can
+%find out more information about the properties used to describe language resources.
+%
+%In this paper, we present the Linghub system, which aims to integrate language
+%resources by means of linked data and thus provide a single accessible portal
+%for both humans and machines to find suitable language resources or their needs.
+
 This paper is structured as follows: Firstly, in Section~\ref{related-work} we
 will discuss some of the existing related work in particular focussing on the
 metadata repositories that we will integrate and in
@@ -164,35 +257,77 @@ evaluation of the system.}
 \section{Related Work}
 \label{related-work}
 
-\todo{JPM to finish (please help)}
+Harmonization has been a topic of significant importance in managing metadata
+and it has been noted in several domains that the task of combining metadata
+from multiple sources. Nilsson~\cite{nilsson2010interoperability} proposed
+a framework for this, where he argues that syntax is of little importance and
+that harmonization primarily needs to be conducted on a semantic level and he
+concludes that RDF forms a good model to achieve this. Khoo and
+Hall~\cite{khoo2010merging} worked on merging the Internet Public Library and
+the Librarian’s Internet Index and conclude that such resource is very
+`ad-hoc' and `resource intensive'. Nogueras et
+al.~\cite{nogueras2004metadata} similarly developed `crosswalks' for
+geographic data and stress the need for formal modelling such as ontologies for
+verifying such crosswalks. Chan and Zeng~\cite{chan2006metadata} also focus
+on the use of crosswalks and its use in provding optimal access to data. 
 
-\cite{nilsson2010interoperability,khoo2010merging,nogueras2004metadata}. 
-
-Monolithic vs. linked
-
-In this line, some experts have recommended \cite{brooks2006towards}:
+One of the key issues in this has between `monolithic' metadata schemas where
+one organization has developed and maintained a single and fixed schema for
+representing metadata. Such standards, frequently defined by fixed XML DTDs and can
+be useful in providing a minimal level of description between multiple resources
+however they cannot by their very nature capture all the complexities of the
+representation of metadata. A highly successful instance of this is Dublin
+Core~\cite{weibel1998dublin}, where a small fixed set of properties has found
+use in a wide variety of applications.
+Instead, some experts have recommended open schemas\cite{brooks2006towards}:
 
 \begin{quote}
 ``A larger set of ontologies sufficient for particular purposes should
 be used instead of a single highly constrained taxonomy of values.''
 \end{quote}
 
-META-SHARE~\cite{gavrilidou2012meta},\cite{piperidis2012meta}.
+On the other hand open schemas are difficult
+as they can often lead to a large number of identifiers for the same properties
+or concepts, which has lead to the failure of such schemes in the
+past~\cite{kemps2008isocat}. The proposal of linked data to allow for additional
+properties to be dereferenced and thus for extra information about their
+semantics to be extracted has formed the basis of the Semantic Web. In this
+context, there have been several vocabularies defined for representing metadata
+about data resources, notably the VoID model~\cite{alexander2011describing}, the
+DCAT model~\cite{maali2014data} and its recent extension
+DataID~\cite{brummer2014dataid}. These have the possibility to enable more
+flexible description of language resources and it has even been suggested that
+these resources could be automatically collected~\cite{jenkins1999automatic}.
 
-CLARIN, the \emph{CMDI Component
-Specification Language}~\cite{broeder2012cmdi}, \cite{van2012semantic}
+In the context of language resources, there have been a number of attempts to
+collect generic metadata about language resource. Firstly
+META-SHARE~\cite{gavrilidou2012meta,piperidis2012meta}, which has relied on
+creating descriptions of language resources manually but has still be able to
+describe in detail a large number of language resources. Another approach that
+relies on institutional collection of metadata was taken by the CLARIN project,
+whose \emph{Virtual Language Observatory}~\cite{van2012semantic} collects
+metadata from a number of host institutes by means of
+OAI-PMH~\cite{sompel2004resource} with a small amount of harmonization provided
+by the \emph{CMDI Component 
+Specification Language}~\cite{broeder2012cmdi}. A similar project called
+SHACHI~\cite{tohyama2008shachi} has worked on collecting resources on Asian
+languges. Another approach in this area is the use of International Standardized
+Language Resource Numbers~\cite[ISLRN]{choukri2012using}, where basic metadata
+has been collected about each resource and they have all been assigned a single
+number.
 
-LRE-Map~\cite{calzolari2012lre} 
-
-OLAC \cite{piperidis2012meta}
-
-SHACHI \cite{tohyama2008shachi}
-
-ISLRN \cite{choukri2012using}
-
-
-
-\emph{Open Linguistics Working Group}~\cite{chiarcos2012open} 
+As an alternative to the institutional approach, some resources have relied on
+self-reporting of resource metadata, most notably the
+LRE-Map~\cite{calzolari2012lre}, which collects information from authors at
+major research conferences in computational linguistics and as such they are
+able to collect information on a wide variety of language resources but often
+leads to quality issues. A similar project, the Open Language Archive
+Community~\cite[OLAC]{piperidis2012meta} is inbetween both approaches collecting
+resources from a wide community but trying to bring them into a very fixed
+schema for their resources. Finally, we note the work of the \emph{Open
+Linguistics Working Group}~\cite{chiarcos2012open} a community, which has
+promoted the use of open data and produced a `cloud diagram' showing the
+adoption of linked data language resources over the last four years.
 
 \section{Data Collection}
 \label{data-collection}
@@ -715,7 +850,7 @@ service; the language the resource is applicable for; the relative size of the
 resource measured in various metrics like word count and additional qualities,
 like intended use.  
 
-Each request was then searched for in LingHub using both, the standard search
+Each request was then searched for in Linghub using both, the standard search
 \footnote{To make the search for suitable interface queries more time-efficient,
     a prototype for the query was first developed testing equivalent SQL queries
     against the SQLite database schema backing the YuZu TripleBackend, since for
@@ -733,7 +868,7 @@ classification models''.
 
 \subsubsection{Limitations}
 
-The methodology chosen can only evaluate LingHub in a limited way. The first and
+The methodology chosen can only evaluate Linghub in a limited way. The first and
 most important limitation is the biased sample of queries. People asking for
 help on the Corpora Mailing List will most probably already have searched using
 standard means, such as Google or repositories known to them. This can limit the
@@ -745,7 +880,7 @@ applicability of this evaluation.
 Although the timespan examined constitutes a reasonable sample with six months
 of mailing list requests analysed, the number of queries is quite low. However,
 as section 2 will detail, their overall type and language profile matches
-available LingHub data.
+available Linghub data.
 Due to the complicated nature of the requests, translating them from natural
 language to concise and reasonably narrow queries to the search interface
 respectively SPARQL constitutes another hurdle, that is hard to control for. 
@@ -760,11 +895,11 @@ and the preferred language of the resource. Requested resource types were
 limited to corpora, tools, lexical and spoken resources. Corpora were requested
 in nearly 70\% of the cases, followed by tools (17.4\%) and lexical resources
 (13.0\%). As seen in Figure 1, this resembles the resource distribution in
-LingHub, where 71.5\% are corpora as well. 
+Linghub, where 71.5\% are corpora as well. 
 Most language restrictions asked for one language or made no specification at
 all. The falling number of requests for higher language restriction count with a
 small rise above 20 languages again resembles the resource distribution in
-LingHub, that also shows a power law distribution of resource language count.
+Linghub, that also shows a power law distribution of resource language count.
 The rise above 20 languages can be explained by the use of European corpora that
 contain all European languages.  
 
@@ -772,7 +907,7 @@ contain all European languages.
 
 \begin{figure}
     markus to upload
-    \caption{\label{fig:req-by-type}LingHub resources and resource requests by
+    \caption{\label{fig:req-by-type}Linghub resources and resource requests by
 type}
 \end{figure}
 
@@ -788,14 +923,14 @@ type}
     unspecified               & 7                  \\
 \end{tabular}
     \caption{\label{tab:language-constraints}  Language constraints in requests
-        and resources available in LingHub covering specific numbers of
+        and resources available in Linghub covering specific numbers of
     languages}
 \end{table}
 
 \begin{figure}
     markus to upload
     \caption{\label{fig:language-constraints} Language constraints in requests
-        and resources available in LingHub covering specific numbers of
+        and resources available in Linghub covering specific numbers of
     languages}
 \end{figure}
 
@@ -889,7 +1024,7 @@ missing information of an additional potentially useful resource.
 \subsection{SPARQL search}
 
 While the standard search interface presents the default access point to the
-LingHub knowledge base, SPARQL search is regarded as ``advanced search''. Using
+Linghub knowledge base, SPARQL search is regarded as ``advanced search''. Using
 SPARQL naturally solves most issues of the standard search interface, as it can
 be used for granular search in arbitrary literal fields and natively provides
 logical operators for filters to combine them. If values are modelled as
@@ -898,7 +1033,7 @@ relations, working on a well-defined, semantic level. The only disadvantage of
 SPARQL is its inaccessibility to most linguists that don’t have firm knowledge
 in database query languages.  
 
-SPARQL queries were written and executed using the downloaded LingHub dump for
+SPARQL queries were written and executed using the downloaded Linghub dump for
 convenience. The queries and detailed results can be found in the appendix.
 
 Figure 4 shows the results for each of the queries. Excluding queries 6 and 18
@@ -924,7 +1059,7 @@ Size was another important constraint that was never fully met. If size was a
 restriction, it always was in the range of billions of words, excluding all
 relevant corpora as too small. Corpora with millions of words were counted as
 related. It would be helpful to express this measure as an own datum\todo{I
-don't understand this - JPM} in LingHub
+don't understand this - JPM} in Linghub
 to help future searchers. However, it could only be automatically acquired by
 retrieving and parsing the resources, taking into account their format. This
 approach would thus be limited to open resources with detailed metadata. Again,
@@ -999,12 +1134,12 @@ option in the search interfaces.
 
 Several of the examined resource requests from the CML asking for corpora also
 formulated minimal requirements for their size. About 4000 resources listed in
-LingHub carry property-value pairs for numeric values quantifying their size
+Linghub carry property-value pairs for numeric values quantifying their size
 according to a specified unit. Excluding also cases where the unit is not
 clearly specified or where the size value is just a sentinel value for ‘no
 available’, about 2490 resources with well defined, structured size information
 remain (all of these originate from META-SHARE).  Increasing this coverage
-towards a substantial portion of corpus resources indexed in LingHub would be
+towards a substantial portion of corpus resources indexed in Linghub would be
 quite beneficial. However, although missing size information could probably be
 extracted from description texts for many resources, achieving a satisfactory
 level of correctness of such a process would presumably require a prohibitively

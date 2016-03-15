@@ -582,7 +582,34 @@ While accessing a resource is one of the important goals of any research, any
 responsible researcher must take into account the license that a resource is
 released under. 
 
-\todo{VRD to expand}
+It is not an infrequent case that users searching LRs want to determine which licenses are acceptable for their purposes. 
+Each of the different platforms providing access to LRs have different means to select the desired licenses. 
+\begin{itemize}
+\item The META-SHARE portal offers a faceted browsing where one of the facets is the license declared for the resource. The browsing experience is enhanced by other facets that permit discriminating resources based on their availability (restricted/unrestricted) or by their restrictions of use (like 'commercial use allowed'). This is a rather satisfactory organization of the information more complete than the other platforms. 
+\item The CLARIN Virtual Language Observatory (https://vlo.clarin.eu) also offers a faceted browsing, and one of the 8 facets is devoted to the 'availability'. Many of the resources fall under diffuse categories (such as "`open"' or "`free"') without referring the actual licenses. The metadata describing the license is a free text instead a URI neatly determining the license in use. 
+\item ALVEO PENDING TO BE DONE
+\item The OLAC Language Resource Catalog offers the search functionality from their portal at http://search.language-archives.org/ and a faceted search as well. However, catalogued resources seem to lack this information, existing only three types of licenses ('cc-by-nd', 'cc-by-sa' and 'others') making the navigation impracticable. An additional facet for 'other rights' performs no better due to the opposite reason: there are so many types of 'rights' that it is not possible to search with a given criterium.
+\item The LREMap resource portal (http://www.resourcebook.eu/) does not permit searching by license. Further, once obtained the resources they include a 'license' description but in a textual manner. 
+\item Datahub.io permits selecting the license in the faceted browsing they offer (https://datahub.io/). Although nothing prevents dataset creators from declaring their own licenses, they are driven by the user interface to use one of the pre-determined license-types. This greatly reduces the license proliferation and searching by rights in datahub is still relatively acceptable.
+%<Access>
+%<Availability>open access</Availability>
+%<Date>Unspecified</Date>
+%<Owner>Goh, Jeannine; Lieven, Elena</Owner>
+%<Publisher>TalkBank</Publisher>
+%<Contact>
+%<Name>Prof. Brian MacWhinney</Name>
+%<Address>
+%Psychology Dept., 5000 Forbes av., Pittsburgh, PA 15213
+%</Address>
+%<Email>macw@cmu.edu</Email>
+%<Organisation>CMU</Organisation>
+%</Contact>
+%</Access>
+\end{itemize}
+
+The best description of the rights information is given by licenses with a well defined URI. If this were regularly the case, the \textit{license profileration} problem would be easily solvable. From this perspective, the META-SHARE portal is the best one; with Linghub having equivalent capabilities -only improved for true experts capable of formulating SPARQL queries. 
+
+\todo{Devised experiment: given 5 non-experienced users, ask them to look for specific resources with a license constraint (e.g. permitting commercial exploitation) and measure the time it takes them and their opinion on each of the user interfaces. What do you think? Does it make sense?}
 
 \subsection{Usage}
 

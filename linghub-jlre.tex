@@ -820,52 +820,33 @@ duplicates detected in total is given in~\ref{tab:dupes}.
 \caption{A screenshot of the Linghub interface\label{fig:screenshot}}
 \end{figure*}
 
-\todo{TO REWRITE (published in Semantics)}
+Proper access to the dataset requires a pleasant and functional interface and
+the design of such an interface should not be ignored. As such, we provide
+Linghub as a website that allows both humans to see the data in the form of HTML
+pages and for computers to access that data in the following formats: RDF/XML,
+Turtle, N-Triple and JSON-LD. Simple templates are used that render the data in
+HTML so that human users can obtains a consistent view of the data, from all of
+the sources displayed in Linghub. Furthermore, we provided some extra
+mechanisms, by which users could access the data
 
-In order to enable users to quickly and easily discover datasets, we set up a 
-portal for browsing the dataset. Naturally we set this up as a site that publishes
-the individual records as either RDF or HTML, with the actual content delivered
-to the client decided by means of content negotiation. We developed 
-templates that render the RDF in a readable manner, while still appearing close
-to the data in such a way that users would get a consistent view of a dataset record even
-if it came from a different original source and hence had very different
-properties.
-In addition, we provide a 
-number of mechanisms by which users and automated agents can discover a dataset.
-For users, we allowed resources to be discovered by means of faceted browsing by
-enabling users to select properties and their values. We fixed the list of
-properties in advance to those that have been harmonized so as to not overload
-the user with choices for properties that only occur for a few datasets and also
-to enable the compilation of indexes to speed up page load times. In addition the
-front page of Linghub contains a free-text search engine allowing the users to
-query fields by a property. This free-text search engine is powered by a
-separate index which includes not only the text of data properties but also the
-labels of URIs which appear as the value of object properties. 
-Machine-based agents may access
-the endpoint by means of SPARQL querying, although the endpoint limits the agents
-to a subset of the SPARQL query language. The goal of this is to enable constant
-query-time without overloading our server. The nature of SPARQL makes it very
-easy for users to write queries that are of a complexity that would not be easy
-to answer and other sites have attempted to handle this by enforcing timeouts on
-SPARQL queries. In general we find this solution to be sub-optimal as it
-means that queries may fail unpredictably if the server has many concurrent
-connections. Instead, we limit the complexity of the queries themselves by
-requiring that the triples have certain properties that can be easily answered.
-These include:
-
-\begin{enumerate}
-    \item A required limit on the number of results;
-    \item The property may not be a variable, thus limiting the number of
-        results;
-    \item The query must be a `tree' in that every triples should be connected
-        from a single root node.
-\end{enumerate}
-
-Furthermore, the SPARQL endpoint also by default returns SPARQL-JSON
-results\cite{seaborne2013sparql}, so that the results may be easily applied. This is based on the
-fact that many clients, notably client-side Javascript in browsers, will not
-accept XML due to security concerns. Other clients may still obtain SPARQL-XML
-by supplying the appropriate header or parameter in the query.
+\begin{description}
+    \item[Faceted browsing] Users can choose to slice datasets up by a number of
+        elements including language, rights, type, creator, source, contributor
+        and subject. The users can see all relevant dataset as well as querying
+        specific parameters
+    \item[Free-text search] The most common search method employed on the Web is
+        free-text search and we employ this by building a search interface that 
+        indexes all the literal values in the data and allows free search over
+        them. In addition, for certain values, especially languages we added in
+        the values of the literals and indexed them\todo{note sure this is
+        working}.
+    \item[SPARQL search] Finally, we enabled SPARQL search for advanced and
+        automated users, that as we show in the evaluation improves the ability
+        of clients to find relevant results. For performance reasons, we limit
+        the expressiveness of queries to those that are likely to be easy to
+        compute. The endpoint by default returns results in
+        JSON~\cite{seaborne2013sparql}.
+\end{description}
 
 \section{Evaluation}
 \label{evaluation}

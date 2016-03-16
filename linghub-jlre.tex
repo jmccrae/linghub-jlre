@@ -33,6 +33,7 @@
     Daniel Vila              \and
     Gabriela Vulcu           \and
     Andrejs Abele            \and
+    Paul Buitelaar           \and
     Luca Matteis             \and
     Tiziano Flati            \and
     Jorge Gracia}
@@ -40,7 +41,7 @@
 
     \authorrunning{McCrae et al.}
 
-\institute{John P. McCrae, Gabriela Vulcu, Andrejs Abele \at
+\institute{John P. McCrae, Gabriela Vulcu, Andrejs Abele, Paul Buitelaar \at
               Insight Centre for Data Analytics \\
               National University of Ireland Galway \\
               \email{john@mccr.ae, \{gabriela.vulcu,
@@ -88,7 +89,7 @@ announced, downloaded, exchanged and discussed, aiming to support reuse of
 LRs\footnote{\url{http://www.meta-share.eu}}. Towards this end, META-SHARE has developed a rich
 metadata schema that allows aspects of LRs accounting for their whole lifecycle
 from their production to their usage to be described. The schema has been
-implemented as an XML Schema Definition (XSD) 6 and descriptions of specific LRs
+implemented as an XML Schema Definition (XSD) and descriptions of specific LRs
 are available as XML documents. Yet, META-SHARE is not the only source for
 discovering LRs and their descriptions; other sources include the catalogs of
 agencies dedicated to LRs promotion and distribution, such as
@@ -113,13 +114,13 @@ resources for a particular task. Given the fact that metadata records for
 resources are distributed among different catalogs and repositories makes the
 task of finding a particular resource meeting certain requirements very
 challenging. This is shown by the fact that many emails to dedicated
-mailing lists such as the copora mailingi list contain requests for resources
-meeting certain desiderate with respect to type of resource (corpus, dictionary,
+mailing lists such as the copora mailing list contain requests for resources
+meeting certain desiderata with respect to type of resource (corpus, dictionary,
 parallel text, etc.), language, size (in tokens or sentences), etc.
-So far, no repository that allows to discover resources across repositories has
+So far, no repository that allows discovery of resources across repositories has
 been available. We have closed this gap by developing Linghub, a linked data
 based portal that indexes and aggregates metadata entries from different
-repositories including \todo{...}
+repositories including META-SHARE, the CLARIN VLO, LRE-Map and Datahub.io.
 
 Parts of the Linghub as a technical system has been described
 before~\cite{mccrae2015reconciling,mccrae2015linghub}. Linghub not
@@ -150,18 +151,18 @@ pals~\cite{bizer2009linked}.
         interoperability and provenance.
 \end{enumerate}
 
-Linked data makes a very good model for the task of integrating information
+Linked data makes a highly appropriate model for the task of integrating information
 about language resources as it is natural that this would be handled by means
 of a web portal and thus stable URLs for resources are easily decided. It is
 obvious that HTML descriptions should be provided and in order to meet
 use cases for automatic training of NLP systems, we find the provision of a
-machine-ready API also of vital importance. Finally, links to other resources
+machine-readable API also of vital importance. Finally, links to other resources
 are vital to not only provide links back to the source records, but also to ensure
-that users can find resourcs for their needs.
+that users can find resources for their needs.
 
 In this paper, besides describing Linghub and the semantic normalization
-methods used for the sake of completeness, we focus on an evaluation of the
-ability of Linghub to answer actually users needs seeking for language
+methods used, we provide an evaluation of the
+ability of Linghub to answer the needs of actual users seeking language
 resources meeting certain criteria. For this, we have analyzed user requests
 for resources issued on Corpora List and analyzed in how far Linghub is
 able to answer them. This evaluation is the main contribution of the current
@@ -249,7 +250,8 @@ Section~\ref{linked-data-interface}. In Section~\ref{evaluation}, we provide a
 thorough evaluation of the system based on real-world queries and thus show the
 effectiveness of our approach, and finally we conclude in
 Section~\ref{conclusion}.\footnote{Some results in this paper have been
-    previously published in the following workshop papers \cite{}. The results
+    previously published in the following workshop papers
+    \cite{mccrae2015linghub,mccrae2015reconciling,mccrae2015ontology}. The results
     and methods are expanded and combined in this paper in line with the journal
     guidelines. In addition, Section~\ref{evaluation} provides a novel
 evaluation of the system.}
@@ -392,13 +394,13 @@ difficulty in consolidating them with our model.
 
 META-SHARE is provided primarily in a format described in
 \cite{gavrilidou2012meta}, which is
-and XML format and contains \textbf{XXX}\todo{Fix} elements and as such is a highly complex XML
+and XML format and contains over 150 elements and as such is a highly complex XML
 format. We developed a custom invertible framework called LIXR (pronounced
 `elixir')~\footnote{http://github.com/liderproject/lixr}, which allows us to easily and
 quickly define the conversion between META-SHARE and RDF. As a great many of the
 elements defined in the META-SHARE schema are very unique many of the elements
 have to be created in a new ontology, which we developed as the META-SHARE
-ontology, which is described in \cite{todo}. 
+ontology, which is described in \cite{mccrae2015ontology}. 
 
 \subsection{CLARIN}
 
@@ -453,8 +455,10 @@ and can be done at regular intervals.
 In addition, we looked at three other sources that cannot be included in the
 public release of Linghub due to the licensing issues. These are OLAC, which
 uses an XML format and much like CLARIN this format uses different schemas for
-different data producers. Secondly, there are the catalogues of ELRA and LDC
-both of which are... \todo{.... I can't remember.}
+different data producers. Secondly, there are the catalogues of the European 
+Language Resource Association and the Linguistic Data Consoritium. The ELRA data
+was made available as an XML file and we wrote a converter for it. The LDC data
+can be extracted by crawling the website.
 
 \section{Modelling}
 \label{modelling}
@@ -485,7 +489,9 @@ elements, when available were directly added to the model. In many cases, basic
 properties in the META-SHARE ontology, such as the language of a resource, were
 to be found nested under several layers of tags and in such cases we added
 property chain links so that they would be more compatible with other resources.
-\todo{Give an example}
+For example, the rights statement of a resource could be found only under the 
+headings ``Distribution Info'', ``Licence Info'' and ``Licence'', and so we
+added this property also directly to the root data element to comply with DCAT.
 In addition, META-SHARE contains significant resource type specific information
 that is defined by the type of the language resource: one of \emph{corpus},
 \emph{tool/service}, \emph{language description} or \emph{lexical conceptual
@@ -580,15 +586,16 @@ images were found, which were generally scans of historical documents.
 
 While accessing a resource is one of the important goals of any research, any
 responsible researcher must take into account the license that a resource is
-released under. 
-
-It is not an infrequent case that users searching LRs want to determine which licenses are acceptable for their purposes. 
+released under.  Thus, It is not an infrequent case that users searching LRs want to determine which licenses are acceptable for their purposes. 
 Each of the different platforms providing access to LRs have different means to select the desired licenses. 
 \begin{itemize}
-\item The META-SHARE portal offers a faceted browsing where one of the facets is the license declared for the resource. The browsing experience is enhanced by other facets that permit discriminating resources based on their availability (restricted/unrestricted) or by their restrictions of use (like 'commercial use allowed'). This is a rather satisfactory organization of the information more complete than the other platforms. 
-\item The CLARIN Virtual Language Observatory (https://vlo.clarin.eu) also offers a faceted browsing, and one of the 8 facets is devoted to the 'availability'. Many of the resources fall under diffuse categories (such as "`open"' or "`free"') without referring the actual licenses. The metadata describing the license is a free text instead a URI neatly determining the license in use. 
-\item ALVEO PENDING TO BE DONE
-\item The OLAC Language Resource Catalog offers the search functionality from their portal at http://search.language-archives.org/ and a faceted search as well. However, catalogued resources seem to lack this information, existing only three types of licenses ('cc-by-nd', 'cc-by-sa' and 'others') making the navigation impracticable. An additional facet for 'other rights' performs no better due to the opposite reason: there are so many types of 'rights' that it is not possible to search with a given criterium.
+\item The META-SHARE portal offers a faceted browsing where one of the facets is the license declared for the resource. The browsing experience is enhanced by other facets that permit discriminating resources based on their availability (restricted/unrestricted) or by their restrictions of use (like `commercial use allowed'). This is a rather satisfactory organization of the information more complete than the other platforms. 
+\item The CLARIN Virtual Language Observatory (https://vlo.clarin.eu) also
+    offers a faceted browsing, and one of the 8 facets is devoted to the
+    'availability'. Many of the resources fall under diffuse categories (such as
+    ``open'' or ``free'') without referring the actual licenses. The metadata describing the license is a free text instead a URI determining the license in use. 
+\item ALVEO \todo{PENDING TO BE DONE}
+\item The OLAC Language Resource Catalog offers the search functionality from their portal at http://search.language-archives.org/ and a faceted search as well. However, catalogued resources seem to lack this information, existing only three types of licenses (`CC-BY-ND', `CC-BY-SA' and `others') making the navigation impracticable. An additional facet for 'other rights' performs no better due to the opposite reason: there are so many types of 'rights' that it is not possible to search with a given criterium.
 \item The LREMap resource portal (http://www.resourcebook.eu/) does not permit searching by license. Further, once obtained the resources they include a 'license' description but in a textual manner. 
 \item Datahub.io permits selecting the license in the faceted browsing they offer (https://datahub.io/). Although nothing prevents dataset creators from declaring their own licenses, they are driven by the user interface to use one of the pre-determined license-types. This greatly reduces the license proliferation and searching by rights in datahub is still relatively acceptable.
 %<Access>
@@ -607,7 +614,7 @@ Each of the different platforms providing access to LRs have different means to 
 %</Access>
 \end{itemize}
 
-The best description of the rights information is given by licenses with a well defined URI. If this were regularly the case, the \textit{license profileration} problem would be easily solvable. From this perspective, the META-SHARE portal is the best one; with Linghub having equivalent capabilities -only improved for true experts capable of formulating SPARQL queries. 
+The best description of the rights information is given by licenses with a well defined URI. If this were regularly the case, the \textit{license profileration} problem would be easily solvable. From this perspective, the META-SHARE portal is the best one; with Linghub having equivalent capabilities only improved for true experts capable of formulating SPARQL queries. 
 
 \todo{Devised experiment: given 5 non-experienced users, ask them to look for specific resources with a license constraint (e.g. permitting commercial exploitation) and measure the time it takes them and their opinion on each of the user interfaces. What do you think? Does it make sense?}
 
@@ -717,7 +724,7 @@ resources are in fact recordings of singing in under-resourced languages},
 
 \begin{table*}
     \begin{center}
-        \begin{tabular}{ll|ccc}
+        \begin{tabular}{lp{35mm}|ccc}
         Resource    & Resource    & Duplicate Titles & Duplicate URLs & Both \\
         \hline                                                                  
         CLARIN      & CLARIN{\tiny~(other contributing institute)}      & 1,202            & 2,884          & 0    \\

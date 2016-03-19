@@ -816,7 +816,7 @@ duplicates detected in total is given in~\ref{tab:dupes}.
 
 
 \begin{figure*}
-\includegraphics[width=\textwidth]{linghub-screenshot.png}
+\includegraphics[width=\textwidth]{img/linghub-screenshot.png}
 \caption{A screenshot of the Linghub interface\label{fig:screenshot}}
 \end{figure*}
 
@@ -968,7 +968,7 @@ While trying to express the facets of the questions from the CML in Linghub,
 several shortcomings both of the browsing functionality and the `simple' search
 became apparent. 
 The inability to declare combined restrictions for several facets (description,
-language, rights, $\cdots$) simultaneously is presumably the most crucial limitation
+language, rights, \ldots) simultaneously is presumably the most crucial limitation
 for both the browsing interface and the search form. Online catalogues usually
 either offer alternative search form for `advanced' users where a flexible
 number of pairs of field specifiers and a corresponding search patterns can be
@@ -1000,11 +1000,11 @@ Some of the facets offered by Linghub are naturally textual (e.g., title,
 description, creator), but others are rather categorial with a limited set of
 options (e.g., resource type, language). The usability of the search interface
 could benefit if constraint formulation for the categorial facets would be
-designed in a different manner as a simple full-text search field, presenting
+designed in a manner different from a simple full-text search field, presenting
 the set of options and allowing selection of the desired subset of suitable
 values for the resource request to be formulated. Such facilities are already
 implemented in the browsing interface, but only a sole option can be selected
-there at the moment.  
+there at the moment.
 
 Currently also categorial facets are to be queried with the full-text
 facilities, which on the one hand allows for selecting combination of allowed
@@ -1031,8 +1031,8 @@ through an acceptable amount of additional false positives rather than risk
 missing information of an additional potentially useful resource. 
 
 \begin{figure}
-    markus to upload
-    \caption{\label{fig:freetext}Percentages of relevant standard interface
+    \includegraphics[width=\textwidth]{img/eval_rel_interface.png}
+    \caption{\label{fig:freetext-rel} Percentages of relevant standard interface
     search results}
 \end{figure}
 
@@ -1060,8 +1060,8 @@ the queries. Specifically, it indicates that the more granulated means SPARQL
 provides to the user lead to more accurate results. 
 
 \begin{figure}
-    markus to upload
-    \caption{\label{fig:sparql}Percentages of relevant SPARQL search results}
+    \includegraphics[width=\textwidth]{img/eval_rel_sparql.png}
+    \caption{\label{fig:sparql-rel}Percentages of relevant SPARQL search results}
 \end{figure}
 
 Language proved to be the most restricting constraint, leading to most irrelvant
@@ -1092,34 +1092,37 @@ resources carrying at least on property-value pair for the various facets
 offered by the search frontend were determined. The basic quantity of Linghub
 resources was defined as all URIs in the Linghub dataset with the
 linghub.lider-project.eu hostname appearing in subject position of at least one
-triple. Table \ref{tab:reqinfo} and Figure
-\ref{fig:reqinfo} present the aforementioned relative frequencies:
+triple. Figure \ref{fig:reqinfo} presents the aforementioned relative frequencies:
 
 
-\begin{table}
-    \begin{tabular}{ll|cc}
-    \multicolumn{2}{c|}{required information} & \multicolumn{2}{c}{fulfilling resources} \\
-    UI facet name & property          & abs. freq & rel. freq. \\
-    \hline
-    (none)        & (none)            & 444606    & 1          \\
-    Title         & dc:title          & 191355    & 43.04\%    \\
-    Description   & dc:description    & 55697     & 12.53\%    \\
-    Language      & dct:language      & 47357     & 10.65\%    \\
-    Type          & dct:type          & 12780     &  2.87\%    \\
-    Rights        & dc:rights         & 30165     &  6.78\%    \\
-    Creator       & dc:creator        & 137675    & 30.97\%    \\
-    Subject       & dc:subject        & 44725     & 10.06\%    \\
-    Contact Point & dcat:contactPoint & 2436      &  0.55\%    \\
-    Access URL    & dcat:accessURL    & 184452    & 41.49\%    \\
-    \end{tabular}
-    \caption{\label{tab:reqinfo} Portions of Linghub resource instances with at
-least one statement for the respective facet/property}
-\end{table}
 
+% we stash the image here to get it's height for properly aligned minipages  
+\newsavebox{\imgbox}
+\savebox{\imgbox}{\includegraphics[width=0.53\textwidth]{img/eval_facet_coverage.png}}
+\showthe\ht\imgbox 
 \begin{figure}
-        markus to upload
-    \caption{\label{fig:reqinfo} Portions of Linghub resource instances with at
-least one statement for the respective facet/property}
+    \begin{minipage}[l][\ht\imgbox][t]{0.45\textwidth}
+    \begin{tabular}{lrr}
+      required facet & abs. freq & rel. freq. \\
+      \hline
+      (none)         & 444606    &  100\%     \\
+      Title          & 191355    & 43.04\%    \\
+      Description    & 55697     & 12.53\%    \\
+      Language       & 47357     & 10.65\%    \\
+      Type           & 12780     &  2.87\%    \\
+      Rights         & 30165     &  6.78\%    \\
+      Creator        & 137675    & 30.97\%    \\
+      Subject        & 44725     & 10.06\%    \\
+      Contact Point  & 2436      &  0.55\%    \\
+      Access URL     & 184452    & 41.49\%    \\
+    \end{tabular}
+  \end{minipage}
+  \begin{minipage}[r][\ht\imgbox][t]{0.55\textwidth}
+      \usebox{\imgbox}
+  \end{minipage}
+  \caption{\label{tab:reqinfo} Portions of Linghub resources  carrying at
+      least one property value for the respective required facet}
+  \label{fig:reqinfo}
 \end{figure}
  
 These statistics reveal significant variation in coverage over the various

@@ -7,6 +7,7 @@
 \usepackage{makecell}
 \usepackage{hyperref}
 \usepackage{todonotes}
+\usepackage{booktabs}
 %
 % \usepackage{mathptmx}      % use Times fonts if available on your TeX system
 %
@@ -889,7 +890,7 @@ help on the Corpora Mailing List will most probably already have searched using
 standard means, such as Google or repositories known to them. This can limit the
 queries to very specific requests, that are complicated to find answers for. The
 technical expertise of the users and, consequently, their more specific
-requirements also contribute to the requests being more complicated. Thus, all
+requirements also contribute to the requests being rather intricate. Thus, all
 but a few queries examined are expert level queries, limiting the general
 applicability of this evaluation. 
 Although the timespan examined constitutes a reasonable sample with six months
@@ -918,24 +919,20 @@ Linghub, that also shows a power law distribution of resource language count.
 The rise above 20 languages can be explained by the use of European corpora that
 contain all European languages.  
 
-\todo{Markus: Can you provide original images for this paper?}
-
-\begin{figure}
-    markus to upload
-    \caption{\label{fig:req-by-type}Linghub resources and resource requests by
-type}
-\end{figure}
-
 \begin{table}
-    \begin{tabular}{c|c}
-    Language count constraint & Number of requests \\
-    \hline
-    1                         & 8                  \\
-    2                         & 1                  \\
-    3                         & 2                  \\
-    4                         & 1                  \\
-    \textgreater 20                      & 2                  \\
-    unspecified               & 7                  \\
+  \centering
+    \begin{tabular}{lcr}
+    \toprule
+    \bfseries \shortstack{Language count\\constraint} & \bfseries CML requests & \bfseries LH resources \\
+    \midrule
+    1                         & 8            & 51350 \\
+    2                         & 1            & 884 \\
+    3                         & 2            & 69 \\
+    4                         & 1            & 31 \\
+    $\geq$ 5, $\leq$ 19       & 0            & 54 \\  
+    $>$ 20                    & 2            & 4 \\
+    unspecified               & 7            & 635895 \\
+    \bottomrule
 \end{tabular}
     \caption{\label{tab:language-constraints}  Language constraints in requests
         and resources available in Linghub covering specific numbers of
@@ -943,10 +940,12 @@ type}
 \end{table}
 
 \begin{figure}
-    markus to upload
-    \caption{\label{fig:language-constraints} Language constraints in requests
-        and resources available in Linghub covering specific numbers of
-    languages}
+    \includegraphics[width=0.48\textwidth]{img/eval_lang_per_request_2016_Mar.png}
+    \includegraphics[width=0.48\textwidth]{img/eval_lang_per_res_2016_Mar.png}
+    \caption{\label{fig:language-constraints} evenly-sclaled
+      distribution language constraints in the CML requests and
+      $\log_{10}$-scaled distribution of resources available in
+      Linghub covering specified numbers of languages}
 \end{figure}
 
 Besides these common constraints, most requests also define at least one further
@@ -1098,23 +1097,25 @@ triple. Figure \ref{fig:reqinfo} presents the aforementioned relative frequencie
 
 % we stash the image here to get it's height for properly aligned minipages  
 \newsavebox{\imgbox}
-\savebox{\imgbox}{\includegraphics[width=0.53\textwidth]{img/eval_facet_coverage.png}}
+\savebox{\imgbox}{\includegraphics[width=0.53\textwidth]{img/eval_facet_coverage_2016_Mar.png}}
 \showthe\ht\imgbox 
 \begin{figure}
     \begin{minipage}[l][\ht\imgbox][t]{0.45\textwidth}
     \begin{tabular}{lrr}
+      \toprule
       required facet & abs. freq & rel. freq. \\
-      \hline
-      (none)         & 444606    &  100\%     \\
-      Title          & 191355    & 43.04\%    \\
-      Description    & 55697     & 12.53\%    \\
-      Language       & 47357     & 10.65\%    \\
-      Type           & 12780     &  2.87\%    \\
-      Rights         & 30165     &  6.78\%    \\
-      Creator        & 137675    & 30.97\%    \\
-      Subject        & 44725     & 10.06\%    \\
-      Contact Point  & 2436      &  0.55\%    \\
-      Access URL     & 184452    & 41.49\%    \\
+      \midrule
+      (none)         & 688287    &   100\% \\
+      Title          & 331199    & 48.12\% \\
+      Description    & 89053     & 12.94\% \\
+      Language       & 52392     &  7.61\% \\
+      Type           & 62063     &  9.02\% \\
+      Rights         & 36869     &  5.36\% \\
+      Creator        & 244725    & 35.56\% \\
+      Subject        & 72768     & 10.57\% \\
+      Contact Point  & 2436      &  0.35\% \\
+      Access URL     & 229020    & 33.27\% \\
+      \bottomrule
     \end{tabular}
   \end{minipage}
   \begin{minipage}[r][\ht\imgbox][t]{0.55\textwidth}

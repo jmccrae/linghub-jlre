@@ -1013,7 +1013,8 @@ the current implementation: the full-text pattern is matched against the
 lexvo-URI representations of the ISO 639-3 language codes. So the search
 ``language=german'' will yield (perhaps surprisingly) no results. The desired
 restriction has to be framed as language=deu, which might be perceived as
-unintuitive for uninformed first-time users. 
+unintuitive for uninformed first-time users, especially as the browsing
+interface also presents full language names instead of the ISO codes.
 
 Currently the search form does not ensure that text pattern are matched
 exclusively against title and description values for resources with matching
@@ -1065,24 +1066,19 @@ provides to the user lead to more accurate results.
 
 Language proved to be the most restricting constraint, leading to most irrelvant
 results, even if other constraints are met. Although SPARQL was used to
-granularly restrict the 
-languages by leveraging the \texttt{dc:language}, queries were not limited to
-this relation but also incorporated searching for the language name in the
-\texttt{dcterms:description} to increase recall. 
-Size was another important constraint that was never fully met. If size was a
+granularly restrict the languages by leveraging the \texttt{dc:language},
+queries were not limited to this relation but also incorporated searching for
+the language name in the \texttt{dcterms:description} to increase recall.  Size
+was another important constraint that was never fully met. If size was a
 restriction, it always was in the range of billions of words, excluding all
 relevant corpora as too small. Corpora with millions of words were counted as
-related. It would be helpful to express this measure as an own datum\todo{I
-don't understand this - JPM} in Linghub
-to help future searchers. However, it could only be automatically acquired by
-retrieving and parsing the resources, taking into account their format. This
-approach would thus be limited to open resources with detailed metadata. Again,
-description texts were used to retrieve hints on corpus size.
-One large advantage of SPARQL was being able to explicitly address fields such
-as distribution and license information, allowing to filter for free and open
+related. Again, description texts were used to retrieve
+hints on corpus size.  One large advantage of SPARQL was being able to
+explicitly address values for several facets simultaneously, such as
+distribution and license information, allowing to filter for free and open
 resources, as well as links to the data itself. The selection of the queries in
 CML reduced this use-case to one case, but it seems to be an important and often
-overlooked facet of data acquisition. 
+overlooked facet of data acquisition.
 
 \subsection{Data Completeness and Quality}
 
@@ -1152,17 +1148,19 @@ properties with low-coverage (e.g. type) and could be offered as on-demand
 option in the search interfaces. 
 
 Several of the examined resource requests from the CML asking for corpora also
-formulated minimal requirements for their size. About 4000 resources listed in
-Linghub carry property-value pairs for numeric values quantifying their size
-according to a specified unit. Excluding also cases where the unit is not
-clearly specified or where the size value is just a sentinel value for ‘no
-available’, about 2490 resources with well defined, structured size information
-remain (all of these originate from META-SHARE).  Increasing this coverage
-towards a substantial portion of corpus resources indexed in Linghub would be
-quite beneficial. However, although missing size information could probably be
-extracted from description texts for many resources, achieving a satisfactory
-level of correctness of such a process would presumably require a prohibitively
-great extend of manual annotation and curation
+formulated minimal requirements for their size. Hence adding size descripction
+as another explicit, structured search facet for Linghub would appear
+beneficial. About 4000 resources listed in Linghub carry property-value pairs
+for numeric values quantifying their size according to a specified
+unit. Excluding also cases where the unit is not clearly specified or where the
+size value is just a sentinel value for ‘no available’, about 2490 resources
+with well defined, structured size information remain (all of these originate
+from META-SHARE).  Increasing this coverage towards a substantial portion of
+corpus resources indexed in Linghub would be quite beneficial. However, although
+missing size information could probably be extracted from description texts for
+many resources, achieving a satisfactory level of correctness of such a process
+would presumably require a prohibitively great extend of manual annotation and
+curation.
 
 
 \section{Conclusion}

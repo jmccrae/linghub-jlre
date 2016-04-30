@@ -1,7 +1,7 @@
 \documentclass[smallextended]{svjour3}       % onecolumn (second format)
 %\documentclass[twocolumn]{svjour3}          % twocolumn
 %
-\smartqed  % flush right qed marks, e.g. at end of proof...test
+\smartqed% flush right qed marks, e.g. at end of proof...test
 %
 \usepackage{graphicx}
 \usepackage{makecell}
@@ -378,13 +378,21 @@ difficulty in consolidating them with our model.
 
 \begin{table}
 \resizebox{0.94\textwidth}{!}{\begin{minipage}{\textwidth}
-    \begin{tabular}{l|r|r|r}
+    \begin{tabular}{lrrr}
+        \toprule
         \thead{Source} & \thead{Records} & \thead{Triples} & \thead{Triples per \\ Record} \\
-        \hline                                              
+        \midrule
         META-SHARE &   2,442 &   464,572 & 190.2 \\
         CLARIN     & 144,570 & 3,381,736 &  23.4 \\
         Datahub.io &     218 &    10,739 &  49.3 \\
-        LRE-Map    &   5,712 &    79,576 &  13.9 \\
+        LRE-Map (LREC 2014) &     682 &    10,650 &  15.6 \\
+        \midrule
+        LRE-Map (Non-open)  &   5,030 &    68,926 &  13.7 \\
+        OLAC                & 217,765 & 2,613,183 &  12.0 \\
+        ELRA Catalogue      &   1,066 &    22,580 &  21.2 \\
+        LDC Catalogue       &     714 &       n/a &   n/a \\
+        \bottomrule
+
     \end{tabular}
 \end{minipage}}
     \caption{\label{tab:resource-sizes}The sizes of the resources in terms of
@@ -398,17 +406,18 @@ META-SHARE is provided primarily in a format described in
 and XML format and contains over 150 elements and as such is a highly complex XML
 format. We developed a custom invertible framework called LIXR (pronounced
 `elixir')~\footnote{http://github.com/liderproject/lixr}, which allows us to easily and
-quickly define the conversion between META-SHARE and RDF. As a great many of the
+quickly define the conversion between META-SHARE and RDF\@. As a great many of the
 elements defined in the META-SHARE schema are very unique many of the elements
 have to be created in a new ontology, which we developed as the META-SHARE
-ontology, which is described in \cite{mccrae2015ontology}. 
+ontology, which is described in~\cite{mccrae2015ontology}. 
 
 \subsection{CLARIN}
 
 \begin{table}
-\begin{tabular}{l|lc}
+\begin{tabular}{llc}
+    \toprule
 Component Root Tag & Institutes & Frequency \\
-\hline
+\midrule
 Song & 1 (MI) & 155,403 \\
 Session & 1 (MPI) & 128,673 \\
 OLAC-DcmiTerms & 39 & 95,370 \\
@@ -419,24 +428,23 @@ media-session-profile & 1 (Munich) & 22,405 \\
 SourceScan & 1 (MI) & 21,256 \\
 Source & 1 (MI) & 16,519 \\
 teiHeader & 2 (BBAW, Copenhagen) & 15,998 \\
+\bottomrule
 \end{tabular}
-\
-
     \caption{\label{tab:clarin-resources}The relative number of resources in
     each of the schemas used by CLARIN}
 \end{table}
 
 CLARIN is also an XML format and is based on the CMDI metadata infrastructure as
-defined by \cite{broeder2012cmdi}. This consists of a small shared amount of information and
+defined by~\cite{broeder2012cmdi}. This consists of a small shared amount of information and
 a specific schema, which is normally unique to the data provider, with the
 exception of Dublin Core metadata which is in two common schemas. The total size
-and applicability of each of the schemas is given in Table
-\ref{tab:clarin-resources} and we have developed export scripts for all of the
+and applicability of each of the schemas is given in Table~\ref{tab:clarin-resources} 
+and we have developed export scripts for all of the
 top 10 formats.
 
 \subsection{LRE-Map}
 
-The LRE-Map is described in \cite{calzolari2012lre} and is available partly as RDF, in
+The LRE-Map is described in~\cite{calzolari2012lre} and is available partly as RDF, in
 particular the data from LREC-2014 is available. Unfortunately, the integration
 was not trivial as there were errors in the RDF~\cite{del2014lre}, in particular the use of
 non-resolving URI schemes that had to be corrected. The older data is also
@@ -492,7 +500,7 @@ to be found nested under several layers of tags and in such cases we added
 property chain links so that they would be more compatible with other resources.
 For example, the rights statement of a resource could be found only under the 
 headings ``Distribution Info'', ``Licence Info'' and ``Licence'', and so we
-added this property also directly to the root data element to comply with DCAT.
+added this property also directly to the root data element to comply with DCAT\@.
 In addition, META-SHARE contains significant resource type specific information
 that is defined by the type of the language resource: one of \emph{corpus},
 \emph{tool/service}, \emph{language description} or \emph{lexical conceptual
@@ -513,7 +521,7 @@ META-SHARE ontology improved on the original model in the following ways:
         not\-Available\-Through\-Metashare} with {\tt
         avai\-lable\-Through\-Other\-Distributor};
 \item Development of novel classes based on existing values, for example:
-    \\$\mathtt{Corpus} \equiv \exists \mathtt{resourceType}.\mathtt{corpus}$
+    \\$\mathtt{Corpus} \equiv\exists\mathtt{resourceType}.\mathtt{corpus}$
 \item Grouping similar elements under novel superclasses, e.g. {\tt
     annotationType} and {\tt genre} values are structured in classes and
     subclasses better reflecting the relation between them. Indicatively, the superclass
@@ -541,10 +549,10 @@ resources (properties may of course have multiple values).
 
 \begin{table}
     \begin{center}
-	\begin{tabular}{l|cc}
+	\begin{tabular}{lcc}
+            \toprule
             Format   & Resources  & Percentage\\
-		
-		\hline                                              
+            \midrule
                 HTML                &	67,419 & 66.2\%\\
                 RDF/XML             &	9,940  & 9.8\% \\
                 JPEG Image          &   6,599  & 6.5\% \\
@@ -555,6 +563,7 @@ resources (properties may of course have multiple values).
                 Zip Archive         &	801    & 0.8\% \\
                 PNG Image           & 207      & 0.2\% \\
                 gzip Archive        & 181      & 0.2\% \\
+            \bottomrule
 	\end{tabular}
     \end{center}
 	\caption{\label{tab:formats}The distribution of the 10 most used formats within the
@@ -575,7 +584,7 @@ the moment.
 In our study, we then accessed 119,920 URLs given among our sources of metadata
 and we found that 95\% of these resolved successfully (i.e., HTTP Response was
 200 OK). We then also analyzed the reported content type of the response, the
-results of which are in Table \ref{tab:formats}. We found that text formats, in
+results of which are in Table~\ref{tab:formats}. We found that text formats, in
 particular HTML tended to be the predominate format and we would assume that
 these correspond to human-readable pages and not the actual resource in the most
 case. A little of 14\% of resources are in a format that seem like data sources
@@ -591,14 +600,16 @@ released under.  Thus, It is not an infrequent case that users searching LRs wan
 Each of the different platforms providing access to LRs have different means to select the desired licenses. 
 \begin{itemize}
 \item The META-SHARE portal offers a faceted browsing where one of the facets is the license declared for the resource. The browsing experience is enhanced by other facets that permit discriminating resources based on their availability (restricted/unrestricted) or by their restrictions of use (like `commercial use allowed'). This is a rather satisfactory organization of the information more complete than the other platforms. 
-\item The CLARIN Virtual Language Observatory (https://vlo.clarin.eu) also
+\item The CLARIN Virtual Language Observatory\footnote{\url{https://vlo.clarin.eu}} also
     offers a faceted browsing, and one of the 8 facets is devoted to the
-    'availability'. Many of the resources fall under diffuse categories (such as
+    `availability'. Many of the resources fall under diffuse categories (such as
     ``open'' or ``free'') without referring the actual licenses. The metadata describing the license is a free text instead a URI determining the license in use. 
-\item ALVEO \todo{PENDING TO BE DONE}
-\item The OLAC Language Resource Catalog offers the search functionality from their portal at http://search.language-archives.org/ and a faceted search as well. However, catalogued resources seem to lack this information, existing only three types of licenses (`CC-BY-ND', `CC-BY-SA' and `others') making the navigation impracticable. An additional facet for 'other rights' performs no better due to the opposite reason: there are so many types of 'rights' that it is not possible to search with a given criterium.
-\item The LREMap resource portal (http://www.resourcebook.eu/) does not permit searching by license. Further, once obtained the resources they include a 'license' description but in a textual manner. 
-\item Datahub.io permits selecting the license in the faceted browsing they offer (https://datahub.io/). Although nothing prevents dataset creators from declaring their own licenses, they are driven by the user interface to use one of the pre-determined license-types. This greatly reduces the license proliferation and searching by rights in datahub is still relatively acceptable.
+%\item ALVEO \todo{PENDING TO BE DONE}
+\item The OLAC Language Resource Catalog offers the search functionality from
+    their portal\footnote{\url{http://search.language-archives.org/}} and a faceted search as well. However, catalogued resources seem to lack this information, existing only three types of licenses (`CC-BY-ND', `CC-BY-SA' and `others') making the navigation impracticable. An additional facet for `other rights' performs no better due to the opposite reason: there are so many types of `rights' that it is not possible to search with a given criterium.
+        \item The LREMap resource portal\footnote{\url{http://www.resourcebook.eu/}} does not permit searching by license. Further, once obtained the resources they include a `license' description but in a textual manner. 
+\item Datahub.io permits selecting the license in the faceted browsing they
+    offer\footnote{\url{https://datahub.io/}}. Although nothing prevents dataset creators from declaring their own licenses, they are driven by the user interface to use one of the pre-determined license-types. This greatly reduces the license proliferation and searching by rights in Datahub is still relatively acceptable.
 %<Access>
 %<Availability>open access</Availability>
 %<Date>Unspecified</Date>
@@ -615,9 +626,10 @@ Each of the different platforms providing access to LRs have different means to 
 %</Access>
 \end{itemize}
 
-The best description of the rights information is given by licenses with a well defined URI. If this were regularly the case, the \textit{license profileration} problem would be easily solvable. From this perspective, the META-SHARE portal is the best one; with Linghub having equivalent capabilities only improved for true experts capable of formulating SPARQL queries. 
+The best description of the rights information is given by licenses with a well
+defined URI\@. If this were regularly the case, the \textit{license profileration} problem would be easily solvable. From this perspective, the META-SHARE portal is the best one; with Linghub having equivalent capabilities only improved for true experts capable of formulating SPARQL queries. 
 
-\todo{Devised experiment: given 5 non-experienced users, ask them to look for specific resources with a license constraint (e.g. permitting commercial exploitation) and measure the time it takes them and their opinion on each of the user interfaces. What do you think? Does it make sense?}
+%\todo{Devised experiment: given 5 non-experienced users, ask them to look for specific resources with a license constraint (e.g. permitting commercial exploitation) and measure the time it takes them and their opinion on each of the user interfaces. What do you think? Does it make sense?}
 
 \subsection{Usage}
 
@@ -647,19 +659,19 @@ the system has 98-99\% accuracy.
 
 \begin{table}
 \resizebox{1.1\textwidth}{!}{\begin{minipage}{\textwidth}
-    \begin{tabular}{l|c|c}
+    \begin{tabular}{lcc}
+        \toprule
         Resource   & \thead{Label\\Accuracy}  & \thead{Instance\\Accuracy} \\
-%    \renewcommand{\arraystretch}{0.5}\begin{tabular}[x]{@{}c@{}}\tiny
-%    Instance\\Accuracy\end{tabular} \\%& Average\\
-        \hline                                              
+        \midrule
         SIL \small\textit{dice coefficient}  & 81\% & 99.50\% \\%& 0.93 \small\textit{rank}  \\
         SIL \small\textit{levenshtein}  & 72\% & 99.42\% \\%& 0.80 \small\textit{distance} \\
         BabelNet \small\textit{dice coefficient} & \textbf{91\%} & 99.87\% \\%& 0.97 \small\textit{rank} \\
         BabelNet \small\textit{levenshtein} & \textbf{89\%} & 99.85\% \\%& 1.20 \small\textit{distance} \\
-        \hline
+        \midrule
         SIL + BabelNet & & \\
         \small\textit{dice coefficient} & \textbf{91\%} & 99.87\% \\%& 0.97 \small\textit{rank} \\
         \small\textit{levenshtein} & \textbf{89\%} & 99.85\% \\%& 1.01 \small\textit{distance} \\
+        \bottomrule
     \end{tabular}
     \end{minipage} }
     \caption{\label{tab:language-comparison}Accuracy of language mappings}
@@ -675,7 +687,7 @@ database\footnote{\url{http://www-01.sil.org/iso639-3/download.asp}} and from
 BabelNet~\cite{navigli2010babelnet}, a large multi-lingual lexicon.
 
 We compared the results using two string similarity metrics, namely the Dice
-Co-efficient and the Levenshtein Distance, the results of which are reported in
+Co-Efficient and the Levenshtein Distance, the results of which are reported in
 Table~\ref{tab:language-comparison}. We measured the accuracy by constructing a
 sample of 100 labels and manually mapping them to language codes and we present
 the results both as total number of labels matched and weighted by the usage of
@@ -708,13 +720,15 @@ resources are in fact recordings of singing in under-resourced languages},
 
 \begin{table}
     \begin{center}
-    \begin{tabular}{l|cc}
+    \begin{tabular}{lcc}
+        \toprule
         Resource   & \thead{Duplicate \\ Titles} & \thead{Duplicate \\ URLs} \\
-        \hline                                                            
+        \midrule                                                            
         CLARIN{\tiny~(same contributing institute)}     & 50,589           & 20          \\   
         Datahub.io & 0                & 55             \\
         META-SHARE & 63               & 967            \\
         LRE-Map    & 763              & 454            \\
+        \bottomrule
     \end{tabular}
     \end{center}
     \caption{\label{tab:self-dupes}The number of intra-repository duplicate labels and URLs for
@@ -725,9 +739,10 @@ resources are in fact recordings of singing in under-resourced languages},
 
 \begin{table*}
     \begin{center}
-        \begin{tabular}{lp{35mm}|ccc}
+        \begin{tabular}{lp{35mm}ccc}
+            \toprule
         Resource    & Resource    & Duplicate Titles & Duplicate URLs & Both \\
-        \hline                                                                  
+        \midrule                                                                  
         CLARIN      & CLARIN{\tiny~(other contributing institute)}      & 1,202            & 2,884          & 0    \\
         CLARIN      & Datahub.io  & 1                & 0              & 0    \\
         CLARIN      & LRE-Map     & 72               & 64             & 0    \\
@@ -735,34 +750,39 @@ resources are in fact recordings of singing in under-resourced languages},
         Datahub.io  & LRE-Map     & 59               & 5              & 0    \\
         Datahub.io  & META-SHARE  & 3                & 0              & 0    \\
         LRE-Map     & META-SHARE  & 91               & 51             & 0    \\
-        \hline
+        \midrule
         All         & All         & 2,632            & 4,232          & 28   \\
+        \bottomrule
         \end{tabular}
     \end{center}
     \caption{\label{tab:dupes}Number of duplicate inter-repository records by type}
 \end{table*}
 
 \begin{table}
-    \begin{tabular}{l|ccc}
+    \begin{tabular}{lccc}
+        \toprule
         Duplication & Correct & Unclear & Incorrect \\
-        \hline                    
+        \midrule                  
         Titles      &    86   &   6     &    8      \\ 
         URLs        &    95   &   2     &    3      \\
         Both        &    99   &   1     &    0      \\
+        \bottomrule
     \end{tabular}
     \caption{\label{tab:dupe-precision}Precision of matching strategies from a
     sample of 100}
 \end{table}
 
 \begin{table}
-    \begin{tabular}{l|cc}
+    \begin{tabular}{lcc}
+        \toprule
         Property   &  \thead{Record Count\\(As percentage of all records)} & Triples \\
-        \hline
+        \midrule
         Access URL &  91,615 (91.6\%) & 191,006  \\
         Language   &  50,781 (50.7\%) & 98,267   \\
         Type       &  15,241 (15.2\%) & 17,894   \\
         Rights     &   3,080 (3.0\%)  & 8915     \\
         Usage      &   3,397 (3.4\%)  & 4,530    \\ 
+        \bottomrule
     \end{tabular}
     \caption{\label{tab:total}Number of records and facts harmonized by our
     methods}
@@ -772,7 +792,7 @@ It is a natural effect of collecting records about resources that we will have
 multiple records that in fact describe the same resource. In order to provide a
 single view of the description of a dataset for a user, it is important that all
 the information can be consolidated so that we can for example, indicate all
-uses of a particular dataset. This is particularly the case with LRE-Map were
+uses of a particular dataset. This is particularly the case with LRE-Map where
 resources are frequently reported multiple times in different uses. As such, we 
 make a fundamental distinction between \emph{inter-repository duplication},
 where we have two records from different sources describing the same entity, and
@@ -825,7 +845,7 @@ Proper access to the dataset requires a pleasant and functional interface and
 the design of such an interface should not be ignored. As such, we provide
 Linghub as a website that allows both humans to see the data in the form of HTML
 pages and for computers to access that data in the following formats: RDF/XML,
-Turtle, N-Triple and JSON-LD. Simple templates are used that render the data in
+Turtle, N-Triple and JSON-LD\@. Simple templates are used that render the data in
 HTML so that human users can obtains a consistent view of the data, from all of
 the sources displayed in Linghub. Furthermore, we provided some extra
 mechanisms, by which users could access the data
@@ -839,8 +859,8 @@ mechanisms, by which users could access the data
         free-text search and we employ this by building a search interface that 
         indexes all the literal values in the data and allows free search over
         them. In addition, for certain values, especially languages we added in
-        the values of the literals and indexed them\todo{note sure this is
-        working}.
+        the values of the literals and indexed them.%\todo{note sure this is
+%        working}.
     \item[SPARQL search] Finally, we enabled SPARQL search for advanced and
         automated users, that as we show in the evaluation improves the ability
         of clients to find relevant results. For performance reasons, we limit
@@ -866,8 +886,7 @@ service; the language the resource is applicable for; the relative size of the
 resource measured in various metrics like word count and additional qualities,
 like intended use.  
 
-Each request was then searched for in Linghub using both, the standard search
-\footnote{To make the search for suitable interface queries more time-efficient,
+Each request was then searched for in Linghub using both the standard search\footnote{To make the search for suitable interface queries more time-efficient,
     a prototype for the query was first developed testing equivalent SQL queries
     against the SQLite database schema backing the YuZu TripleBackend, since for
     example the user interface itself offers no straightforward way to find out
@@ -875,9 +894,8 @@ Each request was then searched for in Linghub using both, the standard search
 pagination}
 interface as well as SPARQL queries. This covers both relevant audiences:
 Standard users like most linguists and developers looking for data without being
-familiar with SPARQL, and Semantic Web experts fluent in SPARQL. Results of the
-queries were counted and each was evaluated as relevant, irrelevant or related
-\footnote{``related'' meaning that some constraints were not or not fully met.}
+familiar with SPARQL, and Semantic Web experts fluent in SPARQL\@. Results of the
+queries were counted and each was evaluated as relevant, irrelevant or related\footnote{``related'' meaning that some constraints were not or not fully met.}
 to the query. The original request \#6 was skipped, because the evaluators could
 not agree what exactly constitutes a ``corpus suitable for training hierarchical
 classification models''. 
@@ -940,13 +958,18 @@ contain all European languages.
 \end{table}
 
 \begin{figure}
-    \includegraphics[width=0.48\textwidth]{img/eval_lang_per_request_2016_Mar.png}
-    \includegraphics[width=0.48\textwidth]{img/eval_lang_per_res_2016_Mar.png}
-    \caption{\label{fig:language-constraints} evenly-sclaled
-      distribution language constraints in the CML requests and
-      $\log_{10}$-scaled distribution of resources available in
-      Linghub covering specified numbers of languages}
+    \includegraphics[width=.6\textwidth]{img/eval_lang_per_request_2016_Mar.png}
+    \caption{\label{fig:language-constraints1}Distribution of number of languages in
+    requests to the Corpora Mailing List ($\log_{10}$-scaled)}
 \end{figure}
+
+\begin{figure}
+    \includegraphics[width=.6\textwidth]{img/eval_lang_per_res_2016_Mar.png}
+    \caption{\label{fig:language-constraints2}Distribution of number of languages in
+    Linghub ($\log_{10}$-scaled)}
+\end{figure}
+
+\todo{not referenced in text}
 
 Besides these common constraints, most requests also define at least one further
 restriction. For corpus requests, a common restriction is having a large size in
@@ -1008,13 +1031,13 @@ there at the moment.
 Currently also categorial facets are to be queried with the full-text
 facilities, which on the one hand allows for selecting combination of allowed
 categorial values, but requires knowledge of appropriate matching string values.
-One extreme example of this limitation is the usage of the language facet for
-the current implementation: the full-text pattern is matched against the
-lexvo-URI representations of the ISO 639-3 language codes. So the search
-``language=german'' will yield (perhaps surprisingly) no results. The desired
-restriction has to be framed as language=deu, which might be perceived as
-unintuitive for uninformed first-time users, especially as the browsing
-interface also presents full language names instead of the ISO codes.
+%One extreme example of this limitation is the usage of the language facet for
+%the current implementation: the full-text pattern is matched against the
+%lexvo-URI representations of the ISO 639-3 language codes. So the search
+%``language=german'' will yield (perhaps surprisingly) no results. The desired
+%restriction has to be framed as language=deu, which might be perceived as
+%unintuitive for uninformed first-time users, especially as the browsing
+%interface also presents full language names instead of the ISO codes.
 
 Currently the search form does not ensure that text pattern are matched
 exclusively against title and description values for resources with matching
@@ -1045,8 +1068,8 @@ be used for granular search in arbitrary literal fields and natively provides
 logical operators for filters to combine them. If values are modelled as
 classes, the user does not have to use string matching but can use object
 relations, working on a well-defined, semantic level. The only disadvantage of
-SPARQL is its inaccessibility to most linguists that don’t have firm knowledge
-in database query languages.  
+SPARQL is its inaccessibility to most linguists that don't have knowledge
+of database query languages.  
 
 SPARQL queries were written and executed using the downloaded Linghub dump for
 convenience. The queries and detailed results can be found in the appendix.
@@ -1087,19 +1110,21 @@ resources carrying at least on property-value pair for the various facets
 offered by the search frontend were determined. The basic quantity of Linghub
 resources was defined as all URIs in the Linghub dataset with the
 linghub.lider-project.eu hostname appearing in subject position of at least one
-triple. Figure \ref{fig:reqinfo} presents the aforementioned relative frequencies:
+triple. Figure~\ref{fig:reqinfo} and Table~\ref{tab:reqinfo} presents the aforementioned relative frequencies:
 
 
 
 % we stash the image here to get it's height for properly aligned minipages  
-\newsavebox{\imgbox}
-\savebox{\imgbox}{\includegraphics[width=0.53\textwidth]{img/eval_facet_coverage_2016_Mar.png}}
-\showthe\ht\imgbox 
 \begin{figure}
-    \begin{minipage}[l][\ht\imgbox][t]{0.45\textwidth}
+\includegraphics[width=0.53\textwidth]{img/eval_facet_coverage_2016_Mar.png}
+\caption{\label{fig:reqinfo} Portions of Linghub resources with at least one 
+property value for the main facets}
+\end{figure}
+
+\begin{table}
     \begin{tabular}{lrr}
       \toprule
-      required facet & abs. freq & rel. freq. \\
+      Required Facet & Absolute Freq & Relative Frequency \\
       \midrule
       (none)         & 688287    &   100\% \\
       Title          & 331199    & 48.12\% \\
@@ -1113,14 +1138,9 @@ triple. Figure \ref{fig:reqinfo} presents the aforementioned relative frequencie
       Access URL     & 229020    & 33.27\% \\
       \bottomrule
     \end{tabular}
-  \end{minipage}
-  \begin{minipage}[r][\ht\imgbox][t]{0.55\textwidth}
-      \usebox{\imgbox}
-  \end{minipage}
   \caption{\label{tab:reqinfo} Portions of Linghub resources  carrying at
       least one property value for the respective required facet}
-  \label{fig:reqinfo}
-\end{figure}
+\end{table}
  
 These statistics reveal significant variation in coverage over the various
 facets, that can result in unexpected recall when relying on facets with low
@@ -1144,7 +1164,7 @@ language:spa OR title:(spanish OR spain*) OR
 \end{verbatim}
 
 Analogous text-pattern fallback strategies might be employed for other
-properties with low-coverage (e.g. type) and could be offered as on-demand
+properties with low-coverage (e.g., type) and could be offered as on-demand
 option in the search interfaces. 
 
 Several of the examined resource requests from the CML asking for corpora also
@@ -1166,7 +1186,17 @@ curation.
 \section{Conclusion}
 \label{conclusion}
 
-\todo{JPM to finish}
+In this paper we have presented an attempt to consolidate a large amount of
+information about language resources from various source of differing levels of
+quality and granularity of information. We found that, while some properties are
+generally quite feasible to reconcile, in many cases the information contained
+in the metadata is quite insufficient, especially in the case of licenses of
+resources. We then developed an interface to this reconciled dataset using
+linked data principles and we evaluated this relative to real user queries made
+on the Corpora Mailing List. We saw that the SPARQL querying allowed more
+accurate and complete querying but this interface may prove difficult for
+many working linguists and an open question remains of how to provide these
+benefits to all users of Linghub.
 
 %\bibliographystyle{spbasic}      % basic style, author-year citations
 \bibliographystyle{spmpsci}      % mathematics and physical sciences

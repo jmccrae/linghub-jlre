@@ -75,7 +75,19 @@
 \maketitle
 
 \begin{abstract}
-\keywords{First keyword \and Second keyword \and More}
+    For most applications of natural language processing, the discovery of
+    suitable resources for a given domain and language is vital, yet current
+    catalogues of language resources are incomplete and vary in the level of
+    detail. We approach this problem by means of using linked data principles to
+    harmonize these heterogeneous resources into a single portal called Linghub.
+    We use state-of-the-art entity disambiguation techniques to combine these
+    entities and provide a single interface to the user. We evaluate this
+    approach by using real user queries harvested from the Corpora Mailing List
+    and show that the linked data technology embedded in this portal can nearly double
+    the precision in finding answers from 18.8\% to 35.9\% while still
+    increasing the overall number of resource found by 25.3\%
+\keywords{Language resource \and linked data \and metadata \and data
+harmonization \and natural language processing}
 \end{abstract}
 
 \section{Introduction}
@@ -374,7 +386,8 @@ Linghub portal due to licensing.
 \end{description}
 
 In the following section we describe the format of the resources and the
-difficulty in consolidating them with our model.
+difficulty in consolidating them with our model. The overall size of all the
+resources is given in Table~\ref{tab:resource-sizes}.
 
 \begin{table}
 \resizebox{0.94\textwidth}{!}{\begin{minipage}{\textwidth}
@@ -772,21 +785,21 @@ resources are in fact recordings of singing in under-resourced languages},
     sample of 100}
 \end{table}
 
-\begin{table}
-    \begin{tabular}{lcc}
-        \toprule
-        Property   &  \thead{Record Count\\(As percentage of all records)} & Triples \\
-        \midrule
-        Access URL &  91,615 (91.6\%) & 191,006  \\
-        Language   &  50,781 (50.7\%) & 98,267   \\
-        Type       &  15,241 (15.2\%) & 17,894   \\
-        Rights     &   3,080 (3.0\%)  & 8915     \\
-        Usage      &   3,397 (3.4\%)  & 4,530    \\ 
-        \bottomrule
-    \end{tabular}
-    \caption{\label{tab:total}Number of records and facts harmonized by our
-    methods}
-\end{table}
+%\begin{table}
+%    \begin{tabular}{lcc}
+%        \toprule
+%        Property   &  \thead{Record Count\\(As percentage of all records)} & Triples \\
+%        \midrule
+%        Access URL &  91,615 (91.6\%) & 191,006  \\
+%        Language   &  50,781 (50.7\%) & 98,267   \\
+%        Type       &  15,241 (15.2\%) & 17,894   \\
+%        Rights     &   3,080 (3.0\%)  & 8915     \\
+%        Usage      &   3,397 (3.4\%)  & 4,530    \\ 
+%        \bottomrule
+%    \end{tabular}
+%    \caption{\label{tab:total}Number of records and facts harmonized by our
+%    methods}
+%\end{table}
         
 It is a natural effect of collecting records about resources that we will have
 multiple records that in fact describe the same resource. In order to provide a
@@ -843,7 +856,9 @@ duplicates detected in total is given in~\ref{tab:dupes}.
 
 Proper access to the dataset requires a pleasant and functional interface and
 the design of such an interface should not be ignored. As such, we provide
-Linghub as a website that allows both humans to see the data in the form of HTML
+Linghub as a website (a screen shot is shown in
+Figure~\ref{fig:screenshot})\footnote{\url{http://linghub.org/}}.
+that allows both humans to see the data in the form of HTML
 pages and for computers to access that data in the following formats: RDF/XML,
 Turtle, N-Triple and JSON-LD\@. Simple templates are used that render the data in
 HTML so that human users can obtains a consistent view of the data, from all of
@@ -877,21 +892,21 @@ mechanisms, by which users could access the data
 To evaluate the usefulness of Linghub based on actual needs for linguistic
 resources, all questions for language resources posed on the Corpora Mailing
 List (CML)~\footnote{\url{http://mailman.uib.no/public/corpora/}} from January
-1st 2015 till June 3rd 2015 have been examined. After ruling out a small subset
+1st 2015 till June 3rd 2015 were examined. After ruling out a small subset
 of questions on the mailing list that were too underspecified and unclear to be
 operationalised even for a completely manual search, a catalogue of 23 request
 was assembled. Each request poses a number of constraints on the data being
 searched. Constraints typically pertained to the \emph{type} of the resource like
 corpus, lexicon, tool or service; the \emph{language} the resource is applicable for;
-the \emph{extend} of the resource measured in various metrics like word count
+the \emph{extent} of the resource measured in various metrics like word count
 and additional qualities, e.g. intended use.
 
-Each request was then searched for in Linghub using both the standard search\footnote{To make the search for suitable interface queries more time-efficient,
-    a prototype for the query was first developed testing equivalent SQL queries
-    against the SQLite database schema backing the YuZu TripleBackend, since for
-    example the user interface itself offers no straightforward way to find out
-    about the total number of matches for a query without traversing the
-pagination}
+Each request was then searched for in Linghub using both the standard search%\footnote{To make the search for suitable interface queries more time-efficient,
+%    a prototype for the query was first developed testing equivalent SQL queries
+%    against the SQLite database schema backing the YuZu TripleBackend, since for
+%    example the user interface itself offers no straightforward way to find out
+%    about the total number of matches for a query without traversing the
+%pagination}
 interface as well as SPARQL queries. This covers both relevant audiences:
 Standard users like most linguists and developers looking for data without being
 familiar with SPARQL, and Semantic Web experts fluent in SPARQL\@. Results of the
@@ -913,28 +928,32 @@ but a few queries examined are expert level queries, limiting the general
 applicability of this evaluation. 
 Although the timespan examined constitutes a reasonable sample with six months
 of mailing list requests analysed, the number of queries is quite low. However,
-as section 2 will detail, their overall type and language profile matches
+as section \ref{resource-request-analysis} will detail, their overall type and language profile matches
 available Linghub data.
 Due to the complicated nature of the requests, translating them from natural
 language to concise and reasonably narrow queries to the search interface
 respectively SPARQL constitutes another hurdle, that is hard to control for. 
 Search was furthermore conducted by two persons, whose interpretation of the
-meaning of the query and thus the relevance of the resources found may vary. 
+meaning of the query and thus the relevance of the results is a subjective
+judgement made by agreement of the two annotators.
 
 \subsection{Resource request analysis}
+\label{resource-request-analysis}
 
 The requests were analysed in regard to the constraints they express. All
 queries expressed at least 2 constraints, usually regarding the resource type
 and the preferred language of the resource. Requested resource types were
 limited to corpora, tools, lexical and spoken resources. Corpora were requested
 in nearly 70\% of the cases, followed by tools (17.4\%) and lexical resources
-(13.0\%). As seen in Figure 1, this resembles the resource distribution in
+(13.0\%). As seen in Figure~\ref{fig:language-constraints}
+and~\ref{fig:language-constraints2} and Table~\ref{tab:language-constraints}, 
+this resembles the resource distribution in
 Linghub, where 71.5\% are corpora as well. 
 Most language restrictions asked for one language or made no specification at
-all. The falling number of requests for higher language restriction count with a
+all. The decreasing number of requests for higher language restriction count with a
 small rise above 20 languages again resembles the resource distribution in
 Linghub, that also shows a power law distribution of resource language count.
-The rise above 20 languages can be explained by the use of European corpora that
+The high number of resources for 20 or more languages can be explained by the use of European corpora that
 contain all European languages.  
 
 \begin{table}
@@ -968,8 +987,6 @@ contain all European languages.
     \caption{\label{fig:language-constraints2}Distribution of number of languages in
     Linghub ($\log_{10}$-scaled)}
 \end{figure}
-
-\todo{not referenced in text}
 
 Besides these common constraints, most requests also define at least one further
 restriction. For corpus requests, a common restriction is having a large size in
@@ -1020,17 +1037,25 @@ from SQLite exposed in the search interface proved very useful.
 
 Some of the facets offered by Linghub are naturally textual (e.g., title,
 description, creator), but others are rather categorial with a limited set of
-options (e.g., resource type, language). The usability of the search interface
-could benefit if constraint formulation for the categorial facets would be
-designed in a manner different from a simple full-text search field, presenting
-the set of options and allowing selection of the desired subset of suitable
-values for the resource request to be formulated. Such facilities are already
-implemented in the browsing interface, but only a sole option can be selected
-there at the moment.
+options (e.g., resource type, language). The search interface still has some
+limitation that were discovered by the annotators including the lack of an
+ability to set constraints on multiple property facets simultaneously, the fact
+that categorial facets must be queried as full-text, without any knowledge of
+the values and that free-text search also indexes descriptions in languages
+other than the interface language of Linghub\footnote{Linghub is only available
+in English}. These criticisms will be addressed in future versions of the interface.
 
-Currently also categorial facets are to be queried with the full-text
-facilities, which on the one hand allows for selecting combination of allowed
-categorial values, but requires knowledge of appropriate matching string values.
+%The usability of the search interface
+%could benefit if constraint formulation for the categorial facets would be
+%designed in a manner different from a simple full-text search field, presenting
+%the set of options and allowing selection of the desired subset of suitable
+%values for the resource request to be formulated. Such facilities are already
+%implemented in the browsing interface, but only a sole option can be selected
+%there at the moment.
+
+%Currently also categorial facets are to be queried with the full-text
+%facilities, which on the one hand allows for selecting combination of allowed
+%categorial values, but requires knowledge of appropriate matching string values.
 %One extreme example of this limitation is the usage of the language facet for
 %the current implementation: the full-text pattern is matched against the
 %lexvo-URI representations of the ISO 639-3 language codes. So the search
@@ -1039,19 +1064,20 @@ categorial values, but requires knowledge of appropriate matching string values.
 %unintuitive for uninformed first-time users, especially as the browsing
 %interface also presents full language names instead of the ISO codes.
 
-Currently the search form does not ensure that text pattern are matched
-exclusively against title and description values for resources with matching
-languages this can be problematic due to homographs and cognates shared by
-English, Spanish, French etc.  
+%Currently the search form does not ensure that text pattern are matched
+%exclusively against title and description values for resources with matching
+%languages this can be problematic due to homographs and cognates shared by
+%English, Spanish, French etc.  
 
-Excluding the queries that did not yield results, on average 10.8\% of the
-results were relevant, 11.9\% were related and 77.3\% were irrelevant. The high
+Excluding the queries that did not yield results, on average 9.7\% of the
+results were relevant, and further 2.6\% were related. The high
 share of irrelevant search results does not come surprising, as the queries
 formulated for evaluation generally were rather open than restrictive in many
 cases to favour recall over precision, as one can assume that potential users of
 language resources will be willing to invest a bit more time to manually sift
 through an acceptable amount of additional false positives rather than risk
-missing information of an additional potentially useful resource. 
+missing information of an additional potentially useful resource. The results
+are shown in Figure~\ref{fig:freetext-rel} and Table~\cite{tab:rel}.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/eval_rel_interface.png}
@@ -1075,17 +1101,60 @@ SPARQL queries were written and executed using the downloaded Linghub dump for
 convenience. The queries and detailed results can be found in the appendix.
 
 Figure 4 shows the results for each of the queries. Excluding queries 6 and 18
-that yielded no results, on average 21.5\% of the results were relevant, 10.7\%
-were related and 67.8\% were irrelevant. Roughly a quarter of the queries
+that yielded no results, on average 22.0\% of the results were relevant, 8.7\%
+were related. Roughly a quarter of the queries
 failed, yielding no relevant results or no results at all. In general, this can
 be considered as a good result, taking into account the complicated nature of
 the queries. Specifically, it indicates that the more granulated means SPARQL
-provides to the user lead to more accurate results. 
+provides to the user lead to more accurate results. The results are presented in
+Figure~\ref{fig:sparql-rel} and Table~\ref{tab:rel}. The SPARQL results are both
+more accurate and also find more results in total, finding 79 results as opposed
+to 62 for free-text and a further 20 related results with only 17 further
+results for free-text.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/eval_rel_sparql.png}
     \caption{\label{fig:sparql-rel}Percentages of relevant SPARQL search results}
 \end{figure}
+
+\begin{table}
+    \begin{tabular}{lcccc}
+        \toprule
+        Query & \shortstack{Search Results\\Count} &
+        \shortstack{Percentage\\Relevant} &
+        \shortstack{SPARQL Results\\Count}
+        & \shortstack{Percentage\\Relevant} \\
+        \midrule
+1&88&11.36\%&60&23.33\%\\
+2&60&10.00\%&63&3.17\%\\
+3&23&4.35\%&21&4.76\%\\
+4&1&100.00\%&4&100.00\%\\
+5&0&0.00\%&16&0.00\%\\
+7&0&0.00\%&6&16.67\%\\
+8&73&1.37\%&24&16.67\%\\
+9&28&14.29\%&11&63.64\%\\
+10&31&35.48\%&20&100.00\%\\
+11&47&2.13\%&16&37.50\%\\
+12&13&46.15\%&4&100.00\%\\
+13&1&100.00\%&4&25.00\%\\
+14&18&5.56\%&11&27.27\%\\
+15&16&6.25\%&2&0.00\%\\
+16&59&47.46\%&56&48.21\%\\
+17&4&25.00\%&1&100.00\%\\
+18&0&0.00\%&0&0.00\%\\
+19&39&2.56\%&20&0.00\%\\
+20&81&0.00\%&4&0.00\%\\
+21&42&7.14\%&5&60.00\%\\
+22&1&0.00\%&9&0.00\%\\
+23&14&14.29\%&1&100.00\%\\
+        \midrule
+Average&27.78&18.84\%&15.57&35.92\%\\
+        \bottomrule
+    \end{tabular}
+    \caption{\label{tab:rel}Search results by relevance for Free-text and SPARQL
+    search}
+\end{table}
+
 
 Language proved to be the most restricting constraint, leading to most irrelvant
 results, even if other constraints are met. Although SPARQL was used to
@@ -1109,7 +1178,9 @@ To obtain statistics on data completeness, relative frequencies of Linghub
 resources carrying at least on property-value pair for the various facets
 offered by the search frontend were determined. The basic quantity of Linghub
 resources was defined as all URIs in the Linghub dataset with the
-linghub.lider-project.eu hostname appearing in subject position of at least one
+linghub.lider-project.eu hostname\footnote{At the time of the evaluation Linghub
+    was only available at \url{http://linghub.lider-project.eu/}. The preferred
+URL is now \url{http://linghub.org}} appearing in subject position of at least one
 triple. Figure~\ref{fig:reqinfo} and Table~\ref{tab:reqinfo} presents the aforementioned relative frequencies:
 
 
@@ -1150,9 +1221,10 @@ dc:language property. On the other hand 493 resources with aforementioned
 keywords in the description do not carry a dc:language attribute. Although the
 mere appearance of the keywords are not conclusively indicative that the
 resource should be counted to the corresponding language, the majority of the
-latter resources appeared to be Spanisch or relevant for Spanish when examining
-a 10\% sample. Albeit these resources are currently ruled out implicitly when a
-user uses the filter option for language. Combined usage of the language
+latter resources appeared to be Spanish or relevant for Spanish when examining
+a 10\% sample. %Albeit these resources are currently ruled out implicitly when a
+%user uses the filter option for language. 
+Combined usage of the language
 property values when present and fall-back to text-matching on title and
 description, as used in the SPARQL queries, can mitigate this problem. Using the
 free text pattern syntax with field specifiers, this procedure can be sketched
@@ -1182,11 +1254,10 @@ many resources, achieving a satisfactory level of correctness of such a process
 would presumably require a prohibitively great extend of manual annotation and
 curation.
 
-
 \section{Conclusion}
 \label{conclusion}
 
-In this paper we have presented an attempt to consolidate a large amount of
+In this paper we have presented a consolidation of a large amount of
 information about language resources from various source of differing levels of
 quality and granularity of information. We found that, while some properties are
 generally quite feasible to reconcile, in many cases the information contained

@@ -448,8 +448,8 @@ teiHeader & 2 (BBAW, Copenhagen) & 15,998 \\
 CLARIN is also an XML format and is based on the CMDI metadata infrastructure as
 defined by~\cite{broeder2012cmdi}. This consists of a small shared amount of information and
 a specific schema, which is normally unique to the data provider, with the
-exception of Dublin Core metadata which is in two common schemas. The total size
-and applicability of each of the schemas is given in Table~\ref{tab:clarin-resources} 
+exception of Dublin Core metadata which is in two common schemas. The total 
+number of records in each of the schemas is given in Table~\ref{tab:clarin-resources} 
 and we have developed export scripts for all of the
 top 10 formats.
 
@@ -695,7 +695,9 @@ Co-Efficient and the Levenshtein Distance, the results of which are reported in
 Table~\ref{tab:language-comparison}. We measured the accuracy by constructing a
 sample of 100 labels and manually mapping them to language codes and we present
 the results both as total number of labels matched and weighted by the usage of
-those labels by resources. For both resources, we see very high accuracy and the
+those labels by resources. We considered both the accuracy on the labels and
+also accuracy weighted by the number of instances of that label.
+For both resources, we see very high accuracy and the
 unmapped labels were mostly for those labels that were very rarely used. 
 
 When deploying this system in the Linghub, however, we did notice that the
@@ -938,12 +940,14 @@ queries expressed at least 2 constraints, usually regarding the resource type
 and the preferred language of the resource. Requested resource types were
 limited to corpora, tools, lexical and spoken resources. Corpora were requested
 in nearly 70\% of the cases, followed by tools (17.4\%) and lexical resources
-(13.0\%). As seen in Figure~\ref{fig:language-constraints1}
-and~\ref{fig:language-constraints2} and Table~\ref{tab:language-constraints}, 
+(13.0\%) and
 this resembles the resource distribution in
 Linghub, where 71.5\% are corpora as well. 
 Most language restrictions asked for one language or made no specification at
-all. The decreasing number of requests for higher language restriction count with a
+all and, as seen in Figure~\ref{fig:language-constraints1}
+and~\ref{fig:language-constraints2} and Table~\ref{tab:language-constraints},
+this also resembles the distributon in Linghub. 
+The decreasing number of requests for higher language restriction count with a
 small rise above 20 languages again resembles the resource distribution in
 Linghub, that also shows a power law distribution of resource language count.
 The high number of resources for 20 or more languages can be explained by the use of European corpora that
@@ -1069,7 +1073,7 @@ cases to favour recall over precision, as one can assume that potential users of
 language resources will be willing to invest a bit more time to manually sift
 through an acceptable amount of additional false positives rather than risk
 missing information of an additional potentially useful resource. The results
-are shown in Figure~\ref{fig:freetext-rel} and Table~\cite{tab:rel}.
+are shown in Figure~\ref{fig:freetext-rel} and Table~\ref{tab:rel}.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/eval_rel_interface.png}
@@ -1090,7 +1094,8 @@ SPARQL is its inaccessibility to most linguists that don't have knowledge
 of database query languages.  
 
 SPARQL queries were written and executed using the downloaded Linghub dump for
-convenience. The queries and detailed results can be found in the appendix.
+convenience. The queries and detailed results can be found at
+\url{https://figshare.com/articles/LinghubCMLQueries_pdf/3370969}.
 
 Figure 4 shows the results for each of the queries. Excluding queries 6 and 18
 that yielded no results, on average 22.0\% of the results were relevant, 8.7\%
@@ -1112,10 +1117,11 @@ results for free-text.
 \begin{table}
     \begin{tabular}{lcccc}
         \toprule
-        Query & \shortstack{Search Results\\Count} &
-        \shortstack{Percentage\\Relevant} &
-        \shortstack{SPARQL Results\\Count}
-        & \shortstack{Percentage\\Relevant} \\
+        & \multicolumn{2}{c}{Free Text} & \multicolumn{2}{c}{SPARQL} \\
+        Query & Results &
+        Relevant &
+        Results
+        & Relevant \\
         \midrule
 1&88&11.36\%&60&23.33\%\\
 2&60&10.00\%&63&3.17\%\\
@@ -1173,16 +1179,17 @@ resources was defined as all URIs in the Linghub dataset with the
 linghub.lider-project.eu hostname\footnote{At the time of the evaluation Linghub
     was only available at \url{http://linghub.lider-project.eu/}. The preferred
 URL is now \url{http://linghub.org}} appearing in subject position of at least one
-triple. Figure~\ref{fig:reqinfo} and Table~\ref{tab:reqinfo} presents the aforementioned relative frequencies.
+triple. %Figure~\ref{fig:reqinfo} and 
+Table~\ref{tab:reqinfo} presents the aforementioned relative frequencies.
 
 
 
 % we stash the image here to get it's height for properly aligned minipages  
-\begin{figure}
-\includegraphics[width=0.53\textwidth]{img/eval_facet_coverage_2016_Mar.png}
-\caption{\label{fig:reqinfo} Portions of Linghub resources with at least one 
-property value for the main facets}
-\end{figure}
+%\begin{figure}
+%\includegraphics[width=0.53\textwidth]{img/eval_facet_coverage_2016_Mar.png}
+%\caption{\label{fig:reqinfo} Portions of Linghub resources with at least one 
+%property value for the main facets}
+%\end{figure}
 
 \begin{table}
     \begin{tabular}{lrr}

@@ -78,10 +78,13 @@
     For most applications of natural language processing, the discovery of
     suitable resources for a given domain and language is vital, yet current
     catalogues of language resources are incomplete and vary in the level of
-    detail. We approach this problem by means of using linked data principles to
-    harmonize these heterogeneous resources into a single portal called Linghub.
-    We use state-of-the-art entity disambiguation techniques to combine these
-    entities and provide a single interface to the user. We evaluate this
+    detail. In order to improve discovery of language resources, we apply Linked
+    Data principles to integrated the metadata descriptions from various
+    repositories. Relying on state-of-the-art word sense disambiguation and
+    entity linking techniques, we harmonize these descriptions and provide
+    access to them via a proof-of-concept data portal called LingHub as a single
+    interface to find language resources that meet a certain need. 
+    We evaluate our
     approach by using real user queries harvested from the Corpora Mailing List
     and show that the linked data technology embedded in this portal can nearly double
     the precision in finding answers from 18.8\% to 35.9\% while still
@@ -117,18 +120,27 @@ such as the LRE-Map~\cite{calzolari2012lre}, and,
 more recently, repositories coming from various communities (e.g.
 OpenAire~\cite{manghi2010infrastructure},
 EUDAT\footnote{\url{http://www.eudat.eu}} etc.). The metadata schemes of all these sources vary with respect to
-their coverage and the set of specific metadata captured. Currently, it is not
-possible to query all these sources in an integrated and uniform fashion. The
-Web of Data is a natural scenario for exposing LRs metadata in order to allow
-their automated discovery, share and reuse by humans or software agents and the
-benefits of this model including interoperability.
+their coverage and the specific metadata captured. Currently, it is not
+possible to query all these sources in an integrated and uniform fashion. 
+Linked Data builds on the central idea that datasets are not exposed in
+isolation, but are linked to each other at the conceptual level. 
+It has been argued that the access and reuse of language resources can benefit
+from the application of linked data technologies to yield an ecosystem in which
+language resourced form a linked ecosystem rather than existing as isolated
+datasets \cite{}. We build on this idea to realize a data portal called LingHub
+that integrates metadata descriptions from various repositories and harmonizes
+these to provide a single entry point for the discovery of language resources
+across repositories. 
+%Web of Data is a natural scenario for exposing LRs metadata in order to allow
+%their automated discovery, share and reuse by humans or software agents and the
+%benefits of this model including interoperability.
 
-In this paper, we are concerned with how to facilitate the discovery of language
+Thus, in this paper, we are concerned with how to facilitate the discovery of language
 resources for a particular task. Given the fact that metadata records for
 resources are distributed among different catalogs and repositories makes the
 task of finding a particular resource meeting certain requirements very
 challenging. This is shown by the fact that many emails to dedicated
-mailing lists such as the copora mailing list contain requests for resources
+mailing lists such as the Corpora mailing list contain requests for resources
 meeting certain desiderata with respect to type of resource (corpus, dictionary,
 parallel text, etc.), language, size (in tokens or sentences), etc.
 So far, no repository that allows discovery of resources across repositories has
@@ -137,7 +149,11 @@ based portal that indexes and aggregates metadata entries from different
 repositories including META-SHARE, the CLARIN VLO, LRE-Map and Datahub.io.
 
 Parts of the Linghub as a technical system has been described
-before~\cite{mccrae2015reconciling,mccrae2015linghub}. Linghub not
+before~\cite{mccrae2015reconciling,mccrae2015linghub}. 
+ However, this manuscript is the only comprehensive description of the
+ principles behind LingHub, a detailed description of the harmonization
+ procedures and this paper includes results of a novel evaluation.
+Linghub not
 only indexes the metadata entries, but also harmonizes the information by
 mapping it to standard semantic web vocabularies as well as to a recently created ontology of language resources\footnote{\url{http://purl.org/net/def/metashare}} that has been developed on the basis of the existing
 META-SHARE schema~\cite{mccrae2015ontology}.
@@ -155,7 +171,7 @@ pals~\cite{bizer2009linked}.
     \item Furthermore, use HTTP URIs as they require the association with domain names,
         ensuring that the data can be clearly traced to its host and thus someone
         responsible for that dataset.
-    \item Ensure that URIs resolve, in the sense that when typed in to a web browser an
+    \item Ensure that URIs resolve, in the sense that when typed into a web browser an
         appropriate description of the resource is obtained. Ideally the server should
         detect (using content negotiation) the type of the user and provide HTML
         results for humans and RDF (serialised in XML or JSON, for instance) for software agents.
@@ -165,9 +181,11 @@ pals~\cite{bizer2009linked}.
 \end{enumerate}
 
 Linked data makes a highly appropriate model for the task of integrating information
-about language resources as it is natural that this would be handled by means
-of a web portal and thus stable URIs for resources are easily decided. It is
-obvious that HTML descriptions should be provided and in order to meet
+about language resources as a Web portal allows use to define stables URIs.
+we harmonize data by attempting to map metadata descriptions from different
+sources into the same data schema and enforce the use of the same URIs for
+equivalent metadata elements as well as values.
+HTML descriptions are provided at the URIs and in order to meet
 use cases for automatic training of NLP systems, we find the provision of a
 machine-readable API also of vital importance. Finally, links to other resources
 are vital to not only provide links back to the source records, but also to ensure
@@ -177,7 +195,7 @@ In this paper, besides describing Linghub and the semantic normalization
 methods used, we provide an evaluation of the
 ability of Linghub to answer the needs of actual users seeking language
 resources meeting certain criteria. For this, we have analyzed user requests
-for resources issued on Corpora List and analyzed in how far Linghub is
+for resources issued on the Corpora List and analyzed in how far Linghub is
 able to answer them. This evaluation is the main contribution of the current
 paper. We are not aware of any similar evaluation conducted in the context of
 repositories of language resources, so that to our knowledge this is the first
@@ -258,7 +276,7 @@ Section~\ref{data-collection} we will describe how we collected the data. In
 Section~\ref{modelling} we derive a single data model based on existing
 standards that will allow us to combine all the resources and then in
 Section~\ref{harmonization} we will show our procedure for harmonizing these
-resources. We will describe the web portal in
+resources. We will describe the data portal in
 Section~\ref{linked-data-interface}. In Section~\ref{evaluation}, we provide a
 thorough evaluation of the system based on real-world queries and thus show the
 effectiveness of our approach, and finally we conclude in
@@ -272,53 +290,78 @@ evaluation of the system.}
 \section{Related Work}
 \label{related-work}
 
-Harmonization has been a topic of significant importance in managing metadata
-and it has been noted in several domains that the task of combining metadata
-from multiple sources. Nilsson~\cite{nilsson2010interoperability} proposed
-a framework for this, where he argues that syntax is of little importance and
-that harmonization primarily needs to be conducted on a semantic level and he
-concludes that RDF forms a good model to achieve this. Khoo and
-Hall~\cite{khoo2010merging} worked on merging the Internet Public Library and
-the Librarian’s Internet Index and conclude that such resource is very
-`ad-hoc' and `resource intensive'. Nogueras et
-al.~\cite{nogueras2004metadata} similarly developed `crosswalks' for
-geographic data and stress the need for formal modelling such as ontologies for
-verifying such crosswalks. Chan and Zeng~\cite{chan2006metadata} also focus
-on the use of crosswalks and its use in provding optimal access to data. 
+Harmonization of data is an important challenge within many application domains. 
+In particular, the integration of data or metadata from different origins is a
+major challenge, typically requiring a lot of effort. 
+Thus, there is a key interest in developing methods that can support the
+automatization of this task to a large extent. 
+The domain of language resources is no exception here, with many different
+metadata schemas and repositories existing that render the integration of all
+these metadata a very challenging task. 
+Nilsson~\cite{nilsson2010interoperability} proposed a framework supporting data
+integration. He has argued that the integration at a syntactic level can only be
+a first step towards harmonization and that the holy grail lies on the
+integration at the semantic level. He proposes RDF as a suitable model for
+achieving semantic integration. 
 
-One of the key issues in this has between `monolithic' metadata schemas where
-one organization has developed and maintained a single and fixed schema for
-representing metadata. Such standards, frequently defined by fixed XML DTDs and can
-be useful in providing a minimal level of description between multiple resources
-however they cannot by their very nature capture all the complexities of the
-representation of metadata. A highly successful instance of this is Dublin
-Core~\cite{weibel1998dublin}, where a small fixed set of properties has found
-use in a wide variety of applications.
-Instead, some experts have recommended open schemas~\cite{brooks2006towards}:
+Khoo and Hall~\cite{khoo2010merging} worked on integrating metadata from the
+Internet Public Library and the Librarian’s Internet Index and conclude that the
+integration of data such data is a very `resource-intensive’ and `ad-hoc’
+process. 
+Nogueras et al.~\cite{nogueras2004metadata} similarly developed `crosswalks' for
+geographic data and stress the need for formal modelling by way of ontologies for
+verifying such crosswalks. Chan and Zeng~\cite{chan2006metadata} also focus
+on the use of crosswalks and its use in providing optimal access to data. 
+
+A potential solution to data integration problems is in the development of
+highly reusable data schemas that are reused by many stakeholders.  
+This is for instance the case of the Dublin Core
+vocabulary~\cite{weibel1998dublin} that defines a set of properties that can be
+widely reused across applications. In fact, the development of many small
+vocabularies that can be widely reused lies at the hear of the Linked Data and
+Semantic Web initiatives~\cite{brooks2006towards}: 
 
 \begin{quote}
 ``A larger set of ontologies sufficient for particular purposes should
 be used instead of a single highly constrained taxonomy of values.''
 \end{quote}
 
-On the other hand open schemas are difficult
-as they can often lead to a large number of identifiers for the same properties
-or concepts, which has lead to the failure of such schemes in the
-past~\cite{kemps2008isocat}. The proposal of linked data to allow for additional
-properties to be dereferenced and thus for extra information about their
-semantics to be extracted has formed the basis of the Semantic Web. In this
-context, there have been several vocabularies defined for representing metadata
-about data resources, notably the VoID model~\cite{alexander2011describing}, the
+This practice of developing small but highly reusable vocabularies stands in
+contrast to the practice of many organization in developing large and
+proprietary data schemas to represent and model their data. This is a legitimate
+strategy as every organization has a keen interest to have a data schema reflect
+their own particularities, environment, way of working, etc. On the down-side,
+such proprietary data schemas make integration of data across source extremely
+challenging. 
+
+Towards larger harmonization, two strategies are thinkable. Each data provider
+maps a subset of their own proprietary schema to open and reusable vocabularies
+as described above. Another alternative, pursued in this paper, is that some
+intermediate entity, LingHub in our case, maps the data from different sources
+or repositories to open and reusable vocabularies a posteriori.  
+This is exactly the strategy we pursue with LingHub and what we mean by
+harmonization. In fact, reuse of URIs is a key issue in harmonization as many
+integration projects have failed due to lack of reuse of identifiers for the
+same properties~\cite{kemps2008isocat}. 
+
+Several metadata vocabularies in the above sense have been proposed to support
+uniform description of metadata, most notably the VoID
+model~\cite{alexander2011describing}, the
 DCAT model~\cite{maali2014data} and its recent extension
-DataID~\cite{brummer2014dataid}. These have the possibility to enable more
-flexible description of language resources and it has even been suggested that
-these resources could be automatically collected~\cite{jenkins1999automatic}.
+DataID~\cite{brummer2014dataid}. 
+
+Adhering to such vocabularies allows for machine processability of the metadata
+records from different sources and thus eases the task of collecting and
+integrating metadata from different origins~\cite{jenkins1999automatic}. 
 
 In the context of language resources, there have been a number of attempts to
-collect generic metadata about language resource. Firstly
-META-SHARE~\cite{gavrilidou2012meta,piperidis2012meta}, which has relied on
-creating descriptions of language resources manually but has still be able to
-describe in detail a large number of language resources. Another approach that
+collect generic metadata about language resource. As a prominent initiative in
+this line there is 
+META-SHARE~\cite{gavrilidou2012meta,piperidis2012meta}, which has developed rich
+XML-based data schemas for the representation of metadata about language
+resources. Interoperability of these descriptions with other descriptions is,
+however, low, as META-SHARE adopts the above mentioned monolithic, highly
+proprietary metadata schema approach. Another approach that
 relies on institutional collection of metadata was taken by the CLARIN project,
 whose \emph{Virtual Language Observatory}~\cite{van2012semantic} collects
 metadata from a number of host institutes by means of
@@ -326,10 +369,10 @@ OAI-PMH~\cite{sompel2004resource} with a small amount of harmonization provided
 by the \emph{CMDI Component 
 Specification Language}~\cite{broeder2012cmdi}. A similar project called
 SHACHI~\cite{tohyama2008shachi} has worked on collecting resources on Asian
-languges. Another approach in this area is the use of International Standardized
+languages. Another approach in this area is the use of International Standardized
 Language Resource Numbers~\cite[ISLRN]{choukri2012using}, where basic metadata
-has been collected about each resource and they have all been assigned a single
-number.
+has been collected about each resource and they are assigned an identifier based
+on a single number. 
 
 As an alternative to the institutional approach, some resources have relied on
 self-reporting of resource metadata, most notably the
@@ -337,38 +380,43 @@ LRE-Map~\cite{calzolari2012lre}, which collects information from authors at
 major research conferences in computational linguistics and as such they are
 able to collect information on a wide variety of language resources but often
 leads to quality issues. A similar project, the Open Language Archive
-Community~\cite[OLAC]{piperidis2012meta} is inbetween both approaches collecting
+Community~\cite[OLAC]{piperidis2012meta} is in between both approaches collecting
 resources from a wide community but trying to bring them into a very fixed
 schema for their resources. Finally, we note the work of the \emph{Open
-Linguistics Working Group}~\cite{chiarcos2012open} a community, which has
+Linguistics Working Group}~\cite{chiarcos2012open}, a community which has
 promoted the use of open data and produced a `cloud diagram' showing the
 adoption of linked data language resources over the last four years.
+
 
 \section{Data Collection}
 \label{data-collection}
 
-In order to realize the goal of providing comprehensive metadata about language
+In order to realize the goal of providing comprehensive metadata about a large 
+number of language
 resources, it is necessary to collect metadata from a wide range of sources. In
 particular, we chose four main sources, primarily because these resources have
 been released under an open license. These resources are:
 
 \begin{description}
-    \item[META-SHARE]. A resource created by the META-NET project,  the resource
+    \item[\textbf{META-SHARE:}]. META-SHARE is a resource and portal created and
+        maintained by the META-NET project. The portal and data are distributed
+        among a number of sites. The portal
         provides deep and detailed descriptions of language resources that have
         primarily been constructed by hand.
-    \item[CLARIN VLO]. The Virtual Language Observatory by the CLARIN project is
-        a collection of resources drawn from a wide variety of insitutes
-        participating in the CLARIN project. In general, the data has been
+    \item[\textbf{CLARIN VLO:}].The Virtual Language Observatory (VLO) by the CLARIN
+        project is a collection of resources drawn from a wide variety of
+        institutes participating in the CLARIN project. In general, the data has been
         manually curated by the individual contributors and only limited
-        integration has been made between the resources. As such the records are
-        very different in detail and size.
-    \item[Datahub.io]\footnote{\url{https://datahub.io/}}. This site is an instance of CKAN used primarily to track
-        open and linked data. Most of the data is not of relevance to language
-        resources and as such we apply filters to extact the relevant datasets.
-    \item[LRE-Map]. The LRE-Map was collected by participants at several NLP
-        conferences in the last few years. Unfortunately, only the data from
-        LREC-2014 is available under an open license and the method of collection has
-        lead to significant issues with data quality.
+        integration has been made between the resources. Thus, the metadata descriptions differ in detail and size.
+    \item[\textbf{Datahub.io:}\footnote{\url{https://datahub.io/}}] This portal
+        builds on the CKAN portal software and is primarily used to track 
+        open and linked data. As most of the data is not of relevance to language
+        resources, we filter the data to only consider datasets that actually represent language resources.
+    \item[\textbf{LRE-Map:}] The LRE-Map was populated by participants at several
+        NLP conferences in the last few years, who had the opportunity to upload
+        their datasets to the LRE-Map. We note that only the data from LREC-2014
+        is available under an open license, so that we only provide this data as
+        part of the open data released in LingHub. 
 \end{description}
 
 In addition, we have a number of other sources that we investigated for the
@@ -376,12 +424,12 @@ experiments described in this paper but unfortunately cannot release through the
 Linghub portal due to licensing:
 
 \begin{description}
-    \item[LRE-Map]. Several other conferences of data are accessible on the Web
+    \item[\textbf{LRE-Map:}]. Several other conferences of data are accessible on the Web
         and we have scraped the relevant data.
-    \item[OLAC]. The Open Language Archives Community collects a large amount of
+    \item[\textbf{OLAC:}]. The Open Language Archives Community collects a large amount of
         data, but clearly states that its own data is not ``open''. Fortunately
         most of the data is also available from CLARIN and other sources.
-    \item[ELRA/LDA]. We also experimented partially with the catalogue of
+    \item[\textbf{ELRA/LDA:}]. We also experimented partially with the catalogue of
         resources provided by the European Language Resource Association (ELDA) and the Linguistic Data Consortium (LDC).
 \end{description}
 
@@ -414,13 +462,17 @@ resources is given in Table~\ref{tab:resource-sizes}.
 
 \subsection{META-SHARE}
 
-META-SHARE is provided primarily in a format described in
-\cite{gavrilidou2012meta}, which is
+META-SHARE metadata is provided primarily in a format described by
+Gavrilidou et al. \cite{gavrilidou2012meta}, which is
 and XML format and contains over 150 elements and as such is a highly complex XML
 format. We developed a custom invertible framework called LIXR (pronounced
-`elixir')\footnote{http://github.com/liderproject/lixr}, which allows us to easily and
-quickly define the conversion between META-SHARE and RDF\@. %As a great many of the elements defined in the META-SHARE schema are very unique many of the elements have to be created in a new ontology, which we developed as the META-SHARE ontology, which is described in~\cite{mccrae2015ontology}. 
-As it was mentioned in Section~\ref{intro}, the elements defined in the META-SHARE schema were defined as an OWL ontology for interoperability purposes, which is described in~\cite{mccrae2015ontology}. 
+`elixir')\footnote{http://github.com/liderproject/lixr}, which allows us to
+easily map the XML data from META-SHARE to RDF after specifying some
+transformation rules manually.  As many of the elements used in the META-SHARE
+schema are proprietary, we developed an OWL ontology in cooperation with the
+META-SHARE project to enhance reuse of these concepts across repositories and
+thus to enhance interoperability of the META-SHARE data (see
+\cite{mccrae2015ontology}). We reuse this ontology in LingHub. 
 
 \subsection{CLARIN}
 
@@ -446,7 +498,7 @@ teiHeader & 2 (BBAW, Copenhagen) & 15,998 \\
 \end{table}
 
 CLARIN is also an XML format and is based on the CMDI metadata infrastructure as
-defined by~\cite{broeder2012cmdi}. This consists of a small shared amount of information and
+defined by Broeder et al.~\cite{broeder2012cmdi}. This consists of a small shared amount of information and
 a specific schema, which is normally unique to the data provider, with the
 exception of Dublin Core metadata which is in two common schemas. The total 
 number of records in each of the schemas is given in Table~\ref{tab:clarin-resources} 
@@ -455,8 +507,8 @@ top 10 formats.
 
 \subsection{LRE-Map}
 
-The LRE-Map is described in~\cite{calzolari2012lre} and is available partly as RDF, in
-particular the data from LREC-2014 is available. Unfortunately, the integration
+The LRE-Map is described by Calzolari et al.~\cite{calzolari2012lre} and is available partly as RDF, in
+particular the data from LREC-2014 is available under an open license. Unfortunately, the integration
 was not trivial as there were errors in the RDF~\cite{del2014lre}, in particular the use of
 non-resolving URI schemes that had to be corrected. The older data is also
 available on the web site and we obtained it by scraping the web site but were
@@ -464,31 +516,42 @@ advised that this data is not available under any open license.
 
 \subsection{Datahub.io}
 
-Datahub.io is an instantiation of the CKAN
+Datahub.io is an instantiation of the CKAN portal
 software\footnote{\url{http://ckan.org}} and as such can
 easily be accessed through the API and the RDF version of each metadata using
-the DCAT vocabulary can be accessed. As such the import of this data is quick
-and can be done at regular intervals.
+the DCAT vocabulary can be accessed. As such the import of this data was
+rather straightforward.
 
 \subsection{Others}
 
 In addition, we looked at three other sources that cannot be included in the
 public release of Linghub due to the licensing issues. These are OLAC, which
 uses an XML format and much like CLARIN this format uses different schemas for
-different data producers. Secondly, there are the catalogues of ELRA and LDC. The ELRA data
-was made available as an XML file and we wrote a converter for it. The LDC data
-can be extracted by crawling the website.
+different data producers. Secondly, there are the catalogues of ELRA and LDC\@.
+We developed custom converters for transforming the XML schema of the ELRA data
+to RDF\@. The LDC data was directly crawled from the website. 
 
 \section{Modelling}
 \label{modelling}
 
 As the basis of the modelling for Linghub we took the DCAT
-vocabulary~\cite{maali2014data}. The DCAT model is centered around the concept of a \emph{dataset}, which has obvious equivalence to many of the elements in the resources we studied. In addition, DCAT models distributions, i.e., downloads, and catalogues and we imported each of these elements. We found that some distinctions made in DCAT, most notably the distinction between access URLs and download URLs, that give the link to the dataset's home page and the direct link to the data respectively were not clear in any of our sources and this will continue to be a major stumbling block
-to providing fully automatic access to datasets. 
+vocabulary~\cite{maali2014data}. The DCAT model is centered around the concept
+of a \emph{dataset}, which has obvious equivalence to many of the elements in
+the resources we studied. In addition, DCAT models distributions, i.e.,
+downloads and catalogues. 
+
+We found that some distinctions made in DCAT, most notably the distinction
+between access URLs and download URLs, that give the link to the dataset's home
+page and the direct link to the data, respectively, was not consistently applied
+in any of our sources we consider. This represents a major stumbling block for
+data access as it does not allow for automatic access of the data itself by
+machines. 
+
 
 The DCAT model, however, only provides for generic descriptions of datasets and
-we wished to capture specific elements that would be of interest to linguists.
-As such we worked on developing an extension of DCAT based on the META-SHARE
+we wished to capture specific elements that would be of interest to language
+resources.
+Thus, we used an extension of DCAT based on the META-SHARE
 model, which we call the META-SHARE ontology. This resource is described in
 \cite{mccrae2015ontology}, and for the benefit of readers we briefly recap the
 model here.
@@ -500,47 +563,52 @@ richer description of many aspects than DCAT including contact details, version
 information, validation and proposed and actual usage of the dataset. These
 elements, when available, were directly added to the model. In many cases, basic
 properties in the META-SHARE ontology, such as the language of a resource, were
-to be found nested under several layers of tags and in such cases we added
-property chain links so that they would be more compatible with other resources.
+to be found nested under several layers of XML elements. In such cases, 
+property chain links were added so that they would be more compatible with other resources.
 For example, the rights statement of a resource could be found only under the 
-headings ``Distribution Info'', ``Licence Info'' and ``Licence'', and so we
-added this property also directly to the root data element to comply with DCAT\@.
-In addition, META-SHARE contains significant resource type specific information
-that is defined by the type of the language resource: one of \emph{corpus},
+headings ``Distribution Info'' $\rightarrow$ ``Licence Info'' $\rightarrow$
+``Licence''. This was reduced to a single property attached to the root data
+element to comply with DCAT\@.
+
+META-SHARE further complements DCAT by modelling information
+that is specific for each type of language resource, where a language resource
+is a \emph{corpus},
 \emph{tool/service}, \emph{language description} or \emph{lexical conceptual
 resource}. These extra elements include media type (text, audio, video or image)
 and the encoding of information, formats, classifications, and so forth.
 
-In addition to aligning the META-SHARE model to DCAT and Dublin Core, the
-META-SHARE ontology improved on the original model in the following ways:
-
-\begin{itemize}
-    \item Removal of the {\tt Info} suffix from the names of  wrapping elements of
-        components.
-    \item Improvement of names that created confusion, as already noted by the
-        META-SHARE group and/or the LD4LT group\footnote{\url{https://www.w3.org/community/ld4lt/}}; thus, {\tt resourceInfo} was renamed
-        {\tt LanguageResource}, {\tt restrictionsOfUse} became {\tt
-        conditionsOfUse}.
-    \item Generalization of concepts, e.g. {\tt
-        not\-Available\-Through\-Metashare} with {\tt
-        avai\-lable\-Through\-Other\-Distributor};
-\item Development of novel classes based on existing values, for example:
-    \\$\mathtt{Corpus} \equiv\exists\mathtt{resourceType}.\mathtt{corpus}$
-\item Grouping similar elements under novel superclasses, e.g. {\tt
-    annotationType} and {\tt genre} values are structured in classes and
-    subclasses better reflecting the relation between them. Indicatively, the superclass
-    {\tt SemanticAnnotation} can be used to bring together semantic annotation types,
-    such as semantic roles, named entities, polarity, and semantic relations.
-\item Extension of existing classes with new values and new properties
-    (e.g. {\tt licenseCategory} for licences).
-\end{itemize}
+In addition, a number of further minor changes were made, including improving
+and generalizing names and concepts, grouping similar elements.
+%In addition to aligning the META-SHARE model to DCAT and Dublin Core, the
+%META-SHARE ontology improved on the original model in the following ways:
+%
+%\begin{itemize}
+%    \item Removal of the {\tt Info} suffix from the names of  wrapping elements of
+%        components.
+%    \item Improvement of names that created confusion, as already noted by the
+%        META-SHARE group and/or the LD4LT group\footnote{\url{https://www.w3.org/community/ld4lt/}}; thus, {\tt resourceInfo} was renamed
+%        {\tt LanguageResource}, {\tt restrictionsOfUse} became {\tt
+%        conditionsOfUse}.
+%    \item Generalization of concepts, e.g. {\tt
+%        not\-Available\-Through\-Metashare} with {\tt
+%        avai\-lable\-Through\-Other\-Distributor};
+%\item Development of novel classes based on existing values, for example:
+%    \\$\mathtt{Corpus} \equiv\exists\mathtt{resourceType}.\mathtt{corpus}$
+%\item Grouping similar elements under novel superclasses, e.g. {\tt
+%    annotationType} and {\tt genre} values are structured in classes and
+%    subclasses better reflecting the relation between them. Indicatively, the superclass
+%    {\tt SemanticAnnotation} can be used to bring together semantic annotation types,
+%    such as semantic roles, named entities, polarity, and semantic relations.
+%\item Extension of existing classes with new values and new properties
+%    (e.g. {\tt licenseCategory} for licences).
+%\end{itemize}
 
 \section{Harmonization}
 
 \label{harmonization}
 
-Due to the variety of source from which we are obtaining metadata it is
-inevitable that there are differences between them. Moreover, the quality of the
+Due to the variety of source from which we are obtaining metadata, this metadata
+is necessarily fragmented and not integrated at a semantic layer. Moreover, the quality of the
 resources varies greatly, for example in the case of language META-SHARE uses
 ISO 639-3\footnote{\url{http://www-01.sil.org/iso639-3/}}, but a crowd-sourced
 resource such as LRE-Map has a wide variety of representations in free text. Our
@@ -575,8 +643,8 @@ resources (properties may of course have multiple values).
 \end{table}
 
 Certainly the biggest barrier to re-using a resource is obtaining it and it is
-unfortunately the case that many resources become unavailable due to server
-failure or similar reasons. We also note that there is an important distinction
+unfortunately the case that many resources are specified with URLs that do not
+resolve any more. In many cases, there is an important distinction
 that must be made between `access URLs', which is generally a page containing
 information and documentation about the resource and generally a download link,
 and the `download URL', where the resource can be directly accessed. If we wish
@@ -591,59 +659,64 @@ and we found that 95\% of these resolved successfully (i.e., HTTP Response was
 results of which are in Table~\ref{tab:formats}. We found that text formats, in
 particular HTML tended to be the predominate format and we would assume that
 these correspond to human-readable pages and not the actual resource in the most
-case. A little of 14\% of resources are in a format that seem like data sources
-although we observed that many of the RDF/XML results were from source providing
-Semantic Web compatible descriptions of resources. In addition, some number of
-images were found, which were generally scans of historical documents.
+case. Only a small percentage of the resources, about 14\%, are in a format that
+seem to be data (such as RDF or XML) rather than a human-readable description
+(such as HTML). Unexpectedly, a large number of
+images were also found, which were generally scans of historical documents.
 
 \subsection{Rights}
 
 While accessing the resource itself is one of the main goals of any user of language resources, any
 responsible user must take into account the license that a resource is
-released under.  Thus, It is not an infrequent case that users searching LRs want to determine which licenses are acceptable for their purposes. 
+released under.  Thus, it is a frequent need for users to understand under which
+license a certain LR is available to check if the resource can be used in the
+intended way. 
 Each of the different platforms providing access to LRs have different means to select the desired licenses. 
 \begin{itemize}
-\item The META-SHARE portal offers a faceted browsing where one of the facets is the license declared for the resource. The browsing experience is enhanced by other facets that permit discriminating resources based on their availability (restricted/unrestricted) or by their restrictions of use (like `commercial use allowed'). This is a rather satisfactory organization of the information more complete than the other platforms. 
-\item The CLARIN Virtual Language Observatory\footnote{\url{https://vlo.clarin.eu}} also
-    offers a faceted browsing, and one of the 8 facets is devoted to the
-    `availability'. Many of the resources fall under diffuse categories (such as
-    ``open'' or ``free'') without referring the actual licenses. The metadata describing the license is a free text instead a URI determining the license in use. 
-%\item ALVEO \todo{PENDING TO BE DONE}
-\item The OLAC Language Resource Catalog offers the search functionality from
-    their portal\footnote{\url{http://search.language-archives.org/}} and a faceted search as well. However, catalogued resources seem to lack this information, existing only three types of licenses (`CC-BY-ND', `CC-BY-SA' and `others') making the navigation impracticable. An additional facet for `other rights' performs no better due to the opposite reason: there are so many types of `rights' that it is not possible to search with a given criterium.
-        \item The LREMap resource portal\footnote{\url{http://www.resourcebook.eu/}} does not permit searching by license. Further, once obtained the resources they include a `license' description but in a textual manner. 
-\item Datahub.io permits selecting the license in the faceted browsing they
-    offer. Although nothing prevents dataset creators from declaring their own licenses, they are driven by the user interface to use one of the pre-determined license-types. This greatly reduces the license proliferation and searching by rights in Datahub is still relatively acceptable.
-%<Access>
-%<Availability>open access</Availability>
-%<Date>Unspecified</Date>
-%<Owner>Goh, Jeannine; Lieven, Elena</Owner>
-%<Publisher>TalkBank</Publisher>
-%<Contact>
-%<Name>Prof. Brian MacWhinney</Name>
-%<Address>
-%Psychology Dept., 5000 Forbes av., Pittsburgh, PA 15213
-%</Address>
-%<Email>macw@cmu.edu</Email>
-%<Organisation>CMU</Organisation>
-%</Contact>
-%</Access>
+    \item The META-SHARE portal offers faceted browsing functionality where one of
+        the facets is the license declared for the resource. The browsing experience
+        is enhanced by other facets that permit discriminating resources based on
+        their availability (restricted/unrestricted) or by their restrictions of use
+        (like `commercial use allowed').  
+    \item The CLARIN Virtual Language Observatory\footnote{\url{https://vlo.clarin.eu}} also
+        offers faceted browsing, and one of the 8 facets is devoted to the
+        `availability'. Many of the resources fall under diffuse categories (such as
+        ``open'' or ``free'') without referring the actual licenses. The
+        metadata describing the license is a free text instead a URI determining
+        the license in use. 
+    \item The OLAC Language Resource Catalog offers text-based search functionality
+        as well as facetted browsing. However, catalogued resources seem to lack
+        this information, with only three types of licenses being considered
+        (`CC-BY-ND', `CC-BY-SA' and `others'). An additional facet for `other
+        rights' performs no better due to the opposite reason: there are so many
+        types of `rights' that it is extremely difficult to find resources following
+        a particular license. 
+    \item The LREMap resource portal\footnote{\url{http://www.resourcebook.eu/}}
+        does not permit searching by license. Once found, the license of a
+        resource is provided by means of a free-text field, which renders
+        machine processing difficult.  
+    \item Datahub.io permits selecting the license in the faceted browsing they
+        offer. Although nothing prevents dataset creators from declaring their
+        own licenses, they are driven by the user interface to use one of the
+        pre-determined license-types. This greatly reduces the license
+        proliferation and makes search for resources with particular license
+        feasible.
 \end{itemize}
 
 The best description of the rights information is given by licenses with a well
-defined URI\@. If this were regularly the case, the \textit{license profileration} problem would be easily solvable. From this perspective, the META-SHARE portal is the best one; with Linghub having equivalent capabilities only improved for true experts capable of formulating SPARQL queries. 
-
-%\todo{Devised experiment: given 5 non-experienced users, ask them to look for specific resources with a license constraint (e.g. permitting commercial exploitation) and measure the time it takes them and their opinion on each of the user interfaces. What do you think? Does it make sense?}
+defined URI\@. If this were regularly the case, the \textit{license
+profileration} problem would be easily solvable, yet only the META-SHARE portal
+currently applies this principal.
 
 \subsection{Usage}
 
 The usage of a language resource is an indication of what purpose it was
-created for. Following the example of META-SHARE we distinguish between intended use
-and actual use, where intended use is the use by the creator of the resource and
+created for. Following the example of META-SHARE we distinguish between\emph{intended use}
+and \emph{actual use}, where intended use is the use by the creator of the resource and
 the actual use is another application that has used this resource. As the data
 has very little information on the latter case, we focussed primarily on the
 intended use, which is recorded clearly in two resources: META-SHARE and
-LRE-Map. The taxonomies used in each scheme is different with META-SHARE
+LRE-Map. The taxonomies used in each scheme is different, with META-SHARE
 defining 83 possible values and LRE-Map suggesting 28 values, while actually
 3,985 values have been used. This is due to the collection method of LRE-Map,
 which has a dropdown of options or the user can select `other' and enter their
@@ -656,8 +729,9 @@ variants. From a random sample of 100 of such terms we found that 66\% were
 correct matches, 16\% were empty fields or non-specific terms (e.g., `various
 uses') and 16\% were overly general (e.g., `acquisition'). In addition, we had
 one false negative (due to a typo `taggin pos' [sic]) and one novel usage that
-was not in META-SHARE (`semantic system evaluation'). As such, we conclude that
-the system has 98-99\% accuracy.
+was not in META-SHARE (`semantic system evaluation'). 
+Overall, our sampled evaluation allows to conclude that we reach a level of
+about 98\% accuracy in harmonizing usage information.
 
 \subsection{Language}
 
@@ -692,16 +766,15 @@ BabelNet~\cite{navigli2010babelnet}, a large multi-lingual lexicon.
 
 We compared the results using two string similarity metrics, namely the Dice
 Co-Efficient and the Levenshtein Distance, the results of which are reported in
-Table~\ref{tab:language-comparison}. We measured the accuracy by constructing a
-sample of 100 labels and manually mapping them to language codes and we present
-the results both as total number of labels matched and weighted by the usage of
-those labels by resources. We considered both the accuracy on the labels and
-also accuracy weighted by the number of instances of that label.
-For both resources, we see very high accuracy and the
-unmapped labels were mostly for those labels that were very rarely used. 
+Table~\ref{tab:language-comparison}. 
+We evaluated the accuracy of our harmonization procedure by sampling 100 labels
+and manually mapping them to language codes.  We report results in terms of
+total number of labels matched as well as results weighted by frequency of these
+language labels.  For both resources, we see very high accuracy. The labels that
+were not mapped successfully were mostly labels used very rarely. 
 
-When deploying this system in the Linghub, however, we did notice that the
-system made one very noticable error, namely mapping the label `Greek' to the
+When deploying this system in Linghub, however, we did notice that the
+system made one very noticeable error, namely mapping the label `Greek' to the
 language (Muscogee) `Creek' as we only had labels for the language `Modern
 Greek'. We thus applied a second scan adding this and a few other common
 language name variations.
@@ -712,15 +785,14 @@ By the type of resource we mean the form of the resource, such as the basic
 categorization of META-SHARE into `Corpus', `Lexical Conceptual Resource', 
 `Lexical Description' and `Tool/Service'. For this, we used the properties from
 existing resources and applied the Babelfy linking
-algorithm~\cite{Moroetal:14tacl}. Once we
-had this result, we manually selected those senses that corresponded to
-language resources, giving us in total 143 categories of which the top 10 were:
-Sound', `Corpus',
-`Lexicon', `Tool' (software), `Instrumental Music'\footnote{These
-resources are in fact recordings of singing in under-resourced languages},
-`Service', `Ontology', `Evaluation',
-`Terminology' and `Translation software'.
+algorithm~\cite{Moroetal:14tacl}. 
 
+On the basis of the results of Babelfy, we selected those senses that correspond
+to language resources, yielding 143 synsets corresponding to types of language
+resources, including Sound', `Corpus', `Lexicon', `Tool' (software),
+`Instrumental Music'\footnote{These resources are in fact recordings of singing
+in under-resourced languages}, `Service', `Ontology', `Evaluation',
+`Terminology' and `Translation software'. 
 
 \subsection{Duplicate detection}
 
@@ -806,23 +878,23 @@ where we have two records from different sources describing the same entity, and
 by the same source. Note in the case of CLARIN it is quite common to see
 duplication between different contributing instances and these are normally
 descriptions of the same resource in different formats, so we treat them as
-inter-repository duplicates. In both cases, we based our detection on looking
-for duplicate title and URLs for resources.
+inter-repository duplicates. In both cases, we assumed that resources with the
+same title and the same access URLs are duplicates. 
 
 We will first look at the case of intra-repository duplication, where the causes
 seem to be quite different in each of the sources:
 
 \begin{description}
-    \item[META-SHARE] The duplicates here were due to errors in the export and
+    \item[\textbf{META-SHARE:}] The duplicates here were due to errors in the export and
         were easy to correct.
-    \item[CLARIN] In many cases sequences of resources had multiple records. For
+    \item[\textbf{CLARIN:}] In many cases sequences of resources had multiple records. For
         example the `Universal Declaration of Human Rights' had an individual
         page for each language and thus we merged resources with the same title,
         as we believe this is of more use to our users.
-    \item[Datahub.io] This resource does not allow for duplicate titles, but
+    \item[\textbf{Datahub.io:}] This resource does not allow for duplicate titles, but
         duplicate URLs are quite common, however these are more likely due to
         shared resources (e.g., several resources use the same SPARQL endpoint).
-    \item[LRE-Map] Duplicates in LRE-Map are caused by multiple submissions
+    \item[\textbf{LRE-Map:}] Duplicates in LRE-Map are caused by multiple submissions
         using the same resource, and as such we wish to aggregate all these
         citations in order to make it clear how frequently a resource is used
         and thus show the resources' quality
@@ -846,29 +918,27 @@ results of this analysis are given in Table~\ref{tab:dupe-precision} and the num
 \caption{A screenshot of the Linghub interface\label{fig:screenshot}}
 \end{figure*}
 
-Proper access to the dataset requires a pleasant and functional interface and
-the design of such an interface should not be ignored. As such, we provide
-Linghub as a website (a screen shot is shown in
-Figure~\ref{fig:screenshot})\footnote{\url{http://linghub.org/}}.
+Proper access to the harmonized data in LingHub requires an human-friendly, usable and functional user interface.
+We provide access to the data via a web-hosted data portal called LingHub (a screen shot is shown in
+Figure~\ref{fig:screenshot})\footnote{\url{http://linghub.org/}}
 that allows both humans to see the data in the form of HTML
 pages and for computers to access that data in the following formats: RDF/XML,
 Turtle, N-Triple and JSON-LD\@. Simple templates are used that render the data in
 HTML so that human users can obtain a consistent view of the data, from all of
-the sources displayed in Linghub. Furthermore, we provided some extra
-mechanisms, by which users could access the data
+the sources displayed in Linghub. Furthermore, we provided additional
+mechanisms to support discovery of language resources:
 
 \begin{description}
-    \item[Faceted browsing]. Users can choose to slice datasets up by a number of
+    \item[\textbf{Faceted browsing:}]. Users can choose to slice datasets up by a number of
         elements including language, rights, type, creator, source, contributor
         and subject. The users can see all relevant dataset as well as querying
         specific parameters
-    \item[Free-text search]. The most common search method employed on the Web is
+    \item[\textbf{Free-text search:}]. The most common search method employed on the Web is
         free-text search and we employ this by building a search interface that 
         indexes all the literal values in the data and allows free search over
         them. In addition, for certain values, especially languages we added in
-        the values of the literals and indexed them.%\todo{note sure this is
-%        working}.
-    \item[SPARQL search]. Finally, we enabled SPARQL search for advanced and
+        the values of the literals and indexed them.
+    \item[\textbf{SPARQL search:}]. Finally, we enabled SPARQL search for advanced and
         automated users, that as we show in the evaluation improves the ability
         of clients to find relevant results. For performance reasons, we limit
         the expressiveness of queries to those that are likely to be easy to
@@ -885,14 +955,14 @@ Both the traditional (free text) and advanced (SPARQL) search capabilities of Li
 \subsection{Evaluation Methodology}
 
 To evaluate the usefulness of Linghub based on actual needs for linguistic
-resources, all questions for language resources posed on the Corpora Mailing
+resources, all questions for language resources posted on the Corpora Mailing
 List (CML)~\footnote{\url{http://mailman.uib.no/public/corpora/}} from January
 1st 2015 till June 3rd 2015 were examined. After ruling out a small subset
 of questions on the mailing list that were too underspecified and unclear to be
 operationalised even for a completely manual search, a catalogue of 23 request
 was assembled. Each request poses a number of constraints on the data being
 searched. Constraints typically pertained to the \emph{type} of the resource like
-corpus, lexicon, tool or service; the \emph{language} the resource is applicable for;
+corpus, lexicon, tool or service; the \emph{language} of the resource;
 the \emph{extent} of the resource measured in various metrics like word count
 and additional qualities, e.g. intended use.
 
@@ -902,7 +972,7 @@ Each request was then searched for in Linghub using both the standard search%\fo
 %    example the user interface itself offers no straightforward way to find out
 %    about the total number of matches for a query without traversing the
 %pagination}
-interface as well as SPARQL queries. This covers both relevant audiences:
+interface as well as via SPARQL queries. This covers both relevant audiences:
 Standard users like most linguists and developers looking for data without being
 familiar with SPARQL, and Semantic Web experts fluent in SPARQL\@. Results of the
 queries were counted and each was evaluated as relevant, irrelevant or related\footnote{``related'' meaning that some constraints were not or not fully met.}
@@ -923,7 +993,7 @@ but a few queries examined are expert level queries, limiting the general
 applicability of this evaluation. 
 Although the timespan examined constitutes a reasonable sample with six months
 of mailing list requests analysed, the number of queries is quite low. However,
-as section \ref{resource-request-analysis} will detail, their overall type and language profile matches
+as Section~\ref{resource-request-analysis} will detail, their overall type and language profile matches
 available Linghub data.
 Due to the complicated nature of the requests, translating them from natural
 language to concise and reasonably narrow queries to the search interface
@@ -940,18 +1010,15 @@ queries expressed at least 2 constraints, usually regarding the resource type
 and the preferred language of the resource. Requested resource types were
 limited to corpora, tools, lexical and spoken resources. Corpora were requested
 in nearly 70\% of the cases, followed by tools (17.4\%) and lexical resources
-(13.0\%) and
+(13.0\%). As seen in Figure~\ref{fig:language-constraints1}
+and~\ref{fig:language-constraints2} and Table~\ref{tab:language-constraints}, 
 this resembles the resource distribution in
 Linghub, where 71.5\% are corpora as well. 
-Most language restrictions asked for one language or made no specification at
-all and, as seen in Figure~\ref{fig:language-constraints1}
-and~\ref{fig:language-constraints2} and Table~\ref{tab:language-constraints},
-this also resembles the distributon in Linghub. 
-The decreasing number of requests for higher language restriction count with a
-small rise above 20 languages again resembles the resource distribution in
-Linghub, that also shows a power law distribution of resource language count.
-The high number of resources for 20 or more languages can be explained by the use of European corpora that
-contain all European languages.  
+
+Most requests asked for resources in a single language. Very rarely, we found
+requests for more than 2 languages. The distribution of requests for LRs in
+terms of number of languages of the resource mirrors the power-law distribution
+of the number of language of resources in the actual data. 
 
 \begin{table}
   \centering
@@ -1010,7 +1077,7 @@ either offer alternative search form for `advanced' users where a flexible
 number of pairs of field specifiers and a corresponding search patterns can be
 defined, whose constraints will be combined by boolean operators or complex
 search patterns can be defined, allowing for sub-patterns that are matched
-against solely against specified record fields, e.g.:
+against solely against the corresponding record fields, e.g.:
 
 \begin{verbatim}
 (title:corpus OR description:corpus) AND 
@@ -1018,7 +1085,7 @@ against solely against specified record fields, e.g.:
   (language:(deu* OR german))
 \end{verbatim}
 
-Since the overwhelming majority resource requests from the CML involved ‘soft’
+Since the overwhelming majority of resource requests from the CML involved ‘soft’
 constraints that can only be expressed with full-text patterns against resource
 descriptions, additional structured information about language or rights could
 not be harnessed during the query (as the sole facet choice already had to be
@@ -1033,10 +1100,10 @@ from SQLite exposed in the search interface proved very useful.
 %Linghub platform.}.  
 
 Some of the facets offered by Linghub are naturally textual (e.g., title,
-description, creator), but others are rather categorial with a limited set of
+description, creator), but others are categorial with a limited set of
 options (e.g., resource type, language). The search interface still has some
-limitation that were discovered by the annotators including the lack of an
-ability to set constraints on multiple property facets simultaneously, the fact
+limitation that were discovered by the annotators including the lack of support
+to define constrains on multiple facets simultaneously, the fact
 that categorial facets must be queried as full-text, without any knowledge of
 the values and that free-text search also indexes descriptions in languages
 other than the interface language of Linghub\footnote{Currently, the language interface of Linghub is English}. These criticisms will be addressed in future versions of the interface.
@@ -1084,7 +1151,8 @@ are shown in Figure~\ref{fig:freetext-rel} and Table~\ref{tab:rel}.
 \subsection{SPARQL search}
 
 While the standard search interface presents the default access point to the
-Linghub knowledge base, SPARQL search is regarded as ``advanced search''. Using
+Linghub knowledge base, an advanced search functionality is offered that allows
+users to directly query the data using SPARQL.  Using
 SPARQL naturally solves most issues of the standard search interface, as it can
 be used for granular search in arbitrary literal fields and natively provides
 logical operators for filters to combine them. If values are modelled as
@@ -1163,8 +1231,8 @@ was another important constraint that was never fully met. If size was a
 restriction, it always was in the range of billions of words, excluding all
 relevant corpora as too small. Corpora with millions of words were counted as
 related. Again, description texts were used to retrieve
-hints on corpus size.  One large advantage of SPARQL was being able to
-explicitly address values for several facets simultaneously, such as
+hints on corpus size.  One large advantage of SPARQL querying is that constrains
+on different facets can be specified simultaneously, such as 
 distribution and license information, allowing to filter for free and open
 resources, as well as links to the data itself. The selection of the queries in
 CML reduced this use-case to one case, but it seems to be an important and often
@@ -1219,7 +1287,7 @@ keywords `spanish' or `spain' in their description also carry a corresponding
 dc:language property. On the other hand 493 resources with aforementioned
 keywords in the description do not carry a dc:language attribute. Although the
 mere appearance of the keywords are not conclusively indicative that the
-resource should be counted to the corresponding language, the majority of the
+resource should be assigned to the corresponding language, the majority of the
 latter resources appeared to be Spanish or relevant for Spanish when examining
 a 10\% sample. %Albeit these resources are currently ruled out implicitly when a
 %user uses the filter option for language. 
@@ -1239,7 +1307,7 @@ properties with low-coverage (e.g., type) and could be offered as on-demand
 option in the search interfaces. 
 
 Several of the examined resource requests from the CML asking for corpora also
-formulated minimal requirements for their size. Hence adding size descripction
+formulated minimal requirements for their size. Hence adding size description
 as another explicit, structured search facet for Linghub would appear
 beneficial. About 4000 resources listed in Linghub carry property-value pairs
 for numeric values quantifying their size according to a specified
@@ -1256,17 +1324,49 @@ curation.
 \section{Conclusion}
 \label{conclusion}
 
-In this paper we have presented a consolidation of a large amount of
-information about language resources from various source of differing levels of
-quality and granularity of information. We found that, while some properties are
-generally quite feasible to reconcile, in many cases the information contained
-in the metadata is quite insufficient, especially in the case of licenses of
-resources. We then developed an interface to this reconciled dataset using
-linked data principles and we evaluated this relative to real user queries made
-on the Corpora Mailing List. We saw that the SPARQL querying allowed more
-accurate and complete querying but this interface may prove difficult for
-many working linguists and an open question remains of how to provide these
-benefits to all users of Linghub.
+In this paper, we have addressed the harmonization of metadata about language
+resources from different repositories. We have motivated why this is an
+important problem that requires investigation.  We have built on linked data and
+RDF techniques to collect data from several repositories of language resources
+as a proof-of-concept. We have mapped the data to a data model based on DCAT and
+the META-SHARE OWL ontology, thus providing the foundation for integration of
+the data from different repositories at the semantic level. We have develop
+methods for harmonization and show that for four key descriptive
+characteristics, that is language, use, type and rights with high accuracy and 
+made the results available through LingHub, a portal that supports
+different querying mechanisms including a text-based search, faceted browsing
+functionality as well as advanced search by way of SPARQL.  We have collected
+real user queries from the Corpora Mailing list and evaluated in how far
+requests for resources can be actually answered by LingHub. While there are
+obvious limitations, we have shown that many requests can be successfully
+answered.  We are not aware of any other rigorous evaluations of repositories in
+how far real user needs can be satisfied and are thus the first to provide such
+an analysis. We consider this as a first solid step towards further research in
+harmonization of metadata of LRs. As part of our research we have highlighted
+significant issues that should be considered by metadata providers. Our work
+would have been simplified if data providers would adhere to open vocabularies
+and existing standards and identifier systems for representing at least language
+information as well as right information. Working towards achieving this level
+of harmonization by reuse of standards is an important endeavor for the LR
+community that should be jointly address to foster the reuse of LRs beyond the
+LR community proper. The long-term goal should be to provide API-based for
+machines to LRs so that machines can automatically decide if a certain language
+resource is usable for a particular purpose, licensing conditions are favorable.
+Ultimately, machines should be able to extract subsets of data for a particular
+purpose, which requires that the data is actually accessible in standard
+formats. There is a long way ahead of us.  
+
+%In this paper we have presented a consolidation of a large amount of
+%information about language resources from various source of differing levels of
+%quality and granularity of information. We found that, while some properties are
+%generally quite feasible to reconcile, in many cases the information contained
+%in the metadata is quite insufficient, especially in the case of licenses of
+%resources. We then developed an interface to this reconciled dataset using
+%linked data principles and we evaluated this relative to real user queries made
+%on the Corpora Mailing List. We saw that the SPARQL querying allowed more
+%accurate and complete querying but this interface may prove difficult for
+%many working linguists and an open question remains of how to provide these
+%benefits to all users of Linghub.
 
 %\bibliographystyle{spbasic}      % basic style, author-year citations
 \bibliographystyle{spmpsci}      % mathematics and physical sciences

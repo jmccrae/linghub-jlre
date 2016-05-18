@@ -34,10 +34,10 @@
     Daniel Vila              \and
     Gabriela Vulcu           \and
     Andrejs Abele            \and
-    Paul Buitelaar           \and
+    Jorge Gracia             \and
     Luca Matteis             \and
     Tiziano Flati            \and
-    Jorge Gracia}
+Paul Buitelaar}
 
 
     \authorrunning{McCrae et al.}
@@ -48,12 +48,12 @@
               \email{john@mccr.ae, \{gabriela.vulcu,
               andrejs.abele\}@insight-center.org}
            \and
-           Markus Ackermann \at
+           Markus Ackermann, Martin Br\"ummer \at
               Institute for Applied Informatics \\
               Leipzig University \\
-              \email{ackermann@informatik.uni-leipzig.de}
+              \email{\{ackermann,bruemmer\}@informatik.uni-leipzig.de}
             \and
-            V\'ictor Rodr\'iguez Doncel, Jorge Gracia \at 
+            V\'ictor Rodr\'iguez Doncel, Daniel Vila, Jorge Gracia \at 
                 Ontology Engineering Group \\
                 Polytechnic University of Madrid \\
                 \email{\{vrodriguez, jgracia\}@fi.upm.es}
@@ -82,7 +82,7 @@
     Data principles to integrated the metadata descriptions from various
     repositories. Relying on state-of-the-art word sense disambiguation and
     entity linking techniques, we harmonize these descriptions and provide
-    access to them via a proof-of-concept data portal called LingHub as a single
+    access to them via a proof-of-concept data portal called Linghub as a single
     interface to find language resources that meet a certain need. 
     We evaluate our
     approach by using real user queries harvested from the Corpora Mailing List
@@ -127,7 +127,7 @@ isolation, but are linked to each other at the conceptual level.
 It has been argued that the access and reuse of language resources can benefit
 from the application of linked data technologies to yield an ecosystem in which
 language resourced form a linked ecosystem rather than existing as isolated
-datasets \cite{}. We build on this idea to realize a data portal called LingHub
+datasets \cite{chiarcos2013towards}. We build on this idea to realize a data portal called Linghub
 that integrates metadata descriptions from various repositories and harmonizes
 these to provide a single entry point for the discovery of language resources
 across repositories. 
@@ -151,7 +151,7 @@ repositories including META-SHARE, the CLARIN VLO, LRE-Map and Datahub.io.
 Parts of the Linghub as a technical system has been described
 before~\cite{mccrae2015reconciling,mccrae2015linghub}. 
  However, this manuscript is the only comprehensive description of the
- principles behind LingHub, a detailed description of the harmonization
+ principles behind Linghub, a detailed description of the harmonization
  procedures and this paper includes results of a novel evaluation.
 Linghub not
 only indexes the metadata entries, but also harmonizes the information by
@@ -337,9 +337,9 @@ challenging.
 Towards larger harmonization, two strategies are thinkable. Each data provider
 maps a subset of their own proprietary schema to open and reusable vocabularies
 as described above. Another alternative, pursued in this paper, is that some
-intermediate entity, LingHub in our case, maps the data from different sources
+intermediate entity, Linghub in our case, maps the data from different sources
 or repositories to open and reusable vocabularies a posteriori.  
-This is exactly the strategy we pursue with LingHub and what we mean by
+This is exactly the strategy we pursue with Linghub and what we mean by
 harmonization. In fact, reuse of URIs is a key issue in harmonization as many
 integration projects have failed due to lack of reuse of identifiers for the
 same properties~\cite{kemps2008isocat}. 
@@ -416,7 +416,7 @@ been released under an open license. These resources are:
         NLP conferences in the last few years, who had the opportunity to upload
         their datasets to the LRE-Map. We note that only the data from LREC-2014
         is available under an open license, so that we only provide this data as
-        part of the open data released in LingHub. 
+        part of the open data released in Linghub. 
 \end{description}
 
 In addition, we have a number of other sources that we investigated for the
@@ -472,7 +472,7 @@ transformation rules manually.  As many of the elements used in the META-SHARE
 schema are proprietary, we developed an OWL ontology in cooperation with the
 META-SHARE project to enhance reuse of these concepts across repositories and
 thus to enhance interoperability of the META-SHARE data (see
-\cite{mccrae2015ontology}). We reuse this ontology in LingHub. 
+\cite{mccrae2015ontology}). We reuse this ontology in Linghub. 
 
 \subsection{CLARIN}
 
@@ -914,12 +914,12 @@ results of this analysis are given in Table~\ref{tab:dupe-precision} and the num
 
 
 \begin{figure*}
-\includegraphics[width=\textwidth]{img/linghub-screenshot.png}
+\includegraphics[width=\textwidth]{linghub-screenshot.png}
 \caption{A screenshot of the Linghub interface\label{fig:screenshot}}
 \end{figure*}
 
-Proper access to the harmonized data in LingHub requires an human-friendly, usable and functional user interface.
-We provide access to the data via a web-hosted data portal called LingHub (a screen shot is shown in
+Proper access to the harmonized data in Linghub requires an human-friendly, usable and functional user interface.
+We provide access to the data via a web-hosted data portal called Linghub (a screen shot is shown in
 Figure~\ref{fig:screenshot})\footnote{\url{http://linghub.org/}}
 that allows both humans to see the data in the form of HTML
 pages and for computers to access that data in the following formats: RDF/XML,
@@ -1010,8 +1010,9 @@ queries expressed at least 2 constraints, usually regarding the resource type
 and the preferred language of the resource. Requested resource types were
 limited to corpora, tools, lexical and spoken resources. Corpora were requested
 in nearly 70\% of the cases, followed by tools (17.4\%) and lexical resources
-(13.0\%). As seen in Figure~\ref{fig:language-constraints1}
-and~\ref{fig:language-constraints2} and Table~\ref{tab:language-constraints}, 
+(13.0\%). As seen in %Figure~\ref{fig:language-constraints1}
+%and~\ref{fig:language-constraints2} and 
+Table~\ref{tab:language-constraints}, 
 this resembles the resource distribution in
 Linghub, where 71.5\% are corpora as well. 
 
@@ -1040,17 +1041,17 @@ of the number of language of resources in the actual data.
     languages}
 \end{table}
 
-\begin{figure}
-    \includegraphics[width=.6\textwidth]{img/eval_lang_per_request_2016_Mar.png}
-    \caption{\label{fig:language-constraints1}Distribution of number of languages in
-    requests to the Corpora Mailing List}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=.6\textwidth]{img/eval_lang_per_res_2016_Mar.png}
-    \caption{\label{fig:language-constraints2}Distribution of number of languages in
-    Linghub ($\log_{10}$-scaled)}
-\end{figure}
+%\begin{figure}
+%    \includegraphics[width=.6\textwidth]{eval_lang_per_request_2016_Mar.png}
+%    \caption{\label{fig:language-constraints1}Distribution of number of languages in
+%    requests to the Corpora Mailing List}
+%\end{figure}
+%
+%\begin{figure}
+%    \includegraphics[width=.6\textwidth]{eval_lang_per_res_2016_Mar.png}
+%    \caption{\label{fig:language-constraints2}Distribution of number of languages in
+%    Linghub ($\log_{10}$-scaled)}
+%\end{figure}
 
 Besides these common constraints, most requests also define at least one further
 restriction. For corpus requests, a common restriction is having a large size in
@@ -1143,7 +1144,7 @@ missing information of an additional potentially useful resource. The results
 are shown in Figure~\ref{fig:freetext-rel} and Table~\ref{tab:rel}.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{img/eval_rel_interface.png}
+    \includegraphics[width=\textwidth]{eval_rel_interface.png}
     \caption{\label{fig:freetext-rel} Percentages of relevant standard interface
     search results}
 \end{figure}
@@ -1178,7 +1179,7 @@ to 62 for free-text and a further 20 related results with only 17 further
 results for free-text.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{img/eval_rel_sparql.png}
+    \includegraphics[width=\textwidth]{eval_rel_sparql.png}
     \caption{\label{fig:sparql-rel}Percentages of relevant SPARQL search results}
 \end{figure}
 
@@ -1254,7 +1255,7 @@ Table~\ref{tab:reqinfo} presents the aforementioned relative frequencies.
 
 % we stash the image here to get it's height for properly aligned minipages  
 %\begin{figure}
-%\includegraphics[width=0.53\textwidth]{img/eval_facet_coverage_2016_Mar.png}
+%\includegraphics[width=0.53\textwidth]{eval_facet_coverage_2016_Mar.png}
 %\caption{\label{fig:reqinfo} Portions of Linghub resources with at least one 
 %property value for the main facets}
 %\end{figure}
@@ -1333,11 +1334,11 @@ the META-SHARE OWL ontology, thus providing the foundation for integration of
 the data from different repositories at the semantic level. We have develop
 methods for harmonization and show that for four key descriptive
 characteristics, that is language, use, type and rights with high accuracy and 
-made the results available through LingHub, a portal that supports
+made the results available through Linghub, a portal that supports
 different querying mechanisms including a text-based search, faceted browsing
-functionality as well as advanced search by way of SPARQL.  We have collected
+functionality as well as advanced search by way of SPARQL\@.  We have collected
 real user queries from the Corpora Mailing list and evaluated in how far
-requests for resources can be actually answered by LingHub. While there are
+requests for resources can be actually answered by Linghub. While there are
 obvious limitations, we have shown that many requests can be successfully
 answered.  We are not aware of any other rigorous evaluations of repositories in
 how far real user needs can be satisfied and are thus the first to provide such
@@ -1367,6 +1368,13 @@ formats. There is a long way ahead of us.
 %accurate and complete querying but this interface may prove difficult for
 %many working linguists and an open question remains of how to provide these
 %benefits to all users of Linghub.
+
+\section*{Acknowledgments}
+
+This work was funded by the LIDER ("Linked Data as an enabler of                
+cross-media and multilingual content analytics for enterprises across Europe"), 
+an FP7 project refererence number 610782 in the topic ICT-2013.4.1: Content     
+analytics and language technologies.
 
 %\bibliographystyle{spbasic}      % basic style, author-year citations
 \bibliographystyle{spmpsci}      % mathematics and physical sciences
